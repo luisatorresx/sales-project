@@ -5,7 +5,7 @@ from .models import Productos
 # Create your views here.
 
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'Inventario/index.html')
 
 
 def agregar_producto(request):
@@ -18,7 +18,7 @@ def agregar_producto(request):
     
     else:
         form = ProductoForm()
-        return render(request, 'agregar_producto.html', {'form': form})
+        return render(request, 'Inventario/agregar_producto.html', {'form': form})
 
 
 def lista_productos(request):
@@ -26,7 +26,7 @@ def lista_productos(request):
     productos = Productos.objects.all()
 
     #Mostrar la lista con todos los productos
-    return render(request, 'lista_productos.html', {'productos': productos})
+    return render(request, 'Inventario/lista_productos.html', {'productos': productos})
 
 
 def actualizar_producto(request, codigo_producto):
@@ -43,7 +43,7 @@ def actualizar_producto(request, codigo_producto):
         form = ProductoForm(instance=producto)
 
     # Renderizamos el template con el formulario
-    return render(request, 'actualizar_producto.html', {'form': form, 'codigo_producto': codigo_producto})
+    return render(request, 'Inventario/actualizar_producto.html', {'form': form, 'codigo_producto': codigo_producto})
 
 
 def borrar_producto(request, codigo_producto):
@@ -56,4 +56,9 @@ def borrar_producto(request, codigo_producto):
         return redirect('lista_productos')
 
     # Renderizamos el template de confirmación
-    return render(request, 'borrar_producto.html', {'product': product})
+    return render(request, 'Inventario/borrar_producto.html', {'product': product})
+
+
+def generar_reporte(request):
+    productos = Productos.objects.all()
+    return render(request, 'Inventario/reporte.html', {'productos': productos})

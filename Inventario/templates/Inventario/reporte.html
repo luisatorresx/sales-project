@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Reporte de productos del inventario</h2>
+    <table>
+        <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <>Precio</th>
+            <th>Cantidad</th>
+            <>Proveedor</th>
+        </tr>
+        {% for producto in productos %}
+        <tr>
+            <td>{{ producto.nombre }}</td>
+            <td>{{ producto.descripcion }}</td>
+            <td>{{ producto.precio }}</td>
+            <td>{{ producto.cantidad }}</td>
+            <td>{{ producto.proveedor }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
