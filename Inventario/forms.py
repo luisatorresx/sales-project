@@ -5,3 +5,4 @@ class ProductoForm(forms.Form):
     codigo = forms.IntegerField()
     precio = forms.DecimalField(max_digits=10, decimal_places=2)
     stock = forms.IntegerField()
+    proveedor = forms.CharField(max_length=100)
