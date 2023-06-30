@@ -15,6 +15,9 @@ def agregar_producto(request):
         if form.is_valid():
             Productos.objects.create(nombre= request.POST['nombre'], codigo= request.POST['codigo'], precio= request.POST['precio'], stock= request.POST['stock'])
             return redirect('lista_productos')
+        else:
+            form.full_clean()
+            return render(request, 'Inventario/agregar_producto.html', {'form': form})
     
     else:
         form = ProductoForm()
