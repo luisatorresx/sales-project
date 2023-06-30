@@ -13,7 +13,13 @@ def agregar_producto(request):
     if request.method == "POST":
         form = ProductoForm(request.POST)
         if form.is_valid():
-            Productos.objects.create(nombre= request.POST['nombre'], codigo= request.POST['codigo'], precio= request.POST['precio'], stock= request.POST['stock'])
+            Productos.objects.create(
+                nombre= request.POST['nombre'],
+                codigo= request.POST['codigo'],
+                precio= request.POST['precio'],
+                stock= request.POST['stock'],
+                proveedor= request.POST['proveedor']
+            )
             return redirect('lista_productos')
         else:
             form.full_clean()
