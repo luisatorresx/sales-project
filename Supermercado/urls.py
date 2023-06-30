@@ -20,7 +20,7 @@ from Supermercado import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index),
     path('Inventario/', include('Inventario.urls')),
-    path('Ventas/', include('Ventas.urls'))
+    path('Ventas/', include('Ventas.urls')),
+    path('', views.index)
 ]
