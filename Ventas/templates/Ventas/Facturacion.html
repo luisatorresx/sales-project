@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar producto</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/agregar_producto.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>FACTURAR</h1>
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="entradaFactura">
+                Numero De Factura:
+                {{ form.NumeroDeFactura }}
+            </div>
+
+            <div class="entradaFactura">
+                Nombre Completo:
+                {{ form.NombreCompleto }}
+            </div>
+
+            <div class="entradaFactura">
+                Cédula:
+                {{ form.Cedula }}
+            </div>
+
+            <div class="entradaFactura">
+                Total:
+                {{ form.Total }}
+            </div>
+
+            <div class="entradaFactura">
+                Código Producto:
+                {{ form.CodigoProducto }}
+            </div>
+            
+            <div class="guardar">
+                <button type="submit">Guardar</button>
+            </div>
+        </form>
+          
+    </div>
+</body>
+</html>

@@ -30,7 +30,7 @@ h1 {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
-.nombre, .codigo, .precio, .stock, .proveedor, .guardar {
+.nombre, .codigo, .precio, .stock, .proveedor, .guardar, .entradaFactura{
     padding: 5px;
     width: 200px;
     margin: auto;
