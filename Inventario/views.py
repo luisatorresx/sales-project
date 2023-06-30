@@ -48,11 +48,11 @@ def actualizar_producto(request, codigo_producto):
 
 def borrar_producto(request, codigo_producto):
     # Buscamos el producto que queremos eliminar
-    producto = Product.objects.get(codigo_producto= codigo_producto)
+    producto = Producto.objects.get(codigo_producto= codigo_producto)
 
     # Si se ha enviado el formulario de confirmación, eliminamos el producto
     if request.method == 'POST':
-        product.delete()
+        producto.delete()
         return redirect('lista_productos')
 
     # Renderizamos el template de confirmación
@@ -61,4 +61,5 @@ def borrar_producto(request, codigo_producto):
 
 def generar_reporte(request):
     productos = Productos.objects.all()
+    # Renderizamos el template de confirmación
     return render(request, 'Inventario/reporte.html', {'productos': productos})
