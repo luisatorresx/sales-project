@@ -11,9 +11,37 @@
     <div class="container">
         <form method="POST">
             {% csrf_token %}
-            {{form.as_p}}
-            <button>Guardar</button>
+
+            <div class="nombre">
+                {{ form.nombre.label_tag }}
+                {{ form.nombre }}
+            </div>
+
+            <div class="codigo">
+                {{ form.codigo.label_tag }}
+                {{ form.codigo }}
+            </div>
+
+            <div class="precio">
+                {{ form.precio.label_tag }}
+                {{ form.precio }}
+            </div>
+
+            <div class="stock">
+                {{ form.stock.label_tag }}
+                {{ form.stock }}
+            </div>
+
+            <div class="proveedor">
+                {{ form.proveedor.label_tag }}
+                {{ form.proveedor }}
+            </div>
+            
+            <div class="guardar">
+                <button type="submit">Guardar</button>
+            </div>
         </form>
+          
     </div>
 </body>
 </html>
