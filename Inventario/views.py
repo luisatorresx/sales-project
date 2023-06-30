@@ -5,7 +5,7 @@ from .models import Productos
 # Create your views here.
 
 def index(request):
-    return render(request, 'Inventario/index.html')
+    return render(request, 'Inventario/index_inventario.html')
 
 
 def agregar_producto(request):
