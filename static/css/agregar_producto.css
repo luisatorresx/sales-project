@@ -27,7 +27,7 @@ h1 {
 .nombre, .codigo, .precio, .stock, .proveedor {
     padding: 5px;
     width: 200px;
-    margin-left: 150px;
+    margin: auto;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
@@ -41,7 +41,7 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-left: 145px;
+    margin: auto;
 }
 
 button:hover {

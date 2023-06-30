@@ -1,38 +1,40 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/agregar_producto.css' %}">
+    <title>Agregar Producto</title>
+    <link rel="stylesheet" href=" {% static 'css/agregar_producto.css' %} ">
 </head>
 <body>
-    <div>
+    <div class="container">
+        <h1>AGREGAR PRODUCTO</h1>
         <form method="POST">
             {% csrf_token %}
 
             <div class="nombre">
-                {{ form.nombre.label_tag }}
+                {{ form.nombre.label_tag }}<br>
                 {{ form.nombre }}
             </div>
 
             <div class="codigo">
-                {{ form.codigo.label_tag }}
+                {{ form.codigo.label_tag }}<br>
                 {{ form.codigo }}
             </div>
 
             <div class="precio">
-                {{ form.precio.label_tag }}
+                {{ form.precio.label_tag }}<br>
                 {{ form.precio }}
             </div>
 
             <div class="stock">
-                {{ form.stock.label_tag }}
+                {{ form.stock.label_tag }}<br>
                 {{ form.stock }}
             </div>
 
             <div class="proveedor">
-                {{ form.proveedor.label_tag }}
+                {{ form.proveedor.label_tag }}<br>
                 {{ form.proveedor }}
             </div>
           
