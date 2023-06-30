@@ -1,9 +1,19 @@
-<h1>Agregar Producto</h1>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis cupiditate cumque distinctio accusantium esse, voluptatum neque, animi commodi quam ipsum omnis. Nihil suscipit et inventore quam doloremque animi reprehenderit. Quae.</p>
-
-
-<form method="POST">
-    {% csrf_token %}
-    {{form.as_p}}
-    <button>Guardar</button>
-</form>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/decoracion_agregar_producto.css' %}">
+</head>
+<body>
+    <div class="container">
+        <form method="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button>Guardar</button>
+        </form>
+    </div>
+</body>
+</html>
