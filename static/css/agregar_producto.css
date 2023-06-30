@@ -10,8 +10,9 @@ body {
     display: flex;
     flex-direction: column;
     margin-top: 100px;
-    margin-left: 400px;
-    margin-right: 400px;
+    width: 260px;
+    margin: auto;
+    margin-top: 15%;
     padding: 20px;
 }
 
@@ -23,8 +24,13 @@ h1 {
     text-align: center;
   }
 
+.textInput {
+    padding: 1px;
+    width: 194.8px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
 
-.nombre, .codigo, .precio, .stock, .proveedor {
+.nombre, .codigo, .precio, .stock, .proveedor, .guardar {
     padding: 5px;
     width: 200px;
     margin: auto;
@@ -34,7 +40,6 @@ h1 {
 button {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     width: 200px;
-    margin: 10px;
     padding: 10px;
     background-color: #2a62b5;
     color: #fff;
