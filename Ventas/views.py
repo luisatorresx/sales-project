@@ -1,6 +1,4 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from Inventario.models import Productos
+from django.shortcuts import render
 from .forms import FacturaForm
 
 # Create your views here.
@@ -18,7 +16,3 @@ def facturacion(request):
     else:
         form = FacturaForm()
         return render(request, 'Ventas/Facturacion.html', {'form': form})
-
-
-#def FacturaAImprimir(request):
-  #  return  render(request, 'Ventas/FacturaAImprimir.html')
