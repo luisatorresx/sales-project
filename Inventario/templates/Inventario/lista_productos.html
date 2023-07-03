@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,9 +10,8 @@
 <body>
     <h1>LISTA DE PRODUCTOS</h1>
     <div class="container">
-        
         {% for producto in productos %}
-        <div>
+        <div class="containerP">
             <h1>Producto: {{producto.nombre}}</h1>
             <h2>Codigo: {{producto.codigo}}</h2>
             <h2>Precio: {{producto.precio}}</h2>

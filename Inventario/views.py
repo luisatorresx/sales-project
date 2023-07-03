@@ -24,7 +24,6 @@ def agregar_producto(request):
         else:
             form.full_clean()
             return render(request, 'Inventario/agregar_producto.html', {'form': form})
-    
     else:
         form = ProductoForm()
         return render(request, 'Inventario/agregar_producto.html', {'form': form})

@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,20 +8,20 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
 </head>
 <body>
-    <div class="container">
-        <img src="{% static 'img/paper-bag.png' %}" alt="">
-        <h1>INVENTARIO</h1>
-    </div>
     <div class="navegacion">
         <nav>
             <ul>
               <li><a href="agregar_producto/">Agregar Productos</a></li>
               <li><a href="lista_productos/">Lista de Productos</a></li>
               <li><a href="actualizar_productos/">Actualizar Producto</a></li>
-              <li><a href="borrar_producto.html">Borrar Producto</a></li>
-              <li><a href="reporte.html">Generar Reporte</a></li>
+              <li><a href="borrar_producto/">Borrar Producto</a></li>
+              <li><a href="reporte/">Generar Reporte</a></li>
             </ul>
           </nav>
+    </div>
+    <div class="container">
+        <img src="{% static 'img/paper-bag.png' %}" alt="">
+        <h1>INVENTARIO</h1>
     </div>
 </body>
 </html>
