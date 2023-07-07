@@ -9,10 +9,8 @@ body {
     border-radius: 5px;
     display: flex;
     flex-direction: column;
-    margin-top: 100px;
     width: 260px;
     margin: auto;
-    margin-top: 10%;
     padding: 20px;
 }
 
@@ -23,12 +21,6 @@ h1 {
     font-weight: bold;
     text-align: center;
   }
-
-.textInput {
-    padding: 1px;
-    width: 194.8px;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-}
 
 .nombre, .codigo, .precio, .stock, .proveedor, .guardar, .entradaFactura{
     padding: 5px;
