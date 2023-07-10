@@ -37,20 +37,19 @@ def lista_productos(request):
     return render(request, 'Inventario/lista_productos.html', {'productos': productos})
 
 
-def actualizar_producto(request, codigo_producto):
-    # Buscamos el producto que queremos actualizar
-    producto = Productos.objects.get(codigo_producto= codigo_producto)
-
-    # Cargamos la información en un formulario
-    if request.method == 'POST':
-        form = ProductoForm(request.POST, instance=producto)
-        if form.is_valid():
-            form.save()
-            return redirect('lista_productos')
+def actualizar_producto(request, codigo_producto=None):
+    if codigo_producto:
+        producto = Productos.objects.get(codigo_producto=codigo_producto)
+        if request.method == 'POST':
+            form = ProductoForm(request.POST, instance=producto)
+            if form.is_valid():
+                form.save()
+                return redirect('lista_productos')
+        else:
+            form = ProductoForm(instance=producto)
     else:
-        form = ProductoForm(instance=producto)
+        form = ProductoForm()
 
-    # Renderizamos el template con el formulario
     return render(request, 'Inventario/actualizar_producto.html', {'form': form, 'codigo_producto': codigo_producto})
 
 
