@@ -6,13 +6,47 @@ body{
     align-items: center;
 }
 
-h1{
+.navegacion{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+nav {
+    display: flex;
+    justify-content: center;
+    float: left;
+    align-items: center;
+}
+  
+nav ul {
+    list-style: none;
+    overflow: hidden; 
+}
+    
+nav ul li {
+    float: left;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 20px;
+}
+    
+nav ul li a {
+    display: block; 
+    padding: 10px;
+    margin: 0px 10px 0px 10px;
+    border-radius: 10px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 15px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+    
+nav ul li a:hover {
+    background-color: #1f4d95;
     color: #fff;
 }
 
-h2{
-    font-size: 15px;
+h1{
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     color: #fff;
 }
@@ -25,6 +59,12 @@ h2{
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 20px;
     padding: 10px 10px 10px 10px;
+}
+
+h2{
+    font-size: 15px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: #fff;
 }
 
 .item{

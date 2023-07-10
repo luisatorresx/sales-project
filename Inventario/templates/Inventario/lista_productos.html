@@ -8,6 +8,13 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/lista_productos.css' %}">
 </head>
 <body>
+    <div class="navegacion">
+        <nav>
+            <ul>
+                <li><a href="{% url 'index_inventario' %}">Volver</a></li>
+            </ul>
+        </nav>
+    </div>
     <h1>LISTA DE PRODUCTOS</h1>
     <div class="container">
         {% for producto in productos %}
