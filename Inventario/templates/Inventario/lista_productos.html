@@ -8,15 +8,20 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/lista_productos.css' %}">
 </head>
 <body>
+    <div class="navegacion">
+        <nav>
+            <ul>
+                <li><a href="{% url 'index_inventario' %}">Volver</a></li>
+            </ul>
+        </nav>
+    </div>
     <h1>LISTA DE PRODUCTOS</h1>
     <div class="container">
         {% for producto in productos %}
-        <div class="containerP">
-            <h1>Producto: {{producto.nombre}}</h1>
-            <h2>Codigo: {{producto.codigo}}</h2>
-            <h2>Precio: {{producto.precio}}</h2>
-            <h2>Stock: {{producto.stock}}</h2>
-            <h2>Proveedor: {{producto.proveedor}}</h2>
+        <div class="item">
+            <h2>Producto: {{producto.nombre}}</h2>
+            <h2>Precio: {{producto.precio}}$</h2>
+            <h2>Stock: {{producto.stock}} Und.</h2>
         </div>
         {% endfor %}
     </div>

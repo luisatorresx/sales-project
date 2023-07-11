@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualizar producto</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/actualizar_producto.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>ACTUALIZAR PRODUCTO</h1>
+        <div class="busqueda">
+            <form method="POST" action="{% url 'actualizar_producto' %}">
+                {% csrf_token %}
+                <input type="text" name="codigo_producto" placeholder="Código del producto">
+                <button type="submit">Buscar</button>
+            </form>
+        </div>        
+        {% if producto %}
+            <h2>Producto encontrado:</h2>
+            <p>Código: {{ producto.codigo }}</p>
+            <p>Nombre: {{ producto.nombre }}</p>
+            <h2>Actualizar producto:</h2>
+            <form method="POST" action="{% url 'actualizar_producto' producto.codigo %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Actualizar">
+            </form>
+        {% endif %}
+    </div>
+</body>
+</html>

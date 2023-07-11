@@ -1,18 +1,23 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reporte</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/reporte.css' %}">
 </head>
 <body>
-    <h2>Reporte de productos del inventario</h2>
+    <div class="container">
+        <h2>REPORTE DE INVENTARIO</h2>
+        <button onclick="window.print()">IMPRIMIR</button>
     <table>
         <tr>
             <th>Nombre</th>
             <th>Precio</th>
             <th>Stock</th>
             <th>Proveedor</th>
+            <th>Código</th>
         </tr>
         {% for producto in productos %}
         <tr>
@@ -20,8 +25,10 @@
             <td>{{ producto.precio }}</td>
             <td>{{ producto.stock }}</td>
             <td>{{ producto.proveedor }}</td>
+            <td>{{ producto.codigo }}</td>
         </tr>
         {% endfor %}
     </table>
+    </div>
 </body>
 </html>
