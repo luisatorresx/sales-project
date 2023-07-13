@@ -10,7 +10,11 @@ class Clientes(models.Model):
 class Facturas(models.Model):
     id = models.AutoField(primary_key=True)
     fecha = models.DateTimeField()
-    total = models.IntegerField()
+    total_base = models.DecimalField(max_digits=10, decimal_places=2, default= 0.00)
+    iva_total = models.DecimalField(max_digits=10, decimal_places=2, default= 0.00)
+    abono_divisa = models.DecimalField(max_digits=10, decimal_places=2, default= 0.00)
+    impuesto_divisa = models.DecimalField(max_digits=10, decimal_places=2, default= 0.00)
+    total_cancelado = models.DecimalField(max_digits=10, decimal_places=2, default= 0.00)
     cliente = models.ForeignKey(Clientes, on_delete=models.CASCADE)
 
 
@@ -22,6 +26,6 @@ class IdentificadorProductos(models.Model):
 class HistorialProductos(models.Model):
     id = models.AutoField(primary_key=True)
     iva = models.BooleanField()
-    precio = models.IntegerField()
+    precio = models.DecimalField(max_digits=10, decimal_places=2, default= 0.00)
     producto = models.ForeignKey(IdentificadorProductos, on_delete=models.CASCADE)
     factura = models.ManyToManyField(Facturas)
