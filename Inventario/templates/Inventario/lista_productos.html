@@ -5,12 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de productos</title>
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon"/>
     <link rel="stylesheet" type="text/css" href="{% static 'css/lista_productos.css' %}">
 </head>
 <body>
     <div class="navegacion">
         <nav>
             <ul>
+                <li><a href="{% url 'index' %}">Inicio</a></li>
                 <li><a href="{% url 'index_inventario' %}">Volver</a></li>
             </ul>
         </nav>
