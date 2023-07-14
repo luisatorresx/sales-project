@@ -39,12 +39,12 @@
     <!-- Agrega la paginación -->
     <div class="pagination">
         {% if page_obj.has_previous %}
-            <a href="?page=1&filtro={{ filtro }}">Primera página</a>
-            <a href="?page={{ page_obj.previous_page_number}}&filtro={{ filtro }}">Anterior</a>
+            <a href="?page=1{% if request.GET.filtro %}&filtro={{ request.GET.filtro }}{% endif %}">Primera página</a>
+            <a href="?page={{ page_obj.previous_page_number}}{% if request.GET.filtro %}&filtro={{ request.GET.filtro }}{% endif %}">Anterior</a>
         {% endif %}
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number}}&filtro={{ filtro }}">Siguiente</a>
-            <a href="?page={{ page_obj.paginator.num_pages}}&filtro={{ filtro }}">Última página</a>
+            <a href="?page={{ page_obj.next_page_number }}{% if request.GET.filtro %}&filtro={{ request.GET.filtro }}{% endif %}">Siguiente</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.filtro %}&filtro={{ request.GET.filtro }}{% endif %}">Última página</a>
         {% endif %}
         <span class="current-page">{{ page_obj.number }}</span>
     </div>    
