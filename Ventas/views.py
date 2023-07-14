@@ -15,7 +15,6 @@ def facturacion(request):
         else:
             form.full_clean()
             return render(request, 'Ventas/Facturacion.html', {'form': form})
-    
     else:
         form = FacturaForm()
         return render(request, 'Ventas/Facturacion.html', {'form': form})
