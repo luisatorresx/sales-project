@@ -16,14 +16,37 @@
         </nav>
     </div>
     <h1>LISTA DE PRODUCTOS</h1>
+    <form method="get" action="{% url 'lista_productos' %}">
+        {% csrf_token %}
+        <input type="text" name="filtro" id="filtro" value="{{ request.GET.filtro }}" placeholder="Nombre">
+        <button type="submit" value="Filtrar">Filtrar</button>
+    </form>
     <div class="container">
-        {% for producto in productos %}
-        <div class="item">
-            <h2>Producto: {{producto.nombre}}</h2>
-            <h2>Precio: {{producto.precio}}$</h2>
-            <h2>Stock: {{producto.stock}} Und.</h2>
-        </div>
+        {% for producto in page_obj %}
+            <div class="item">
+                <h2>Producto: {{ producto.nombre }}</h2>
+                <h2>Precio: {{ producto.precio }}$</h2>
+                <h2>Stock: {{ producto.stock }} Und.</h2>
+            </div>
+        {% empty %}
+            {% if request.GET.filtro %}
+                <p>No se encontraron productos con el filtro "{{ request.GET.filtro }}".</p>
+            {% else %}
+                <p>No se encontraron productos.</p>
+            {% endif %}
         {% endfor %}
     </div>
+    <!-- Agrega la paginación -->
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page=1&filtro={{ filtro }}">Primera página</a>
+            <a href="?page={{ page_obj.previous_page_number}}&filtro={{ filtro }}">Anterior</a>
+        {% endif %}
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number}}&filtro={{ filtro }}">Siguiente</a>
+            <a href="?page={{ page_obj.paginator.num_pages}}&filtro={{ filtro }}">Última página</a>
+        {% endif %}
+        <span class="current-page">{{ page_obj.number }}</span>
+    </div>    
 </body>
 </html>
