@@ -39,22 +39,80 @@
                      Cédula:
                     {{ form.cedula }}
                 </div>
+            </div>
+
+            <hr>
+
+            <div class="grid">
 
                 <div class="entradaFactura">
                      Códico producto:
                     {{ form.codigo }}
                 </div>
 
+                <div class="entradaFactura">
+                     Cantidad:
+                    {{ form.cantidad }}
+                </div>
+
                 <div>
                     <button type="submit" name="añadir" value="true">Añadir Producto</button>
                 </div>
+            </div>
                 
-                <div>
-                    <button type="submit" name="concretar" value="true">Guardar</button>
+            <hr>
+
+            <div class="grid">
+                <div class="totales">
+                     Subtotal:<br>
+                    {{ subtotal }}
                 </div>
+
+                <div class="totales">
+                     Iva:<br>
+                    {{ iva }}
+                </div>
+
+                <div class="totales">
+                     Subtotal + iva:<br>
+                    {{ totalBs }}
+                </div>
+
+                <div class="totales">
+                     Divisas:<br>
+                    {{ form.divisas }}
+                </div>
+
+                <div class="totales">
+                     Total en Dolares:<br>
+                    {{ totaldolares }}
+                </div>
+
+                <div class="totales">
+                     Total en Bolirares:<br>
+                    {{ subtotaliva }}
+                </div>
+
+                <div class="totales">
+                     IGTF:<br>
+                    {{ IGTF }}
+                </div>
+
+                <div>
+                    <button type="submit" name="concretar" value="true">Concretar</button>
+                </div>
+
+                <div class="totales">
+                     Fracón Restante en Bs:<br>
+                    {{ fraccionBS }}
+                </div>
+
+
+
             </div>
 
-            
+            <hr>
+
             <div class="productos">
                 <div class="gridTabla">
                     <div class="camposproductos">
@@ -86,7 +144,7 @@
                             <button type="submit" name="eliminar" value="{{ procutosFactura.codigo }}">X</button>
                         </div>
                     </div>
-                    <input type="hidden" name="{{ procutosFactura.codigo }}">
+                    <input type="hidden" name="{{ procutosFactura.codigo }}" value="{{ procutosFactura.cantidad }}">
                 </div>
                 {% endfor %}
             </div>

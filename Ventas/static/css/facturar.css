@@ -167,6 +167,9 @@ input{
     cursor: pointer;
 }
 
+.eliminar button:hover {
+    background-color: #701717;
+}
 
 .celdaproductonombre{
     padding: 9px 0px 7px 0px;
@@ -213,4 +216,17 @@ input{
     border-color: #000;
     border-radius: 5px;
     margin: 1px 0px 1px 0px;
+}
+
+.totales{
+    padding: 5px 0px 5px 0px;
+    width: 100%;
+    margin: auto;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    border: 1px solid;
+    text-align: center;
+    vertical-align: center;
+    border-color: #000;
+    border-radius: 5px;
+    margin: 10px 0px 1px 0px;
 }
