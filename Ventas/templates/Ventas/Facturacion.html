@@ -22,27 +22,57 @@
     </div>
     <div class="container">
         <form method="POST">
-            {% csrf_token %}
+            <div class="grid">
+                {% csrf_token %}
 
-            <div class="entradaFactura">
-                 Nombre:
-                {{ form.nombre }}
+                <div class="entradaFactura">
+                     Nombre:
+                    {{ form.nombre }}
+                </div>
+
+                <div class="entradaFactura">
+                     Apellido:
+                    {{ form.apellido }}
+                </div>
+
+                <div class="entradaFactura">
+                     Cédula:
+                    {{ form.cedula }}
+                </div>
+
+                <div class="entradaFactura">
+                     Códico producto:
+                    {{ form.codigo }}
+                </div>
+
+                <div>
+                    <button type="submit" name="añadir" value="true">Añadir Producto</button>
+                </div>
+                
+                <div>
+                    <button type="submit" name="concretar" value="true">Guardar</button>
+                </div>
             </div>
 
-            <div class="entradaFactura">
-                 Apellido:
-                {{ form.apellido }}
-            </div>
-
-            <div class="entradaFactura">
-                 Cédula:
-                {{ form.cedula }}
-            </div>
             
-            <button type="submit">Guardar</button>
+            <div class="productos">
+                {% for procutosFactura in procutosFactura %}
+                <div class="gridTabla">
+                    <div class="celdaproducto">
+                        {{ procutosFactura.nombre }}
+                    </div>
+                    <div class="celdaproducto">
+                        {{ procutosFactura.precio }}
+                    </div>
+                    <div class="eliminar">
+                        <button type="submit" name="eliminar" value="{{ procutosFactura.codigo }}">Eliminar</button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
         </form>
     </div>
 
-    
+
 </body>
 </html>
