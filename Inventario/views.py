@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
+from django.core.exceptions import ObjectDoesNotExist
 from .forms import ProductoForm
 from .models import Productos
 
@@ -38,27 +39,37 @@ def lista_productos(request):
     if filtro:
         productos = productos.filter(nombre__icontains=filtro)  # Filtra por coincidencia parcial de nombre
     
-    paginator = Paginator(productos, 3)  # Divide los productos en páginas de 3 elementos por página
+    paginator = Paginator(productos, 6)  # Divide los productos en páginas de 6 elementos por página
     page_number = request.GET.get('page')  # Obtiene el número de página actual desde la query string
     page_obj = paginator.get_page(page_number)  # Obtiene el objeto Page correspondiente a la página actual
     
     return render(request, 'Inventario/lista_productos.html', {'page_obj': page_obj, 'filtro': filtro})
 
 
-def actualizar_producto(request, codigo=None):
-    if codigo:
-        producto = Productos.objects.get(codigo=codigo)
-        if request.method == 'POST':
-            form = ProductoForm(request.POST, instance=producto)
-            if form.is_valid():
-                form.save()
-                return redirect('lista_productos')
-        else:
-            form = ProductoForm(instance=producto)
+def actualizar_producto(request):
+    if request.method == 'POST':
+        codigo = request.POST['codigo']
+        try:
+            producto = get_object_or_404(Productos, codigo=codigo)
+        except:
+            return render(request, 'Inventario/error.html')
+        form = ProductoForm(initial={
+            'nombre': producto.nombre,
+            'codigo': producto.codigo,
+            'precio': producto.precio,
+            'stock': producto.stock,
+            'proveedor': producto.proveedor
+        })
+
+        if form.is_valid():
+            # Actualizar los valores del producto con los nuevos valores del formulario
+            producto.__dict__.update(form.cleaned_data)
+            producto.save()
+            return redirect('lista_productos')
     else:
         form = ProductoForm()
 
-    return render(request, 'Inventario/actualizar_producto.html', {'form': form, 'codigo': codigo})
+    return render(request, 'Inventario/actualizar_producto.html', {'form': form})
 
 
 def borrar_producto(request, codigo):
@@ -78,3 +89,6 @@ def generar_reporte(request):
     productos = Productos.objects.all()
     # Renderizamos el template de confirmación
     return render(request, 'Inventario/reporte.html', {'productos': productos})
+
+def error(request):
+    return render(request, 'Inventario/error.html')

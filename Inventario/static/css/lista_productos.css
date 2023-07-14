@@ -86,6 +86,7 @@ button:hover {
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 20px;
     padding: 10px 10px 10px 10px;
+
 }
 
 h2{
@@ -100,7 +101,12 @@ h2{
     border: 1px solid;
     border-radius: 10px;
     text-align: center;
-    padding: 20px;
+    justify-items: center;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 10px 20px 10px;
+    width: 200px;
+    height: 120px;
 }
 
 .pagination {
@@ -133,6 +139,7 @@ h2{
     font-weight: bold;
     color: #fff;
     background-color: #1f4d95;
+    border: 1px solid #fff;
     border-radius: 3px;
     position: absolute;
     top: -30px;

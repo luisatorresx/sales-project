@@ -5,42 +5,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Actualizar producto</title>
-    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon"/>
     <link rel="stylesheet" type="text/css" href="{% static 'css/actualizar_producto.css' %}">
 </head>
 <body>
     <div class="navegacion">
         <nav>
             <ul>
-                <li><a href="{% url 'index' %}">Inicio</a></li>
                 <li><a href="{% url 'index_inventario' %}">Volver</a></li>
             </ul>
         </nav>
     </div>
+    <h1>ACTUALIZAR PRODUCTO</h1>
     <div class="container">
-        <h1>ACTUALIZAR PRODUCTO</h1>
-        <div class="busqueda">
-            <form method="POST">
-                {% csrf_token %}
-                <input type="text" name="codigo_producto" placeholder="Código del producto">
-                <button type="submit">Buscar</button>
-            </form>
-            <div class="product">
-                <form method="POST">
+        <form method="POST" action="{% url 'actualizar_producto' %}">
+            {% csrf_token %}
+            <input type="text" id="codigo" name="codigo" placeholder="Código" required>
+            <button type="submit" value="Filtrar">Buscar</button>
+        </form>
+        <div class="product">
+            {% if form.initial %}
+                <form method="POST" action="{% url 'actualizar_producto' %}">
                     {% csrf_token %}
-                    {{ form.as_p }}
+                    <div class="nombre">
+                        <label for="id_nombre">Nombre:</label>
+                        <input type="text" id="id_nombre" name="nombre" value="{{ form.initial.nombre }}" required>
+                    </div>
+
+                    <div class="codigo">
+                        <label for="id_codigo">Código:</label>
+                        <input type="text" id="id_codigo" name="codigo" value="{{ form.initial.codigo }}" required>
+                    </div>
+
+                    <div class="precio">
+                        <label for="id_precio">Precio:</label>
+                        <input type="number" id="id_precio" name="precio" value="{{ form.initial.precio }}" required>
+                    </div>
+
+                    <div class="stock">
+                        <label for="id_stock">Stock:</label>
+                        <input type="number" id="id_stock" name="stock" value="{{ form.initial.stock }}" required>
+                    </div>
+
+                    <div class="proveedor">
+                        <label for="id_proveedor">Proveedor:</label>
+                        <input type="text" id="id_proveedor" name="proveedor" value="{{ form.initial.proveedor }}" required>
+                    </div>
+
                     <button type="submit">Actualizar</button>
-                </form>
-            </div>
-            {% if producto.codigo %}
-                <h2>Producto encontrado:</h2>
-                <p>Código: {{ producto.codigo }}</p>
-                <p>Nombre: {{ producto.nombre }}</p>
-                <h2>Actualizar producto:</h2>
-                <form method="POST" action="{% url 'actualizar_producto' producto.codigo %}">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <input type="submit" value="Actualizar">
                 </form>
             {% endif %}
         </div>

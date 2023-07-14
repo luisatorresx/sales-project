@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/error.css' %}">
+</head>
+<body>
+    <div class="navegacion">
+        <nav>
+            <ul>
+                <li><a href="{% url 'index_inventario' %}">Volver</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="container">
+        <h1>¡Oops! Algo ha salido mal</h1>
+        <h2>Verifica que no estés sobreescribiendo un producto o si estás actualizando uno, verifica que el código sea correcto.</h2>
+    </div>
+</body>
+</html>
