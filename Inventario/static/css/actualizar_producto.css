@@ -50,3 +50,17 @@ h1{
     font-weight: bold;
     text-align: center;
 }
+
+.product{
+    border: 1px solid;
+}
+
+.product form{
+    display: grid;
+    justify-items: center;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.product button{
+    grid-column: span 3;
+}
