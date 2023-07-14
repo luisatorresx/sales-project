@@ -56,17 +56,37 @@
 
             
             <div class="productos">
+                <div class="gridTabla">
+                    <div class="camposproductos">
+                        Producto
+                    </div>
+                    <div class="camposproductos">
+                        Precio
+                    </div>
+                    <div class="camposproductos">
+                        #
+                    </div>
+                    <div class="camposproductos">
+                        Eliminar
+                    </div>
+                </div>
                 {% for procutosFactura in procutosFactura %}
                 <div class="gridTabla">
-                    <div class="celdaproducto">
+                    <div class="celdaproductonombre">
                         {{ procutosFactura.nombre }}
                     </div>
                     <div class="celdaproducto">
-                        {{ procutosFactura.precio }}
+                        {{ procutosFactura.precio }} Bs
                     </div>
-                    <div class="eliminar">
-                        <button type="submit" name="eliminar" value="{{ procutosFactura.codigo }}">Eliminar</button>
+                    <div class="celdaproducto">
+                        {{ procutosFactura.id }}
                     </div>
+                    <div class="celdaproductoeliminar">
+                        <div class="eliminar">
+                            <button type="submit" name="eliminar" value="{{ procutosFactura.codigo }}">X</button>
+                        </div>
+                    </div>
+                    <input type="hidden" name="{{ procutosFactura.codigo }}">
                 </div>
                 {% endfor %}
             </div>

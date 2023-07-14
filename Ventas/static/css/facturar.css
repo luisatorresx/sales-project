@@ -84,30 +84,6 @@ nav ul li a:hover {
     grid-template-columns: repeat(3, 1fr);
 }
 
-.gridTabla{
-    display: grid;
-    justify-items: center;
-    grid-template-columns: 300px 200px 100px;
-    border: 1px solid;
-    border-color: #000;
-    border-radius: 5px;
-    margin: 1px 1px 1px 1px;
-}
-
-.productos{
-    background-color: #fff;
-    border: 1px solid;
-    border-color: #000;
-    border-radius: 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-items: center;
-    width: 600px;
-    margin: 10px 0px 0px 0px;
-    padding: 20px;
-}
-
 .container button{
     grid-column: span 3;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
@@ -115,18 +91,6 @@ nav ul li a:hover {
     padding: 10px;
     margin: 20px 0px 0px 0px;
     background-color: #2a62b5;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.eliminar button{
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    width: 94px;
-    padding: 3px;
-    margin: 3px;
-    background-color: #b52a2a;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -147,13 +111,6 @@ h1 {
     text-align: center;
   }
 
-.celdaproducto{
-    padding: 5px;
-    margin: auto;
-    justify-self: start;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-}
-
 .entradaFactura{
     padding: 5px;
     width: 200px;
@@ -168,4 +125,92 @@ input{
     margin: 0px 5px 0px 5px;
     align-items: center;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.gridTabla{
+    display: grid;
+    justify-items: center;
+    grid-template-columns: 370px 110px 50px 70px;
+    grid-gap: 2px;
+    margin: 0px;
+}
+
+.productos{
+    background-color: #fff;
+    border: 1px solid;
+    border-color: #000;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    width: 600px;
+    margin: 10px 0px 0px 0px;
+    padding: 20px;
+}
+
+.eliminar{
+    width: auto;
+}
+
+.eliminar button{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    width: 64px;
+    padding: 5px;
+    margin: 0px 3px 0px 3px;
+    align-items: center;
+    justify-items: center;
+    background-color: #b52a2a;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+.celdaproductonombre{
+    padding: 9px 0px 7px 0px;
+    width: 98%;
+    padding-left: 2%;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    border: 1px solid;
+    text-align: start;
+    border-color: #000;
+    border-radius: 5px;
+    margin: 1px 0px 1px 0px;
+}
+
+.celdaproducto{
+    padding: 9px 0px 7px 0px;
+    width: 100%;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    border: 1px solid;
+    text-align: end;
+    border-color: #000;
+    border-radius: 5px;
+    margin: 1px 0px 1px 0px;
+}
+
+.celdaproductoeliminar{
+    padding: 5px 0px 5px 0px;
+    width: 100%;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    border: 1px solid;
+    text-align: end;
+    border-color: #000;
+    border-radius: 5px;
+    margin: 1px 0px 1px 0px;
+}
+
+.camposproductos{
+    padding: 5px 0px 5px 0px;
+    width: 100%;
+    margin: auto;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    border: 1px solid;
+    text-align: center;
+    vertical-align: center;
+    border-color: #000;
+    border-radius: 5px;
+    margin: 1px 0px 1px 0px;
 }
