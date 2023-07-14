@@ -4,10 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agregar producto</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/agregar_producto.css' %}">
+    <title>Facturar</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/facturar.css' %}">
 </head>
 <body>
+    <div class="navegacion">
+        <nav>
+            <ul>
+                <li><a href="{% url 'ventas_index' %}">Volver</a></li>
+            </ul>
+        </nav>
+    </div>
     <div class="container">
         <h1>FACTURAR</h1>
         <form method="POST">
