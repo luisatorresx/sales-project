@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 from Inventario.models import Productos
 from .forms import FacturaForm
+from decimal import *
 
 # Create your views here.
 def index(request):
@@ -23,4 +24,11 @@ def facturacion(request):
     else:
         procutosFactura = Productos.objects.all()
         form = FacturaForm()
-        return render(request, 'Ventas/Facturacion.html', {'form': form, 'procutosFactura': procutosFactura})
+        subtotal = Decimal(0.00)
+        iva = Decimal(0.00)
+        subtotaliva = Decimal(0.00)
+        IGTF = Decimal(0.00)
+        total = Decimal(0.00)
+        totaldolares = Decimal(0.00)
+        fraccionBS = Decimal(0.00)
+        return render(request, 'Ventas/Facturacion.html', {'form': form, 'procutosFactura': procutosFactura, 'subtotal': subtotal, 'total': total, 'iva': iva, 'IGTF': IGTF, 'subtotaliva': subtotaliva, 'totaldolares': totaldolares, 'fraccionBS': fraccionBS})
