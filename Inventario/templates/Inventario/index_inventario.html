@@ -5,18 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventario</title>
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon"/>
     <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
 </head>
 <body>
     <div class="navegacion">
         <nav>
             <ul>
-              <li><a href="agregar_producto/">Agregar Productos</a></li>
-              <li><a href="lista_productos/">Lista de Productos</a></li>
-              <li><a href="actualizar_producto/">Actualizar Producto</a></li>
-              <li><a href="borrar_producto/">Borrar Producto</a></li>
-              <li><a href="reporte/">Generar Reporte</a></li>
-              <li><a href="{% url 'index' %}">Volver</a></li>
+                <li><a href="{% url 'index' %}">Inicio</a></li>
+                <li><a href="agregar_producto/">Agregar Productos</a></li>
+                <li><a href="lista_productos/">Lista de Productos</a></li>
+                <li><a href="actualizar_producto/">Actualizar Producto</a></li>
+                <li><a href="borrar_producto/">Borrar Producto</a></li>
+                <li><a href="reporte/">Generar Reporte</a></li>
+                <li><a href="{% url 'index' %}">Volver</a></li>
             </ul>
         </nav>
     </div>
