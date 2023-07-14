@@ -110,9 +110,18 @@ h1 {
     text-align: center;
   }
 
-.nombre, .codigo, .precio, .stock, .proveedor, .guardar, .entradaFactura{
+.entradaFactura{
     padding: 5px;
     width: 200px;
     margin: auto;
+    align-items: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+input{
+    padding: 5px;
+    width: auto;
+    margin: 0px 5px 0px 5px;
+    align-items: center;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }

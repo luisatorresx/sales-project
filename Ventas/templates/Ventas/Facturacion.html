@@ -25,35 +25,24 @@
             {% csrf_token %}
 
             <div class="entradaFactura">
-                Numero De Factura:
-                {{ form.NumeroDeFactura }}
+                 Nombre:
+                {{ form.nombre }}
             </div>
 
             <div class="entradaFactura">
-                Nombre Completo:
-                {{ form.NombreCompleto }}
+                 Apellido:
+                {{ form.apellido }}
             </div>
 
             <div class="entradaFactura">
-                Cédula:
-                {{ form.Cedula }}
-            </div>
-
-            <div class="entradaFactura">
-                Total:
-                {{ form.Total }}
-            </div>
-
-            <div class="entradaFactura">
-                Código Producto:
-                {{ form.CodigoProducto }}
+                 Cédula:
+                {{ form.cedula }}
             </div>
             
-            <div class="guardar">
-                <button type="submit">Guardar</button>
-            </div>
+            <button type="submit">Guardar</button>
         </form>
-          
     </div>
+
+    
 </body>
 </html>
