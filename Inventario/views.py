@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.core.paginator import Paginator
 from .forms import ProductoForm
 from .models import Productos
 
@@ -30,11 +31,18 @@ def agregar_producto(request):
 
 
 def lista_productos(request):
-    #Buscamos todos los productos
+    filtro = request.GET.get('filtro')
     productos = Productos.objects.all()
 
-    #Mostrar la lista con todos los productos
-    return render(request, 'Inventario/lista_productos.html', {'productos': productos})
+    # Aplica el filtrado si el parámetro de filtro está presente
+    if filtro:
+        productos = productos.filter(nombre__icontains=filtro)  # Filtra por coincidencia parcial de nombre
+    
+    paginator = Paginator(productos, 3)  # Divide los productos en páginas de 3 elementos por página
+    page_number = request.GET.get('page')  # Obtiene el número de página actual desde la query string
+    page_obj = paginator.get_page(page_number)  # Obtiene el objeto Page correspondiente a la página actual
+    
+    return render(request, 'Inventario/lista_productos.html', {'page_obj': page_obj, 'filtro': filtro})
 
 
 def actualizar_producto(request, codigo=None):
