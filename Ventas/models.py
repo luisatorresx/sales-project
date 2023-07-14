@@ -1,11 +1,17 @@
 from django.db import models
 
 # Create your models here.
+
+class HistorialTipoDeCambio(models.Model):
+    id = models.AutoField(primary_key=True)
+    cambio = models.DecimalField(max_digits=10, decimal_places=2, default= 0.00)
+    fecha = models.DateTimeField()
+
 class Clientes(models.Model):
     id = models.AutoField(primary_key=True)
-    cedula = models.IntegerField()
-    nombreCompelto = models.CharField(max_length=100)
-    
+    cedula = models.IntegerField(unique=True)
+    nombre = models.CharField(max_length=30, blank=True, null=True)
+    apellido = models.CharField(max_length=30, blank=True, null=True)
 
 class Facturas(models.Model):
     id = models.AutoField(primary_key=True)
@@ -16,7 +22,7 @@ class Facturas(models.Model):
     impuesto_divisa = models.DecimalField(max_digits=10, decimal_places=2, default= 0.00)
     total_cancelado = models.DecimalField(max_digits=10, decimal_places=2, default= 0.00)
     cliente = models.ForeignKey(Clientes, on_delete=models.CASCADE)
-
+    cliente = models.ForeignKey(HistorialTipoDeCambio, on_delete=models.CASCADE)
 
 class IdentificadorProductos(models.Model):
     id = models.AutoField(primary_key=True)
