@@ -47,6 +47,18 @@ nav ul li a:hover {
     color: #fff;
 }
 
+.containerTitle {
+    background-color: #fff;
+    border: 1px solid;
+    border-color: #000;
+    border-radius: 5px;
+    align-items: center;
+    justify-items: center;
+    width: 700px;
+    margin: 0px 0px 10px 0px;
+    padding: 0px 20px 0px 20px;
+}
+
 .container {
     background-color: #fff;
     border: 1px solid;
@@ -92,6 +104,7 @@ button:hover {
 h1 {
     color: #2a62b5;
     font-size: 30px;
+    margin: 10px 0px 10px 0px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-weight: bold;
     text-align: center;
