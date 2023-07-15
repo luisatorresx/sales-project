@@ -75,12 +75,12 @@
 
                 <div class="totales">
                      Subtotal + iva:<br>
-                    {{ totalBs }}
+                    {{ subtotaliva }}
                 </div>
 
                 <div class="totales">
-                     Divisas:<br>
-                    {{ form.divisas }}
+                     Fración en Divisas:<br>
+                    {{ form.divisas }}<button type="submit" name="actualizar" value="true">⟳</button>
                 </div>
 
                 <div class="totales">
@@ -128,16 +128,16 @@
                         Eliminar
                     </div>
                 </div>
-                {% for procutosFactura in procutosFactura %}
+                {% for producto in procutosFactura %}
                 <div class="gridTabla">
                     <div class="celdaproductonombre">
-                        {{ procutosFactura.nombre }}
+                        {{ producto.0.0.nombre }}
                     </div>
                     <div class="celdaproducto">
-                        {{ procutosFactura.precio }} Bs
+                        {{ producto.0.0.precio }} Bs
                     </div>
                     <div class="celdaproducto">
-                        {{ procutosFactura.id }}
+                        {{ producto.1 }}
                     </div>
                     <div class="celdaproductoeliminar">
                         <div class="eliminar">
