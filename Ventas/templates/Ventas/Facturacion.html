@@ -79,7 +79,7 @@
                 </div>
 
                 <div class="totales">
-                     Fración en Divisas:<br>
+                     Fracción en Divisas:<br>
                     {{ form.divisas }}<button type="submit" name="actualizar" value="true">⟳</button>
                 </div>
 
@@ -103,7 +103,7 @@
                 </div>
 
                 <div class="totales">
-                     Fracón Restante en Bs:<br>
+                     Fracción Restante en Bs:<br>
                     {{ fraccionBS }}
                 </div>
 
@@ -141,7 +141,7 @@
                     </div>
                     <div class="celdaproductoeliminar">
                         <div class="eliminar">
-                            <button type="submit" name="eliminar" value="{{ procutosFactura.codigo }}">X</button>
+                            <button type="submit" name="eliminar" value="{{ producto.0.0.codigo }}">X</button>
                         </div>
                     </div>
                     <input type="hidden" name="{{ procutosFactura.codigo }}" value="{{ procutosFactura.cantidad }}">
