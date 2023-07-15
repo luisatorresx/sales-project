@@ -47,6 +47,7 @@ def lista_productos(request):
 
 
 def actualizar_producto(request):
+
     if request.method == 'POST':
         codigo = request.POST['codigo']
         try:
@@ -72,17 +73,22 @@ def actualizar_producto(request):
     return render(request, 'Inventario/actualizar_producto.html', {'form': form})
 
 
-def borrar_producto(request, codigo):
-    # Buscamos el producto que queremos eliminar
-    producto = Productos.objects.get(codigo= codigo)
-
-    # Si se ha enviado el formulario de confirmación, eliminamos el producto
+def borrar_producto(request):
     if request.method == 'POST':
-        producto.delete()
-        return redirect('lista_productos')
+        codigo = request.POST['codigo']
+        try:
+            producto = get_object_or_404(Productos, codigo=codigo)
+            return render(request, 'Inventario/borrar_producto.html', {'producto': producto})
+        except:
+            return render(request, 'Inventario/error.html')
 
-    # Renderizamos el template de confirmación
-    return render(request, 'Inventario/borrar_producto.html', {'producto': producto})
+    return render(request, 'Inventario/borrar_producto.html')
+
+
+def eliminar_producto(request, producto_id):
+    producto = get_object_or_404(Productos, id=producto_id)
+    producto.delete()
+    return redirect('lista_productos')
 
 
 def generar_reporte(request):
