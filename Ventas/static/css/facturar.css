@@ -97,7 +97,6 @@ nav ul li a:hover {
     cursor: pointer;
 }
 
-
 button:hover {
     background-color: #1f4d95;
 }
@@ -169,6 +168,32 @@ input{
 
 .eliminar button:hover {
     background-color: #701717;
+}
+
+.totales button{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    width: 26.8px;
+    padding: 5px;
+    margin-top: 0px;
+    margin-right: 5px;
+    align-items: center;
+    justify-items: center;
+    background-color: #2a62b5;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.totales button:hover {
+    background-color: #1f4d95;
+}
+
+.totales input{
+    padding: 5px;
+    width: auto;
+    margin: 0px 0px 0px 5px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .celdaproductonombre{
