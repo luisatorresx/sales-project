@@ -5,7 +5,6 @@ from .forms import ProductoForm
 from .models import Productos
 
 # Create your views here.
-
 def index(request):
     return render(request, 'Inventario/index_inventario.html')
 
@@ -34,14 +33,12 @@ def agregar_producto(request):
 def lista_productos(request):
     filtro = request.GET.get('filtro')
     productos = Productos.objects.all()
-
-    # Aplica el filtrado si el parámetro de filtro está presente
     if filtro:
-        productos = productos.filter(nombre__icontains=filtro)  # Filtra por coincidencia parcial de nombre
+        productos = productos.filter(nombre__icontains=filtro)
     
-    paginator = Paginator(productos, 6)  # Divide los productos en páginas de 6 elementos por página
-    page_number = request.GET.get('page')  # Obtiene el número de página actual desde la query string
-    page_obj = paginator.get_page(page_number)  # Obtiene el objeto Page correspondiente a la página actual
+    paginator = Paginator(productos, 6)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     
     return render(request, 'Inventario/lista_productos.html', {'page_obj': page_obj, 'filtro': filtro})
 
@@ -95,6 +92,7 @@ def generar_reporte(request):
     productos = Productos.objects.all()
     # Renderizamos el template de confirmación
     return render(request, 'Inventario/reporte.html', {'productos': productos})
+
 
 def error(request):
     return render(request, 'Inventario/error.html')
