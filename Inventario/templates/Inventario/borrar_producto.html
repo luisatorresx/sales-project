@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borrar producto</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/borrar_producto.css' %}">
+</head>
+<body>
+    <div class="navegacion">
+        <nav>
+            <ul>
+                <li><a href="{% url 'index_inventario' %}">Volver</a></li>
+            </ul>
+        </nav>
+    </div>
+    <h1>BORRAR PRODUCTO</h1>
+    <div class="container">
+        <form method="POST" action="{% url 'borrar_producto' %}">
+            {% csrf_token %}
+            <input type="text" id="codigo" name="codigo" placeholder="Código" required>
+            <button type="submit">Buscar</button>
+        </form>        
+        <div class="item">
+            {% if producto %}
+                <h2>Código: {{ producto.codigo }}</h2>
+                <h2>Producto: {{ producto.nombre }}</h2>
+                <h2>Precio: {{ producto.precio }}$</h2>
+                <h2>Stock: {{ producto.stock }} Und.</h2>
+                <h2>Proveedor: {{ producto.proveedor }}</h2>
+                <form method="POST" action="{% url 'eliminar_producto' producto.id %}">
+                    {% csrf_token %}
+                    <button type="submit" name="eliminar">Eliminar</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>    
+</body>
+</html>
