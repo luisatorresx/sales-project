@@ -61,6 +61,11 @@ nav ul li a:hover {
 
 }
 
+.container img{
+    width: 150px;
+    height: 150px;
+}
+
 h1{
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     color: #2a62b5;

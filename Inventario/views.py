@@ -42,7 +42,7 @@ def lista_productos(request):
     
     return render(request, 'Inventario/lista_productos.html', {'page_obj': page_obj, 'filtro': filtro})
 
-
+#Arreglar
 def actualizar_producto(request):
 
     if request.method == 'POST':
@@ -58,12 +58,11 @@ def actualizar_producto(request):
             'stock': producto.stock,
             'proveedor': producto.proveedor
         })
-
         if form.is_valid():
-            # Actualizar los valores del producto con los nuevos valores del formulario
             producto.__dict__.update(form.cleaned_data)
             producto.save()
             return redirect('lista_productos')
+
     else:
         form = ProductoForm()
 
