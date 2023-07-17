@@ -21,28 +21,36 @@ def facturacion(request):
     fraccionBS = Decimal(0.00)
 
     if request.method == "POST":
+
+        form = FacturaForm(request.POST)
         procutosFactura = []
         productos = Productos.objects.all()
-        if "añadir" in request.POST:
-            for producto in productos:
-                if producto.codigo in request.POST:
-                    procutosFactura.append([producto, request.POST[producto.codigo]])
-            procutosFactura.append([productos.filter(codigo=request.POST['codigo']), request.POST['cantidad']])
-            #print(request.POST,procutosFactura)
-        clearFields = request.POST.copy()
-        if "codigo" in clearFields:
-            clearFields["codigo"] = ''
-        if "cantidad" in clearFields:
-            clearFields["cantidad"] = ''
-        form = FacturaForm(clearFields)
-        
-        for producto in procutosFactura:
-            print(producto[0], producto[1])
-        
+        for producto in productos:
+            if producto.codigo in request.POST:
+                procutosFactura.append([producto, request.POST[producto.codigo]])
+
+        if form.is_valid():
+            if "añadir" in request.POST:
+                print(request.POST,procutosFactura)
+                if request.POST['codigo'] != '' and request.POST['cantidad'] != '':
+                    if productos.filter(codigo=request.POST['codigo']).exists():
+                        procutosFactura.append([productos.filter(codigo=request.POST['codigo']), request.POST['cantidad']])
+                print(request.POST,procutosFactura)
+            
+            clearFields = request.POST.copy()
+            if "codigo" in clearFields:
+                clearFields["codigo"] = ''
+            if "cantidad" in clearFields:
+                clearFields["cantidad"] = ''
+            form = FacturaForm(clearFields)
+            
+            for producto in procutosFactura:
+                print(producto[0], producto[1])
+            
         
         return render(request, 'Ventas/Facturacion.html', {'form': form, 'procutosFactura': procutosFactura, 'subtotal': subtotal, 
-                                                           'total': total, 'iva': iva, 'IGTF': IGTF, 'subtotaliva': subtotaliva, 
-                                                           'totaldolares': totaldolares, 'fraccionBS': fraccionBS})
+                                                            'total': total, 'iva': iva, 'IGTF': IGTF, 'subtotaliva': subtotaliva, 
+                                                            'totaldolares': totaldolares, 'fraccionBS': fraccionBS})
     else:
         procutosFactura = []
         form = FacturaForm()
