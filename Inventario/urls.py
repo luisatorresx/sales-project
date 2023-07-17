@@ -10,4 +10,5 @@ urlpatterns = [
     path('error/', views.error, name="error"),
     path('borrar_producto/', views.borrar_producto, name="borrar_producto"),
     path('eliminar_producto/<int:producto_id>/', views.eliminar_producto, name='eliminar_producto'),
+    path('guardar_producto/<int:producto_id>/', views.guardar_producto, name='guardar_producto'),
 ]

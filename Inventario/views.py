@@ -10,7 +10,6 @@ def index(request):
 
 
 def agregar_producto(request):
-    #Agregamos un producto
     if request.method == "POST":
         form = ProductoForm(request.POST)
         if form.is_valid():
@@ -42,31 +41,27 @@ def lista_productos(request):
     
     return render(request, 'Inventario/lista_productos.html', {'page_obj': page_obj, 'filtro': filtro})
 
-#Arreglar
-def actualizar_producto(request):
 
+def actualizar_producto(request):
     if request.method == 'POST':
         codigo = request.POST['codigo']
         try:
             producto = get_object_or_404(Productos, codigo=codigo)
+            form = ProductoForm(initial=producto)
+            return render(request, 'Inventario/actualizar_producto.html', {'form': form, 'producto':producto})
         except:
             return render(request, 'Inventario/error.html')
-        form = ProductoForm(initial={
-            'nombre': producto.nombre,
-            'codigo': producto.codigo,
-            'precio': producto.precio,
-            'stock': producto.stock,
-            'proveedor': producto.proveedor
-        })
-        if form.is_valid():
-            producto.__dict__.update(form.cleaned_data)
-            producto.save()
-            return redirect('lista_productos')
 
     else:
         form = ProductoForm()
 
-    return render(request, 'Inventario/actualizar_producto.html', {'form': form})
+    return render(request, 'Inventario/actualizar_producto.html')
+
+
+def guardar_producto(request, producto_id):
+    producto = get_object_or_404(Productos, id=producto_id)
+    producto.save()
+    return redirect('lista_productos')
 
 
 def borrar_producto(request):
