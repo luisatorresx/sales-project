@@ -56,7 +56,7 @@
                 </div>
 
                 <div>
-                    <button type="submit" name="añadir" value="true" onclick="removeRequired(this.form)">Añadir Producto</button>
+                    <button type="submit" name="añadir" value="true">Añadir Producto</button>
                 </div>
             </div>
                 
@@ -144,7 +144,7 @@
                             <button type="submit" name="eliminar" value="{{ producto.0.0.codigo }}">X</button>
                         </div>
                     </div>
-                    <input type="hidden" name="{{ procutosFactura.codigo }}" value="{{ procutosFactura.cantidad }}">
+                    <input type="hidden" name="{{ producto.0.0.codigo }}" value="{{ producto.1 }}">
                 </div>
                 {% endfor %}
             </div>
