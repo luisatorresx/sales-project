@@ -42,7 +42,7 @@ def lista_productos(request):
     
     return render(request, 'Inventario/lista_productos.html', {'page_obj': page_obj, 'filtro': filtro})
 
-
+#Arreglar
 def actualizar_producto(request):
 
     if request.method == 'POST':
