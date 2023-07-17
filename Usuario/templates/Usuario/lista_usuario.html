@@ -1,62 +1,26 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listado de Usuario</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/lista_usuario.css' %}">
-    <style>
-        body {
-            background-color: #2a62b5;
-        }
-
-        .container {
-            background-color: #fff;
-            border: 1px solid;
-            border-color: #000;
-            border-radius: 5px;
-            display: flex;
-            flex-direction: column;
-            margin-top: 100px;
-            width: 80%;
-            margin: auto;
-            padding: 20px;
-        }
-
-        h1 {
-            color: #2a62b5;
-            font-size: 30px;
-            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-
-        th, td {
-            border: 1px solid #000;
-            padding: 10px;
-            text-align: left;
-            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-        }
-
-        th {
-            background-color: #2a62b5;
-            color: #fff;
-        }
-    </style>
 </head>
 <body>
+    <div class="navegacion">
+        <nav>
+            <ul>
+                <li><a href="{% url 'index' %}">Volver</a></li>
+            </ul>
+        </nav>
+    </div>
     <div class="container">
         <h1>LISTADO DE USUARIO</h1>
         <table>
             <thead>
                 <tr>
+                    <th><img src="{% static 'img/working.png' %}" alt=""></th>
                     <th>Nombre de Usuario</th>
                     <th>Correo Electronico</th>
                     <th>Nombre</th>
@@ -66,6 +30,7 @@
             <tbody>
             {% for user in users %}
                 <tr>
+                    <td><img src="{% static 'img/working.png' %}" alt=""></td>
                     <td>{{ user.username }}</td>
                     <td>{{ user.email }}</td>
                     <td>{{ user.first_name }}</td>

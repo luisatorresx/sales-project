@@ -50,7 +50,9 @@
                         <label for="id_proveedor">Proveedor:</label>
                         <input type="text" id="id_proveedor" name="proveedor" value="{{ form.initial.proveedor }}" required>
                     </div>
-
+                </form>
+                <form method="POST" action="{% url 'guardar_producto' form.initial.id %}">
+                    {% csrf_token %}
                     <button type="submit" name="actualizar">Actualizar</button>
                 </form>
             {% endif %}
