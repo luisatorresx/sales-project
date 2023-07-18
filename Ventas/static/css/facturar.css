@@ -255,3 +255,18 @@ input{
     border-radius: 5px;
     margin: 10px 0px 1px 0px;
 }
+
+.error{
+    padding: 5px;
+    width: auto;
+    font-size: 11px;
+    text-align: center;
+    color: red;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
