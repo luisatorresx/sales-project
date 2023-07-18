@@ -59,6 +59,30 @@
                     <button type="submit" name="añadir" value="true">Añadir Producto</button>
                 </div>
             </div>
+
+            {% if Producto_no_entocntrado %}
+
+            <div class="error">
+                El codigo ingresado no coresponde con ningún producto disponible en la base de datos.
+            </div>
+
+            {% endif %}
+
+            {% if Campo_en_blanco %}
+
+            <div class="error">
+                Debe rellenar ambos campos para añadir un producto.
+            </div>
+
+            {% endif %}
+
+            {% if Producto_insuficiente.0 %}
+
+            <div class="error">
+                No se dispone de la cantidad de produtos solicitados, el stock restante del producto según la base datos es de {{Producto_insuficiente.1}}.
+            </div>
+
+            {% endif %}
                 
             <hr>
 
