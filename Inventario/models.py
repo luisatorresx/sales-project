@@ -14,3 +14,4 @@ class Productos(models.Model):
     precio = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.IntegerField()
     proveedor = models.CharField(max_length=100)
+    iva = models.BooleanField(default=True)

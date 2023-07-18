@@ -15,7 +15,7 @@ def facturacion(request):
     # Asignando valores por defecto
     subtotal = Decimal(0.00)
     iva = Decimal(0.00)
-    subtotaliva = Decimal(0.00)
+    subtotal_iva = Decimal(0.00)
     IGTF = Decimal(0.00)
     total = Decimal(0.00)
     totaldolares = Decimal(0.00)
@@ -44,10 +44,10 @@ def facturacion(request):
 
             # Añadir producto
             if "añadir" in request.POST:
-                if request.POST['codigo'] != '' and request.POST['cantidad'] != '': # Verifica si los campos del producto a añadir fueron llenados
-                    if productos.filter(codigo=request.POST['codigo']).exists():    # Verifica si el prodcuto existe
-                        if productos.filter(codigo=request.POST['codigo'])[0].stock >= int(request.POST['cantidad']):
-                            for producto in procutosFactura:                            # Elimina el producto duplicado de la lista para permitir la sobrescritura
+                if request.POST['codigo'] != '' and request.POST['cantidad'] != '':                                     # Verifica si los campos del producto a añadir fueron llenados
+                    if productos.filter(codigo=request.POST['codigo']).exists():                                        # Verifica si el prodcuto existe
+                        if productos.filter(codigo=request.POST['codigo'])[0].stock >= int(request.POST['cantidad']):   # Verifica que existan suficientes unidades en stock para la solicitud
+                            for producto in procutosFactura:                                                            # Elimina el producto duplicado de la lista para permitir la sobrescritura
                                 if str(producto[0][0].codigo)==request.POST['codigo']: 
                                     procutosFactura.pop(procutosFactura.index(producto))
                             procutosFactura.append([productos.filter(codigo=request.POST['codigo']), int(request.POST['cantidad'])]) # Añade el producto y lña cantidad del mismo a la lista
@@ -64,6 +64,20 @@ def facturacion(request):
                     if str(producto[0][0].codigo) == request.POST['eliminar']:
                         procutosFactura.pop(procutosFactura.index(producto))
 
+            # Calcular precio
+            if not ("concretar" in request.POST):
+
+                # Subtotal
+                for producto in procutosFactura:
+                    subtotal += producto[0][0].precio * producto[1]
+                
+                
+
+
+            else:
+                0 #Concretar venta
+
+
             # Limpiar entrada productos
             clearFields = request.POST.copy()
             if "codigo" in clearFields:
@@ -78,12 +92,12 @@ def facturacion(request):
             
         
         return render(request, 'Ventas/Facturacion.html', {'form': form, 'procutosFactura': procutosFactura, 'subtotal': subtotal, 
-                                                            'total': total, 'iva': iva, 'IGTF': IGTF, 'subtotaliva': subtotaliva, 
+                                                            'total': total, 'iva': iva, 'IGTF': IGTF, 'subtotal_iva': subtotal_iva, 
                                                             'totaldolares': totaldolares, 'fraccionBS': fraccionBS, 
                                                             'Producto_no_entocntrado':Producto_no_entocntrado, 'Campo_en_blanco':Campo_en_blanco, 'Producto_insuficiente':Producto_insuficiente})
     else:
         procutosFactura = []
         form = FacturaForm()
         return render(request, 'Ventas/Facturacion.html', {'form': form, 'procutosFactura': procutosFactura, 'subtotal': subtotal, 
-                                                           'total': total, 'iva': iva, 'IGTF': IGTF, 'subtotaliva': subtotaliva, 
+                                                           'total': total, 'iva': iva, 'IGTF': IGTF, 'subtotal_iva': subtotal_iva, 
                                                            'totaldolares': totaldolares, 'fraccionBS': fraccionBS})
