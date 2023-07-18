@@ -70,8 +70,12 @@ def facturacion(request):
                 # Subtotal
                 for producto in procutosFactura:
                     subtotal += producto[0][0].precio * producto[1]
-                
-                
+                    if producto[0][0].iva:
+                        getcontext().prec = 4
+                        iva += producto[0][0].precio * producto[1] * 16 / 100
+                subtotal_iva = subtotal + iva
+                            
+
 
 
             else:
