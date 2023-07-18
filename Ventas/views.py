@@ -44,10 +44,10 @@ def facturacion(request):
 
             # Añadir producto
             if "añadir" in request.POST:
-                if request.POST['codigo'] != '' and request.POST['cantidad'] != '': # Verifica si los campos del producto a añadir fueron llenados
-                    if productos.filter(codigo=request.POST['codigo']).exists():    # Verifica si el prodcuto existe
-                        if productos.filter(codigo=request.POST['codigo'])[0].stock >= int(request.POST['cantidad']):
-                            for producto in procutosFactura:                            # Elimina el producto duplicado de la lista para permitir la sobrescritura
+                if request.POST['codigo'] != '' and request.POST['cantidad'] != '':                                     # Verifica si los campos del producto a añadir fueron llenados
+                    if productos.filter(codigo=request.POST['codigo']).exists():                                        # Verifica si el prodcuto existe
+                        if productos.filter(codigo=request.POST['codigo'])[0].stock >= int(request.POST['cantidad']):   # Verifica que existan suficientes unidades en stock para la solicitud
+                            for producto in procutosFactura:                                                            # Elimina el producto duplicado de la lista para permitir la sobrescritura
                                 if str(producto[0][0].codigo)==request.POST['codigo']: 
                                     procutosFactura.pop(procutosFactura.index(producto))
                             procutosFactura.append([productos.filter(codigo=request.POST['codigo']), int(request.POST['cantidad'])]) # Añade el producto y lña cantidad del mismo a la lista
