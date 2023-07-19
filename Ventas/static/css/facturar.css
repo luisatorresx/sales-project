@@ -79,6 +79,7 @@ nav ul li a:hover {
 }
 
 .grid{
+    margin-bottom: 12px;
     display: grid;
     justify-items: center;
     grid-template-columns: repeat(3, 1fr);
@@ -257,7 +258,7 @@ input{
 }
 
 .error{
-    padding: 5px;
+    padding: 0px;
     width: auto;
     font-size: 11px;
     text-align: center;

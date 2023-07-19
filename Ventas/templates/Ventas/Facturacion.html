@@ -88,38 +88,43 @@
 
             <div class="grid">
                 <div class="totales">
-                     Subtotal:<br>
+                    Subtotal:<br>
                     {{ subtotal }}
                 </div>
 
                 <div class="totales">
-                     Iva:<br>
+                    IVA:<br>
                     {{ iva }}
                 </div>
 
                 <div class="totales">
-                     Subtotal + iva:<br>
+                    Total en Bolívares:<br>
                     {{ subtotal_iva }}
                 </div>
 
                 <div class="totales">
-                     Fracción en Divisas:<br>
+                    En Dolares:<br>
+                    {{ en_dolares }}
+                </div>
+
+                <div class="totales">
+                    IGTF:<br>
+                    {{ Igft }}
+                </div>
+
+                <div class="totales">
+                    Total en Dolares:<br>
+                    {{ total_dolares }}
+                </div>
+            </div>
+                
+            <hr>
+
+            <div class="grid">
+
+                <div class="totales">
+                    Fracción en Divisas:<br>
                     {{ form.divisas }}<button type="submit" name="actualizar" value="true">⟳</button>
-                </div>
-
-                <div class="totales">
-                     Total en Dolares:<br>
-                    {{ totaldolares }}
-                </div>
-
-                <div class="totales">
-                     Total en Bolirares:<br>
-                    {{ subtotaliva }}
-                </div>
-
-                <div class="totales">
-                     IGTF:<br>
-                    {{ IGTF }}
                 </div>
 
                 <div>
@@ -127,7 +132,7 @@
                 </div>
 
                 <div class="totales">
-                     Fracción Restante en Bs:<br>
+                    Fracción Restante en Bs:<br>
                     {{ fraccionBS }}
                 </div>
 
