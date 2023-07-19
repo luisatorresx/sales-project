@@ -89,32 +89,32 @@
             <div class="grid">
                 <div class="totales">
                     Subtotal:<br>
-                    {{ subtotal }}
+                    {{ subtotal }} Bs.
                 </div>
 
                 <div class="totales">
                     IVA:<br>
-                    {{ iva }}
+                    {{ iva }} Bs.
                 </div>
 
                 <div class="totales">
                     Total en Bolívares:<br>
-                    {{ subtotal_iva }}
+                    {{ subtotal_iva }} Bs.
                 </div>
 
                 <div class="totales">
                     En Dolares:<br>
-                    {{ en_dolares }}
+                    {{ en_dolares }} $USD
                 </div>
 
                 <div class="totales">
                     IGTF:<br>
-                    {{ Igft }}
+                    {{ Igft }} $USD
                 </div>
 
                 <div class="totales">
                     Total en Dolares:<br>
-                    {{ total_dolares }}
+                    {{ total_dolares }} $USD
                 </div>
             </div>
                 
@@ -124,20 +124,27 @@
 
                 <div class="totales">
                     Fracción en Divisas:<br>
-                    {{ form.divisas }}<button type="submit" name="actualizar" value="true">⟳</button>
+                    <button type="submit" name="actualizar" value="true">⟳</button>{{ form.divisas }} $USD
+                </div>
+
+                <div class="totales">
+                    IGTF resultante:
+                    <div style="font-size: 14px; margin-top: 5px;">
+                        {{ Igft_res_US }}$USD | {{ Igft_res }}Bs.
+                    </div>
+                </div>
+
+                <div class="totales">
+                    Fracción Restante en Bs:<br>
+                    {{ fraccionBS }} Bs.
+                </div>
+
+                <div>
                 </div>
 
                 <div>
                     <button type="submit" name="concretar" value="true">Concretar</button>
                 </div>
-
-                <div class="totales">
-                    Fracción Restante en Bs:<br>
-                    {{ fraccionBS }}
-                </div>
-
-
-
             </div>
 
             <hr>
