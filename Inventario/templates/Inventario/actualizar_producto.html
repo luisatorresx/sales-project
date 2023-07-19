@@ -23,36 +23,34 @@
             <button type="submit" value="Filtrar">Buscar</button>
         </form>
         <div class="product">
-            {% if form.initial %}
-                <form method="POST" action="{% url 'actualizar_producto' %}">
+            {% if producto %}
+                <form method="POST" action="{% url 'guardar_producto' producto.id %}">
                     {% csrf_token %}
                     <div class="nombre">
                         <label for="id_nombre">Nombre:</label>
-                        <input type="text" id="id_nombre" name="nombre" value="{{ form.initial.nombre }}" required>
+                        <input type="text" id="id_nombre" name="nombre" value="{{ producto.nombre }}" required>
                     </div>
 
                     <div class="codigo">
                         <label for="id_codigo">Código:</label>
-                        <input type="text" id="id_codigo" name="codigo" value="{{ form.initial.codigo }}" required>
+                        <input type="text" id="id_codigo" name="codigo" value="{{ producto.codigo }}" required>
                     </div>
 
                     <div class="precio">
                         <label for="id_precio">Precio:</label>
-                        <input type="number" id="id_precio" name="precio" value="{{ form.initial.precio }}" required>
+                        <input type="number" id="id_precio" name="precio" value="{{ producto.precio }}" required>
                     </div>
 
                     <div class="stock">
                         <label for="id_stock">Stock:</label>
-                        <input type="number" id="id_stock" name="stock" value="{{ form.initial.stock }}" required>
+                        <input type="number" id="id_stock" name="stock" value="{{ producto.stock }}" required>
                     </div>
 
                     <div class="proveedor">
                         <label for="id_proveedor">Proveedor:</label>
-                        <input type="text" id="id_proveedor" name="proveedor" value="{{ form.initial.proveedor }}" required>
+                        <input type="text" id="id_proveedor" name="proveedor" value="{{ producto.proveedor }}" required>
                     </div>
-                </form>
-                <form method="POST" action="{% url 'guardar_producto' form.initial.id %}">
-                    {% csrf_token %}
+
                     <button type="submit" name="actualizar">Actualizar</button>
                 </form>
             {% endif %}
