@@ -8,11 +8,10 @@ from decimal import *
 def index(request):
     return render(request, 'Ventas/index.html')
 
-
-
 def facturacion(request):
     
     # Asignando valores por defecto
+    dolar_Bs_cambio = Decimal(28.8123)
     subtotal = Decimal(0.00)
     iva = Decimal(0.00)
     subtotal_iva = Decimal(0.00)
@@ -21,6 +20,8 @@ def facturacion(request):
     total_dolares = Decimal(0.00)
     total = Decimal(0.00)
     fraccionBS = Decimal(0.00)
+    Igft_res_US = Decimal(0.00)
+    Igft_res = Decimal(0.00)
     
     # Errores
     Producto_no_entocntrado = False
@@ -29,10 +30,6 @@ def facturacion(request):
 
 
     if request.method == "POST":
-        print("""inicio
-              ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
-              ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
-              """)
         # Copiando información para la siguiente respuesta
         form = FacturaForm(request.POST)
         procutosFactura = []
@@ -77,14 +74,22 @@ def facturacion(request):
                         if producto[0][0].iva == 2:
                             iva += (producto[0][0].precio * producto[1] * Decimal(0.08)).quantize(Decimal('.01'))
                 subtotal_iva = subtotal + iva
-                en_dolares = (subtotal_iva / Decimal(28.8123)).quantize(Decimal('.01'))
+                en_dolares = (subtotal_iva / dolar_Bs_cambio).quantize(Decimal('.01'))
                 Igft = (en_dolares * Decimal(0.03)).quantize(Decimal('.01'))
                 total_dolares = en_dolares + Igft
-
-                            
-
-
-
+                if request.POST['divisas'] != '':
+                    if Decimal(request.POST['divisas']) >= 0:
+                        Cantidad_divisa = Decimal(request.POST['divisas'])
+                        if Cantidad_divisa <= en_dolares:
+                            Divsas_en_Bs = (Cantidad_divisa * dolar_Bs_cambio).quantize(Decimal('.01'))
+                            Igft_res_US = (Cantidad_divisa * Decimal(0.03)).quantize(Decimal('.01'))
+                            Igft_res = (Divsas_en_Bs * Decimal(0.03)).quantize(Decimal('.01'))
+                            fraccionBS = subtotal_iva - Divsas_en_Bs + Igft_res
+                        else:
+                            Igft_res_US = Igft
+                            Igft_res = (subtotal_iva * Decimal(0.03)).quantize(Decimal('.01'))
+                            Divsas_en_Bs = (Cantidad_divisa * dolar_Bs_cambio).quantize(Decimal('.01'))
+                            fraccionBS = subtotal_iva - Divsas_en_Bs + Igft_res
             else:
                 0 #Concretar venta
 
@@ -103,12 +108,13 @@ def facturacion(request):
             
         
         return render(request, 'Ventas/Facturacion.html', {'form': form, 'procutosFactura': procutosFactura, 'subtotal': subtotal, 
-                                                            'total': total, 'iva': iva, 'Igft': Igft, 'subtotal_iva': subtotal_iva, 
+                                                            'total': total, 'iva': iva, 'Igft': Igft, 'subtotal_iva': subtotal_iva, "Igft_res_US":Igft_res_US, "Igft_res":Igft_res,
                                                             'en_dolares':en_dolares,'total_dolares': total_dolares, 'fraccionBS': fraccionBS, 
                                                             'Producto_no_entocntrado':Producto_no_entocntrado, 'Campo_en_blanco':Campo_en_blanco, 'Producto_insuficiente':Producto_insuficiente})
     else:
         procutosFactura = []
         form = FacturaForm()
         return render(request, 'Ventas/Facturacion.html', {'form': form, 'procutosFactura': procutosFactura, 'subtotal': subtotal, 
-                                                           'total': total, 'iva': iva, 'Igft': Igft, 'subtotal_iva': subtotal_iva, 
-                                                           'total_dolares': total_dolares, 'fraccionBS': fraccionBS})
+                                                            'total': total, 'iva': iva, 'Igft': Igft, 'subtotal_iva': subtotal_iva, "Igft_res_US":Igft_res_US, "Igft_res":Igft_res,
+                                                            'en_dolares':en_dolares,'total_dolares': total_dolares, 'fraccionBS': fraccionBS, 
+                                                            'Producto_no_entocntrado':Producto_no_entocntrado, 'Campo_en_blanco':Campo_en_blanco, 'Producto_insuficiente':Producto_insuficiente})
