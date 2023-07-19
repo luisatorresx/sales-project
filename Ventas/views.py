@@ -16,9 +16,10 @@ def facturacion(request):
     subtotal = Decimal(0.00)
     iva = Decimal(0.00)
     subtotal_iva = Decimal(0.00)
-    IGTF = Decimal(0.00)
+    en_dolares = Decimal(0.00)
+    Igft = Decimal(0.00)
+    total_dolares = Decimal(0.00)
     total = Decimal(0.00)
-    totaldolares = Decimal(0.00)
     fraccionBS = Decimal(0.00)
     
     # Errores
@@ -70,10 +71,16 @@ def facturacion(request):
                 # Subtotal
                 for producto in procutosFactura:
                     subtotal += producto[0][0].precio * producto[1]
-                    if producto[0][0].iva:
-                        getcontext().prec = 4
-                        iva += producto[0][0].precio * producto[1] * 16 / 100
+                    if producto[0][0].iva == 1:
+                        iva += (producto[0][0].precio * producto[1] * Decimal(0.16)).quantize(Decimal('.01'))
+                    else:
+                        if producto[0][0].iva == 2:
+                            iva += (producto[0][0].precio * producto[1] * Decimal(0.08)).quantize(Decimal('.01'))
                 subtotal_iva = subtotal + iva
+                en_dolares = (subtotal_iva / Decimal(28.8123)).quantize(Decimal('.01'))
+                Igft = (en_dolares * Decimal(0.03)).quantize(Decimal('.01'))
+                total_dolares = en_dolares + Igft
+
                             
 
 
@@ -96,12 +103,12 @@ def facturacion(request):
             
         
         return render(request, 'Ventas/Facturacion.html', {'form': form, 'procutosFactura': procutosFactura, 'subtotal': subtotal, 
-                                                            'total': total, 'iva': iva, 'IGTF': IGTF, 'subtotal_iva': subtotal_iva, 
-                                                            'totaldolares': totaldolares, 'fraccionBS': fraccionBS, 
+                                                            'total': total, 'iva': iva, 'Igft': Igft, 'subtotal_iva': subtotal_iva, 
+                                                            'en_dolares':en_dolares,'total_dolares': total_dolares, 'fraccionBS': fraccionBS, 
                                                             'Producto_no_entocntrado':Producto_no_entocntrado, 'Campo_en_blanco':Campo_en_blanco, 'Producto_insuficiente':Producto_insuficiente})
     else:
         procutosFactura = []
         form = FacturaForm()
         return render(request, 'Ventas/Facturacion.html', {'form': form, 'procutosFactura': procutosFactura, 'subtotal': subtotal, 
-                                                           'total': total, 'iva': iva, 'IGTF': IGTF, 'subtotal_iva': subtotal_iva, 
-                                                           'totaldolares': totaldolares, 'fraccionBS': fraccionBS})
+                                                           'total': total, 'iva': iva, 'Igft': Igft, 'subtotal_iva': subtotal_iva, 
+                                                           'total_dolares': total_dolares, 'fraccionBS': fraccionBS})
