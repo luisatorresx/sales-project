@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from Inventario.models import Productos
 from .forms import FacturaForm
 from decimal import *
+from . import models
 
 # Create your views here.
 def index(request):
@@ -29,7 +30,6 @@ def facturacion(request):
     Campo_en_blanco = False
     Producto_insuficiente = False
     pago_comple = True
-
 
     if request.method == "POST":
         # Copiando información para la siguiente respuesta
@@ -106,9 +106,14 @@ def facturacion(request):
                 if Vuelto < 0:
                     pago_comple = False
                     Vuelto = -Vuelto
-                
             else:
-                0 #Concretar venta
+                models.HistorialTipoDeCambio.objects.get_or_create(
+                    cambio = dolar_Bs_cambio.quantize(Decimal('.01'))
+                )
+
+                Numero_factura=1
+                
+                return redirect('factura', id=Numero_factura)
 
 
             # Limpiar entrada productos
