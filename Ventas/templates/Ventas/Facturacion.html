@@ -46,7 +46,7 @@
             <div class="grid">
 
                 <div class="entradaFactura">
-                     Códico producto:
+                     Código producto:
                     {{ form.codigo }}
                 </div>
 
@@ -103,18 +103,18 @@
                 </div>
 
                 <div class="totales">
-                    En Dolares:<br>
-                    {{ en_dolares }} $USD
+                    En Dólares:<br>
+                    {{ en_dolares }} USD
                 </div>
 
                 <div class="totales">
                     IGTF:<br>
-                    {{ Igft }} $USD
+                    {{ Igft }} USD
                 </div>
 
                 <div class="totales">
-                    Total en Dolares:<br>
-                    {{ total_dolares }} $USD
+                    Total en Dólares:<br>
+                    {{ total_dolares }} USD
                 </div>
             </div>
                 
@@ -123,14 +123,14 @@
             <div class="grid">
 
                 <div class="totales">
-                    Fracción en Divisas:<br>
-                    <button type="submit" name="actualizar" value="true">⟳</button>{{ form.divisas }} $USD
+                    Pago en Divisas:<br>
+                    <button type="submit" name="actualizar" value="true">⟳</button>{{ form.divisas }} USD
                 </div>
 
                 <div class="totales">
                     IGTF resultante:
                     <div style="font-size: 14px; margin-top: 5px;">
-                        {{ Igft_res_US }}$USD | {{ Igft_res }}Bs.
+                        {{ Igft_res_US }}USD | {{ Igft_res }}Bs.
                     </div>
                 </div>
 
@@ -139,11 +139,22 @@
                     {{ fraccionBS }} Bs.
                 </div>
 
-                <div>
+                <div class="totales">
+                    Pago en Bs:<br>
+                    <button type="submit" name="actualizar" value="true">⟳</button>{{ form.efectivo }} Bs.
                 </div>
 
                 <div>
                     <button type="submit" name="concretar" value="true">Concretar</button>
+                </div>
+
+                <div class="totales">
+                    {% if pago_comple %}
+                    Vuelto:<br>
+                    {% else %}
+                    Faltante:<br>
+                    {% endif %}
+                    {{ Vuelto }} Bs.
                 </div>
             </div>
 
