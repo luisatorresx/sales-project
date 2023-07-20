@@ -32,7 +32,7 @@ class IdentificadorProductos(models.Model):
 
 class HistorialProductos(models.Model):
     id = models.AutoField(primary_key=True)
-    iva = models.BooleanField()
+    iva = models.IntegerField()
     precio = models.DecimalField(max_digits=10, decimal_places=2, default= 0.00)
     producto = models.ForeignKey(IdentificadorProductos, on_delete=models.CASCADE)
     factura = models.ManyToManyField(Facturas)

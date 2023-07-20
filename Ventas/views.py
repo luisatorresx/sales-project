@@ -128,10 +128,20 @@ def facturacion(request):
                 )
 
                 for producto in procutosFactura:
-                    models.IdentificadorProductos.objects.get_or_create(
+
+                    identificador_producto = models.IdentificadorProductos.objects.get_or_create(
                         nombre = producto[0][0].nombre,
                         codigo = producto[0][0].codigo
                     )
+                    
+                    producto_añadido = models.HistorialProductos.objects.get_or_create(
+                        iva = producto[0][0].iva,
+                        precio = producto[0][0].precio,
+                        producto = identificador_producto,
+                    )
+
+                    factura.producto_añadido_set.add(producto_añadido)
+
 
                 
                 
