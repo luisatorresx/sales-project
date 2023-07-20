@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from Inventario.models import Productos
 from .forms import FacturaForm
 from decimal import *
+from . import models
 
 # Create your views here.
 def index(request):
@@ -29,7 +30,6 @@ def facturacion(request):
     Campo_en_blanco = False
     Producto_insuficiente = False
     pago_comple = True
-
 
     if request.method == "POST":
         # Copiando información para la siguiente respuesta
@@ -106,9 +106,39 @@ def facturacion(request):
                 if Vuelto < 0:
                     pago_comple = False
                     Vuelto = -Vuelto
-                
             else:
-                0 #Concretar venta
+                tipo_de_cambio = models.HistorialTipoDeCambio.objects.get_or_create(
+                    cambio = dolar_Bs_cambio.quantize(Decimal('.01'))
+                )
+
+                cliente = models.Clientes.objects.get_or_create(
+                    cedula = request.POST['cedula'],
+                    nombre = request.POST['nombre'],
+                    apellido = request.POST['apellido']
+                )
+                
+                factura = models.Facturas.objects.get_or_create(
+                    total_base = Decimal(0.00).quantize(Decimal(.01)),
+                    iva_total = Decimal(0.00).quantize(Decimal(.01)),
+                    abono_divisa = Decimal(0.00).quantize(Decimal(.01)),
+                    impuesto_divisa = Decimal(0.00).quantize(Decimal(.01)),
+                    total_cancelado = Decimal(0.00).quantize(Decimal(.01)),
+                    id_cliente = cliente['id'],
+                    id_tipo_de_cambio = tipo_de_cambio['id']
+                )
+
+                for producto in procutosFactura:
+                    models.IdentificadorProductos.objects.get_or_create(
+                        nombre = producto[0][0].nombre,
+                        codigo = producto[0][0].codigo
+                    )
+
+                
+                
+
+
+                
+                return redirect('factura', id=Numero_factura)
 
 
             # Limpiar entrada productos
@@ -117,11 +147,6 @@ def facturacion(request):
                 clearFields["codigo"] = ''
             if "cantidad" in clearFields:
                 clearFields["cantidad"] = ''
-           # if "divisas" in clearFields:
-                #clearFields["divisas"] = Decimal(clearFields["divisas"]).quantize(Decimal(decimales))
-           # if "efectivo" in clearFields:
-                #clearFields["efectivo"] = Decimal(clearFields["efectivo"]).quantize(Decimal(decimales))
-
             form = FacturaForm(clearFields)
 
             print(procutosFactura)

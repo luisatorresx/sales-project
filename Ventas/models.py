@@ -1,11 +1,12 @@
 from django.db import models
+from django.utils.timezone import now
 
 # Create your models here.
 
 class HistorialTipoDeCambio(models.Model):
     id = models.AutoField(primary_key=True)
     cambio = models.DecimalField(max_digits=10, decimal_places=2, default= 0.00)
-    fecha = models.DateTimeField()
+    fecha = models.DateTimeField(default=now, editable=False)
 
 class Clientes(models.Model):
     id = models.AutoField(primary_key=True)
@@ -15,14 +16,14 @@ class Clientes(models.Model):
 
 class Facturas(models.Model):
     id = models.AutoField(primary_key=True)
-    fecha = models.DateTimeField()
+    fecha = models.DateTimeField(default=now, editable=False)
     total_base = models.DecimalField(max_digits=10, decimal_places=2, default= 0.00)
     iva_total = models.DecimalField(max_digits=10, decimal_places=2, default= 0.00)
     abono_divisa = models.DecimalField(max_digits=10, decimal_places=2, default= 0.00)
     impuesto_divisa = models.DecimalField(max_digits=10, decimal_places=2, default= 0.00)
     total_cancelado = models.DecimalField(max_digits=10, decimal_places=2, default= 0.00)
-    cliente = models.ForeignKey(Clientes, on_delete=models.CASCADE)
-    cliente = models.ForeignKey(HistorialTipoDeCambio, on_delete=models.CASCADE)
+    id_cliente = models.ForeignKey(Clientes, on_delete=models.CASCADE)
+    id_tipo_de_cambio = models.ForeignKey(HistorialTipoDeCambio, on_delete=models.CASCADE)
 
 class IdentificadorProductos(models.Model):
     id = models.AutoField(primary_key=True)
