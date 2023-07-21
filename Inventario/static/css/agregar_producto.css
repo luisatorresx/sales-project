@@ -97,7 +97,7 @@ h1 {
     text-align: center;
   }
 
-.nombre, .codigo, .precio, .stock, .proveedor, .guardar, .entradaFactura{
+.nombre, .codigo, .precio, .stock, .proveedor, .guardar, .entradaFactura, .iva{
     padding: 5px;
     width: 200px;
     margin: auto;
