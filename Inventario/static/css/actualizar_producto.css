@@ -57,7 +57,7 @@ h1{
     background-color: #fff;
     border: 1px solid;
     border-color: #000;
-    border-radius: 5px;
+    border-radius: 15px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -92,7 +92,7 @@ button:hover {
 
 .product{
     border: 1px solid;
-    border-radius: 10px;
+    border-radius: 15px;
     border-color: #1f4d95;
     padding: 10px 15px 10px 15px;
     margin: 20px 0px 0px 0px;
