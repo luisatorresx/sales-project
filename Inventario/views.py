@@ -14,14 +14,22 @@ def agregar_producto(request):
     if request.method == "POST":
         form = ProductoForm(request.POST)
         if form.is_valid():
-            Productos.objects.create(
-                nombre= request.POST['nombre'],
-                codigo= request.POST['codigo'],
-                precio= request.POST['precio'],
-                stock= request.POST['stock'],
-                proveedor= request.POST['proveedor']
-            )
-            return redirect('lista_productos')
+            # Verificar si el producto ya existe en la base de datos
+            codigo_producto = request.POST['codigo']
+            if Productos.objects.filter(codigo=codigo_producto).exists():
+                return render(request, 'Inventario/error.html')
+                
+            # Crear el nuevo producto si no existe
+            else:
+                Productos.objects.create(
+                    nombre=request.POST['nombre'],
+                    codigo=codigo_producto,
+                    precio=request.POST['precio'],
+                    stock=request.POST['stock'],
+                    proveedor=request.POST['proveedor'],
+                    iva=request.POST['iva']
+                )
+                return redirect('lista_productos')
         else:
             form.full_clean()
             return render(request, 'Inventario/agregar_producto.html', {'form': form})
@@ -66,6 +74,7 @@ def guardar_producto(request, producto_id):
         producto.stock = request.POST['stock']
         producto.proveedor = request.POST['proveedor']
         producto.precio = request.POST['precio']
+        producto.iva = request.POST['iva']
         producto.save()
         return redirect('lista_productos')
 

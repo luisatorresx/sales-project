@@ -51,6 +51,11 @@
                         <input type="text" id="id_proveedor" name="proveedor" value="{{ producto.proveedor }}" required>
                     </div>
 
+                    <div class="iva">
+                        <label for="id_iva">Iva:</label>
+                        <input type="text" id="id_iva" name="iva" value="{{ producto.iva }}" required>
+                    </div>
+
                     <button type="submit" name="actualizar">Actualizar</button>
                 </form>
             {% endif %}
