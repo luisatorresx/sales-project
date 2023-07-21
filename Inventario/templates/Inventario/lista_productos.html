@@ -16,7 +16,6 @@
             </ul>
         </nav>
     </div>
-    <h1>LISTA DE PRODUCTOS</h1>
     <form method="get" action="{% url 'lista_productos' %}">
         {% csrf_token %}
         <input type="text" name="filtro" id="filtro" value="{{ request.GET.filtro }}" placeholder="Nombre">
@@ -25,6 +24,7 @@
     <div class="container">
         {% for producto in page_obj %}
             <div class="item">
+                <img src="{% static 'img/productos.png' %}" alt="">
                 <h2>Producto: {{ producto.nombre }}</h2>
                 <h2>Precio: {{ producto.precio }}$</h2>
                 <h2>Stock: {{ producto.stock }} Und.</h2>
