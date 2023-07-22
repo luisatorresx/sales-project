@@ -24,12 +24,15 @@ def facturacion(request):
     Igft_res_US = Decimal(0.00).quantize(Decimal(decimales))
     Igft_res = Decimal(0.00).quantize(Decimal(decimales))
     Vuelto = Decimal(0.00).quantize(Decimal(decimales))
+    Cantidad_divisa = Decimal(0.00).quantize(Decimal(decimales))
+    Cantidad_Bs = Decimal(0.00).quantize(Decimal(decimales))
 
     # Errores
     Producto_no_entocntrado = False
     Campo_en_blanco = False
     Producto_insuficiente = False
-    pago_comple = True
+    pago_completo = True
+    pago_incompleto = False
 
     if request.method == "POST":
         # Copiando información para la siguiente respuesta
@@ -41,8 +44,6 @@ def facturacion(request):
                 procutosFactura.append([Productos.objects.filter(codigo=producto.codigo), int(request.POST[str(producto.codigo)])])
 
         if form.is_valid():
-            
-            print(Decimal(request.POST['divisas']))
 
             # Añadir producto
             if "añadir" in request.POST:
@@ -67,78 +68,91 @@ def facturacion(request):
                         procutosFactura.pop(procutosFactura.index(producto))
 
             # Calcular precio
-            if not ("concretar" in request.POST):
+            #if not ("concretar" in request.POST):
 
-                # Subtotal
-                for producto in procutosFactura:
-                    subtotal += producto[0][0].precio * producto[1]
-                    if producto[0][0].iva == 1:
-                        iva += (producto[0][0].precio * producto[1] * Decimal(0.16)).quantize(Decimal(decimales))
-                    else:
-                        if producto[0][0].iva == 2:
-                            iva += (producto[0][0].precio * producto[1] * Decimal(0.08)).quantize(Decimal(decimales))
-                subtotal_iva = subtotal + iva
-                en_dolares = (subtotal_iva / dolar_Bs_cambio).quantize(Decimal(decimales))
-                Igft = (en_dolares * Decimal(0.03)).quantize(Decimal(decimales))
-                total_dolares = en_dolares + Igft
+            # Subtotal
+            for producto in procutosFactura:
+                subtotal += producto[0][0].precio * producto[1]
+                if producto[0][0].iva == 1:
+                    iva += (producto[0][0].precio * producto[1] * Decimal(0.16)).quantize(Decimal(decimales))
+                else:
+                    if producto[0][0].iva == 2:
+                        iva += (producto[0][0].precio * producto[1] * Decimal(0.08)).quantize(Decimal(decimales))
+            subtotal_iva = subtotal + iva
+            en_dolares = (subtotal_iva / dolar_Bs_cambio).quantize(Decimal(decimales))
+            Igft = (en_dolares * Decimal(0.03)).quantize(Decimal(decimales))
+            total_dolares = en_dolares + Igft
+            print(Decimal(request.POST['divisas']))
+            if request.POST['divisas'] != '':
                 print(Decimal(request.POST['divisas']))
-                if request.POST['divisas'] != '':
-                    print(Decimal(request.POST['divisas']))
-                    if Decimal(request.POST['divisas']) >= 0:
-                        Cantidad_divisa = Decimal(request.POST['divisas'])
-                        if Cantidad_divisa <= en_dolares:
-                            Divsas_en_Bs = (Cantidad_divisa * dolar_Bs_cambio).quantize(Decimal(decimales))
-                            Igft_res_US = (Cantidad_divisa * Decimal(0.03)).quantize(Decimal(decimales))
-                            Igft_res = (Divsas_en_Bs * Decimal(0.03)).quantize(Decimal(decimales))
-                            fraccionBS = subtotal_iva - Divsas_en_Bs + Igft_res
-                        else:
-                            Igft_res_US = Igft
-                            Igft_res = (subtotal_iva * Decimal(0.03)).quantize(Decimal(decimales))
-                            Divsas_en_Bs = (Cantidad_divisa * dolar_Bs_cambio).quantize(Decimal(decimales))
-                            fraccionBS = subtotal_iva - Divsas_en_Bs + Igft_res
-                if request.POST['efectivo'] != '':
-                    if Decimal(request.POST['efectivo']) >= 0:
-                        Cantidad_Bs = Decimal(request.POST['efectivo'])
-                        Vuelto = Cantidad_Bs - fraccionBS
-                if fraccionBS < 0:
-                    fraccionBS = Decimal(0.00)
+                if Decimal(request.POST['divisas']) >= 0:
+                    Cantidad_divisa = Decimal(request.POST['divisas'])
+                    if Cantidad_divisa <= en_dolares:
+                        Divsas_en_Bs = (Cantidad_divisa * dolar_Bs_cambio).quantize(Decimal(decimales))
+                        Igft_res_US = (Cantidad_divisa * Decimal(0.03)).quantize(Decimal(decimales))
+                        Igft_res = (Divsas_en_Bs * Decimal(0.03)).quantize(Decimal(decimales))
+                        fraccionBS = subtotal_iva - Divsas_en_Bs + Igft_res
+                    else:
+                        Igft_res_US = Igft
+                        Igft_res = (subtotal_iva * Decimal(0.03)).quantize(Decimal(decimales))
+                        Divsas_en_Bs = (Cantidad_divisa * dolar_Bs_cambio).quantize(Decimal(decimales))
+                        fraccionBS = subtotal_iva - Divsas_en_Bs + Igft_res
+            if request.POST['efectivo'] != '':
+                if Decimal(request.POST['efectivo']) >= 0:
+                    Cantidad_Bs = Decimal(request.POST['efectivo'])
+                    Vuelto = Cantidad_Bs - fraccionBS
+            if fraccionBS < 0:
+                fraccionBS = Decimal(0.00)
 
-                if Vuelto < 0:
-                    pago_comple = False
-                    Vuelto = -Vuelto
-            else:
-                tipo_de_cambio = models.HistorialTipoDeCambio.objects.get_or_create(
-                    cambio = dolar_Bs_cambio.quantize(Decimal('.01'))
-                )
+            if Vuelto < 0:
+                pago_completo = False
+                Vuelto = -Vuelto
+            #else:
 
-                cliente = models.Clientes.objects.get_or_create(
-                    cedula = request.POST['cedula'],
-                    nombre = request.POST['nombre'],
-                    apellido = request.POST['apellido']
-                )
-                
-                factura = models.Facturas.objects.get_or_create(
-                    total_base = Decimal(0.00).quantize(Decimal(.01)),
-                    iva_total = Decimal(0.00).quantize(Decimal(.01)),
-                    abono_divisa = Decimal(0.00).quantize(Decimal(.01)),
-                    impuesto_divisa = Decimal(0.00).quantize(Decimal(.01)),
-                    total_cancelado = Decimal(0.00).quantize(Decimal(.01)),
-                    id_cliente = cliente['id'],
-                    id_tipo_de_cambio = tipo_de_cambio['id']
-                )
-
-                for producto in procutosFactura:
-                    models.IdentificadorProductos.objects.get_or_create(
-                        nombre = producto[0][0].nombre,
-                        codigo = producto[0][0].codigo
+            if "concretar" in request.POST:
+                if pago_completo:
+                    tipo_de_cambio = models.HistorialTipoDeCambio.objects.get_or_create(
+                        cambio = dolar_Bs_cambio.quantize(Decimal('.01'))
                     )
 
-                
-                
+                    cliente = models.Clientes.objects.get_or_create(
+                        cedula = request.POST['cedula'],
+                        nombre = request.POST['nombre'],
+                        apellido = request.POST['apellido']
+                    )
+                    
+                    factura = models.Facturas.objects.create(
+                        total_base = subtotal,
+                        iva = iva,
+                        cancelado_en_divisa = Cantidad_divisa,
+                        impuesto_divisa = Igft_res, #en bs
+                        cancelado_en_bs = Cantidad_Bs,
+                        total = subtotal + iva + Divsas_en_Bs,
+                        id_cliente = cliente[0],
+                        id_tipo_de_cambio = tipo_de_cambio[0]
+                    )
 
+                    print(factura.id)
 
-                
-                return redirect('factura', id=Numero_factura)
+                    for producto in procutosFactura:
+
+                        identificador_producto = models.IdentificadorProductos.objects.get_or_create(
+                            nombre = producto[0][0].nombre,
+                            codigo = producto[0][0].codigo
+                        )
+                        
+                        producto_añadido = models.HistorialProductos.objects.get_or_create(
+                            iva = producto[0][0].iva,
+                            precio = producto[0][0].precio,
+                            producto = identificador_producto[0]
+                        )
+
+                        producto_añadido[0].factura.add(factura)
+
+                    return redirect('factura', id=factura.id)
+                else:
+                    pago_incompleto = True
+
 
 
             # Limpiar entrada productos
@@ -149,22 +163,24 @@ def facturacion(request):
                 clearFields["cantidad"] = ''
             form = FacturaForm(clearFields)
 
-            print(procutosFactura)
-            for producto in procutosFactura:
-                print(producto[0], producto[1])
+            #print(procutosFactura)
+            #for producto in procutosFactura:
+                #print(producto[0], producto[1])
             
         
         return render(request, 'Ventas/Facturacion.html', {'form': form, 'procutosFactura': procutosFactura, 'subtotal': subtotal, 
                                                             'total': total, 'iva': iva, 'Igft': Igft, 'subtotal_iva': subtotal_iva, "Igft_res_US":Igft_res_US, "Igft_res":Igft_res,
-                                                            'en_dolares':en_dolares,'total_dolares': total_dolares, 'fraccionBS': fraccionBS, 'Vuelto':Vuelto, 'pago_comple':pago_comple,
-                                                            'Producto_no_entocntrado':Producto_no_entocntrado, 'Campo_en_blanco':Campo_en_blanco, 'Producto_insuficiente':Producto_insuficiente})
+                                                            'en_dolares':en_dolares,'total_dolares': total_dolares, 'fraccionBS': fraccionBS, 'Vuelto':Vuelto, 'pago_completo':pago_completo,
+                                                            'Producto_no_entocntrado':Producto_no_entocntrado, 'Campo_en_blanco':Campo_en_blanco, 'Producto_insuficiente':Producto_insuficiente,
+                                                            'pago_incompleto':pago_incompleto})
     else:
         procutosFactura = []
         form = FacturaForm()
         return render(request, 'Ventas/Facturacion.html', {'form': form, 'procutosFactura': procutosFactura, 'subtotal': subtotal, 
                                                             'total': total, 'iva': iva, 'Igft': Igft, 'subtotal_iva': subtotal_iva, "Igft_res_US":Igft_res_US, "Igft_res":Igft_res,
-                                                            'en_dolares':en_dolares,'total_dolares': total_dolares, 'fraccionBS': fraccionBS, 'Vuelto':Vuelto, 'pago_comple':pago_comple,
-                                                            'Producto_no_entocntrado':Producto_no_entocntrado, 'Campo_en_blanco':Campo_en_blanco, 'Producto_insuficiente':Producto_insuficiente})
+                                                            'en_dolares':en_dolares,'total_dolares': total_dolares, 'fraccionBS': fraccionBS, 'Vuelto':Vuelto, 'pago_completo':pago_completo,
+                                                            'Producto_no_entocntrado':Producto_no_entocntrado, 'Campo_en_blanco':Campo_en_blanco, 'Producto_insuficiente':Producto_insuficiente,
+                                                            'pago_incompleto':pago_incompleto})
     
 def factura(request, id):
-    return render(request, 'Ventas/Factura.html')
+    return render(request, 'Ventas/Factura.html', {'id':id})
