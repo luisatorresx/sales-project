@@ -5,7 +5,7 @@ from django.utils.timezone import now
 
 class HistorialTipoDeCambio(models.Model):
     id = models.AutoField(primary_key=True)
-    cambio = models.DecimalField(max_digits=10, decimal_places=2, default= 0.00)
+    cambio = models.DecimalField(max_digits=10, decimal_places=4, default= 0.0000)
     fecha = models.DateTimeField(default=now, editable=False)
 
 class Clientes(models.Model):
@@ -18,10 +18,11 @@ class Facturas(models.Model):
     id = models.AutoField(primary_key=True)
     fecha = models.DateTimeField(default=now, editable=False)
     total_base = models.DecimalField(max_digits=10, decimal_places=2, default= 0.00)
-    iva_total = models.DecimalField(max_digits=10, decimal_places=2, default= 0.00)
-    abono_divisa = models.DecimalField(max_digits=10, decimal_places=2, default= 0.00)
+    iva = models.DecimalField(max_digits=10, decimal_places=2, default= 0.00)
+    cancelado_en_divisa = models.DecimalField(max_digits=10, decimal_places=2, default= 0.00)
     impuesto_divisa = models.DecimalField(max_digits=10, decimal_places=2, default= 0.00)
-    total_cancelado = models.DecimalField(max_digits=10, decimal_places=2, default= 0.00)
+    cancelado_en_bs = models.DecimalField(max_digits=10, decimal_places=2, default= 0.00)
+    total = models.DecimalField(max_digits=10, decimal_places=2, default= 0.00)
     id_cliente = models.ForeignKey(Clientes, on_delete=models.CASCADE)
     id_tipo_de_cambio = models.ForeignKey(HistorialTipoDeCambio, on_delete=models.CASCADE)
 

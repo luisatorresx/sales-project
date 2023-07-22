@@ -4,21 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Facturar</title>
+    <title>Factura numero {{ id }}</title>
     <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/facturar.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/factura.css' %}">
 </head>
 <body>
     <div class="navegacion">
         <nav>
             <ul>
                 <li><a href="{% url 'index' %}">Inicio</a></li>
+                <li><a href="{% url 'facturacion' %}">Facturar</a></li>
                 <li><a href="{% url 'ventas_index' %}">Volver</a></li>
             </ul>
         </nav>
     </div>
     <div class="containerTitle">
-        <h1>FACTURAR</h1>
+        <h1>FACTURA N°{{ id }}</h1>
     </div>
     <div class="container">
         <form method="POST">
