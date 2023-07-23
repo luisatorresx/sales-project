@@ -67,9 +67,6 @@ def facturacion(request):
                     if str(producto[0][0].codigo) == request.POST['eliminar']:
                         procutosFactura.pop(procutosFactura.index(producto))
 
-            # Calcular precio
-            #if not ("concretar" in request.POST):
-
             # Subtotal
             for producto in procutosFactura:
                 subtotal += producto[0][0].precio * producto[1]
@@ -105,7 +102,6 @@ def facturacion(request):
             if Vuelto < 0:
                 pago_completo = False
                 Vuelto = -Vuelto
-            #else:
 
             if "concretar" in request.POST:
                 if pago_completo:
@@ -141,9 +137,13 @@ def facturacion(request):
                         producto_añadido = models.HistorialProductos.objects.get_or_create(
                             iva = producto[0][0].iva,
                             precio = producto[0][0].precio,
-                            cantidad = producto [1],
+                            cantidad = producto[1],
                             producto = identificador_producto[0]
                         )
+                                                
+                        producto_almacen = get_object_or_404(Productos, id=producto[0][0].id)
+                        producto_almacen.stock -= producto[1]
+                        producto_almacen.save()
 
                         factura.productos.add(producto_añadido[0])
 
@@ -160,11 +160,6 @@ def facturacion(request):
             if "cantidad" in clearFields:
                 clearFields["cantidad"] = ''
             form = FacturaForm(clearFields)
-
-            #print(procutosFactura)
-            #for producto in procutosFactura:
-                #print(producto[0], producto[1])
-            
         
         return render(request, 'Ventas/Facturacion.html', {'form': form, 'procutosFactura': procutosFactura, 'subtotal': subtotal, 
                                                             'total': total, 'iva': iva, 'Igft': Igft, 'subtotal_iva': subtotal_iva, "Igft_res_US":Igft_res_US, "Igft_res":Igft_res,
@@ -174,6 +169,7 @@ def facturacion(request):
     else:
         procutosFactura = []
         form = FacturaForm()
+
         return render(request, 'Ventas/Facturacion.html', {'form': form, 'procutosFactura': procutosFactura, 'subtotal': subtotal, 
                                                             'total': total, 'iva': iva, 'Igft': Igft, 'subtotal_iva': subtotal_iva, "Igft_res_US":Igft_res_US, "Igft_res":Igft_res,
                                                             'en_dolares':en_dolares,'total_dolares': total_dolares, 'fraccionBS': fraccionBS, 'Vuelto':Vuelto, 'pago_completo':pago_completo,
@@ -181,7 +177,7 @@ def facturacion(request):
                                                             'pago_incompleto':pago_incompleto})
     
 def factura(request, id):
-        
+
     try:
         factura = get_object_or_404(models.Facturas, id = id)
         productos_base = factura.productos.all()
@@ -203,7 +199,7 @@ def factura(request, id):
                     base_imponible_G += producto.precio * producto.cantidad 
                 else:
                     iva = '(R)' 
-                    iva_R += (producto.precio * producto.cantidad * Decimal(0.16)).quantize(Decimal('.01'))
+                    iva_R += (producto.precio * producto.cantidad * Decimal(0.08)).quantize(Decimal('.01'))
                     base_imponible_R += producto.precio * producto.cantidad 
             productos.append([producto, (producto.cantidad * producto.precio).quantize(Decimal('.01')), iva])
 
