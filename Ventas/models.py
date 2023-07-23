@@ -14,6 +14,17 @@ class Clientes(models.Model):
     nombre = models.CharField(max_length=30, blank=True, null=True)
     apellido = models.CharField(max_length=30, blank=True, null=True)
 
+class IdentificadorProductos(models.Model):
+    id = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=100)
+    codigo = models.IntegerField()
+
+class HistorialProductos(models.Model):
+    id = models.AutoField(primary_key=True)
+    iva = models.IntegerField()
+    precio = models.DecimalField(max_digits=10, decimal_places=2, default= 0.00)
+    producto = models.ForeignKey(IdentificadorProductos, on_delete=models.CASCADE)
+
 class Facturas(models.Model):
     id = models.AutoField(primary_key=True)
     fecha = models.DateTimeField(default=now, editable=False)
@@ -25,15 +36,4 @@ class Facturas(models.Model):
     total = models.DecimalField(max_digits=10, decimal_places=2, default= 0.00)
     id_cliente = models.ForeignKey(Clientes, on_delete=models.CASCADE)
     id_tipo_de_cambio = models.ForeignKey(HistorialTipoDeCambio, on_delete=models.CASCADE)
-
-class IdentificadorProductos(models.Model):
-    id = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=100)
-    codigo = models.IntegerField()
-
-class HistorialProductos(models.Model):
-    id = models.AutoField(primary_key=True)
-    iva = models.IntegerField()
-    precio = models.DecimalField(max_digits=10, decimal_places=2, default= 0.00)
-    producto = models.ForeignKey(IdentificadorProductos, on_delete=models.CASCADE)
-    factura = models.ManyToManyField(Facturas)
+    productos = models.ManyToManyField(HistorialProductos)

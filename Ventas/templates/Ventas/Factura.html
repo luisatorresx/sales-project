@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Factura numero {{ id }}</title>
+    <title>Factura Numero {{ id }}</title>
     <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon"/>
     <link rel="stylesheet" type="text/css" href="{% static 'css/factura.css' %}">
 </head>
@@ -22,189 +22,135 @@
         <h1>FACTURA N°{{ id }}</h1>
     </div>
     <div class="container">
-        <form method="POST">
-            <div class="grid">
-                {% csrf_token %}
-
-                <div class="entradaFactura">
-                     Nombre:
-                    {{ form.nombre }}
-                </div>
-
-                <div class="entradaFactura">
-                     Apellido:
-                    {{ form.apellido }}
-                </div>
-
-                <div class="entradaFactura">
-                     Cédula:
-                    {{ form.cedula }}
-                </div>
-            </div>
-
+        <div class="empresa">
+            SUPERMERCADO <br>
+            RIF: J-999999999
             <hr>
-
-            <div class="grid">
-
-                <div class="entradaFactura">
-                     Código producto:
-                    {{ form.codigo }}
-                </div>
-
-                <div class="entradaFactura">
-                     Cantidad:
-                    {{ form.cantidad }}
-                </div>
-
-                <div>
-                    <button type="submit" name="añadir" value="true">Añadir Producto</button>
-                </div>
-            </div>
-
-            {% if Producto_no_entocntrado %}
-
-            <div class="error">
-                El codigo ingresado no coresponde con ningún producto disponible en la base de datos.
-            </div>
-
-            {% endif %}
-
-            {% if Campo_en_blanco %}
-
-            <div class="error">
-                Debe rellenar ambos campos para añadir un producto.
-            </div>
-
-            {% endif %}
-
-            {% if Producto_insuficiente.0 %}
-
-            <div class="error">
-                No se dispone de la cantidad de produtos solicitados, el stock restante del producto según la base datos es de {{Producto_insuficiente.1}}.
-            </div>
-
-            {% endif %}
-                
+        </div>
+        
+        
+        <div class="comprador">
+             RIF/C.I: {}<br>
+             RAZÓN SOCIAL: {}
             <hr>
+        </div>
 
-            <div class="grid">
-                <div class="totales">
-                    Subtotal:<br>
-                    {{ subtotal }} Bs.
+        <div class="factura">
+            FACTURA
+            <div class="gridFactura">
+                <div class="datosFacturaIzq">
+                     Factura: <br>
+                     Fecha: {}
                 </div>
-
-                <div class="totales">
-                    IVA:<br>
-                    {{ iva }} Bs.
-                </div>
-
-                <div class="totales">
-                    Total en Bolívares:<br>
-                    {{ subtotal_iva }} Bs.
-                </div>
-
-                <div class="totales">
-                    En Dólares:<br>
-                    {{ en_dolares }} USD
-                </div>
-
-                <div class="totales">
-                    IGTF:<br>
-                    {{ Igft }} USD
-                </div>
-
-                <div class="totales">
-                    Total en Dólares:<br>
-                    {{ total_dolares }} USD
+                <div class="datosFacturaDer">
+                    {{ id }}  <br>
+                    Hora: {} 
                 </div>
             </div>
-                
             <hr>
+        </div>
 
-            <div class="grid">
-
-                <div class="totales">
-                    Pago en Divisas:<br>
-                    <button type="submit" name="actualizar" value="true">⟳</button>{{ form.divisas }} USD
+        <div>
+            {}
+            <div class="gridProductos">
+                <div class="datosFacturaIzq">
+                     Nombre producto <br>
+                     Cantidad X Bs. {precio}
                 </div>
-
-                <div class="totales">
-                    IGTF resultante:
-                    <div style="font-size: 14px; margin-top: 5px;">
-                        {{ Igft_res_US }}USD | {{ Igft_res }}Bs.
-                    </div>
-                </div>
-
-                <div class="totales">
-                    Fracción Restante en Bs:<br>
-                    {{ fraccionBS }} Bs.
-                </div>
-
-                <div class="totales">
-                    Pago en Bs:<br>
-                    <button type="submit" name="actualizar" value="true">⟳</button>{{ form.efectivo }} Bs.
-                </div>
-
-                <div>
-                    <button type="submit" name="concretar" value="true">Concretar</button>
-                </div>
-
-                <div class="totales">
-                    {% if pago_comple %}
-                    Vuelto:<br>
-                    {% else %}
-                    Faltante:<br>
-                    {% endif %}
-                    {{ Vuelto }} Bs.
+                <div class="datosFacturaDer">
+                    Bs. Total  <br>
+                    
                 </div>
             </div>
-
-            {% if pago_incompleto %}
-
-            <div class="error">
-                Debe ingrsarse la totalidad del pago para concretar la compra, faltan {{ Vuelto }} Bs.
-            </div>
-
-            {% endif %}
-
+            {}
             <hr>
+        </div>
 
-            <div class="productos">
-                <div class="gridTabla">
-                    <div class="camposproductos">
-                        Producto
-                    </div>
-                    <div class="camposproductos">
-                        Precio
-                    </div>
-                    <div class="camposproductos">
-                        #
-                    </div>
-                    <div class="camposproductos">
-                        Eliminar
-                    </div>
+        <div class="gridFactura">
+            <div class="gridFacturaSubtotal">
+                <div class="datosFacturaIzq">
+                     Exento: <br>
+                     BI G16.00%
                 </div>
-                {% for producto in procutosFactura %}
-                <div class="gridTabla">
-                    <div class="celdaproductonombre">
-                        {{ producto.0.0.nombre }}
-                    </div>
-                    <div class="celdaproducto">
-                        {{ producto.0.0.precio }} Bs
-                    </div>
-                    <div class="celdaproducto">
-                        {{ producto.1 }}
-                    </div>
-                    <div class="celdaproductoeliminar">
-                        <div class="eliminar">
-                            <button type="submit" name="eliminar" value="{{ producto.0.0.codigo }}">X</button>
-                        </div>
-                    </div>
-                    <input type="hidden" name="{{ producto.0.0.codigo }}" value="{{ producto.1 }}">
+                <div class="datosFacturaDer">
+                    Bs. {} <br>
+                    Bs. {} 
                 </div>
-                {% endfor %}
             </div>
-        </form>
+            <div class="gridFacturaSubtotal">
+                <div class="datosFacturaIzq">
+                    <br>
+                     IVA G16.00%
+                </div>
+                <div class="datosFacturaDer">
+                    <br>
+                    Bs. {} 
+                </div>
+            </div>
+        </div>
+        
+        <div class="factura">
+            <hr>
+        </div>
+
+        <div class="gridFactura">
+            <div class="gridFacturaSubtotal">
+                <div class="datosFacturaIzq">
+                     Subtotal
+                </div>
+                <div class="datosFacturaDer">
+                    Bs. {} 
+                </div>
+            </div>
+            <div class="gridFacturaSubtotal">
+                <div class="datosFacturaIzq">
+                     IVA 
+                </div>
+                <div class="datosFacturaDer">
+                    Bs. {} 
+                </div>
+            </div>
+        </div>
+        
+        <div class="factura">
+            <hr>
+        </div>
+
+        <div class="gridFactura">
+            <div class="gridFacturaSubtotal">
+                <div class="datosFacturaIzq">
+                     BI IGTF3.00%
+                </div>
+                <div class="datosFacturaDer">
+                    Bs. {} 
+                </div>
+            </div>
+            <div class="gridFacturaSubtotal">
+                <div class="datosFacturaIzq">
+                     IGTF
+                </div>
+                <div class="datosFacturaDer">
+                    Bs. {} 
+                </div>
+            </div>
+        </div>
+        
+        <div class="factura">
+            <hr>
+        </div>
+
+        <div class="gridFactura">
+            <div class="datosFacturaIzq">
+                 Total <br>
+                 Vuelto
+            </div>
+            <div class="datosFacturaDer">
+                Bs. {} <br>
+                Bs. {} 
+            </div>
+        </div>
+
+
     </div>
 
 

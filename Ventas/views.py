@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from Inventario.models import Productos
 from .forms import FacturaForm
 from decimal import *
@@ -82,9 +82,7 @@ def facturacion(request):
             en_dolares = (subtotal_iva / dolar_Bs_cambio).quantize(Decimal(decimales))
             Igft = (en_dolares * Decimal(0.03)).quantize(Decimal(decimales))
             total_dolares = en_dolares + Igft
-            print(Decimal(request.POST['divisas']))
             if request.POST['divisas'] != '':
-                print(Decimal(request.POST['divisas']))
                 if Decimal(request.POST['divisas']) >= 0:
                     Cantidad_divisa = Decimal(request.POST['divisas'])
                     if Cantidad_divisa <= en_dolares:
@@ -132,8 +130,6 @@ def facturacion(request):
                         id_tipo_de_cambio = tipo_de_cambio[0]
                     )
 
-                    print(factura.id)
-
                     for producto in procutosFactura:
 
                         identificador_producto = models.IdentificadorProductos.objects.get_or_create(
@@ -147,7 +143,7 @@ def facturacion(request):
                             producto = identificador_producto[0]
                         )
 
-                        producto_añadido[0].factura.add(factura)
+                        factura.productos.add(producto_añadido[0])
 
                     return redirect('factura', id=factura.id)
                 else:
@@ -183,4 +179,16 @@ def facturacion(request):
                                                             'pago_incompleto':pago_incompleto})
     
 def factura(request, id):
-    return render(request, 'Ventas/Factura.html', {'id':id})
+
+    try:
+        factura = get_object_or_404(models.Facturas, id = id)
+        productos = factura.productos.all()
+        return render(request, 'Ventas/Factura.html', {'id':f'{id : 07d}', 'factura':factura, 'productos':productos})
+    except:
+        return redirect('error_ventas', id=id)
+    
+def error(request,id):
+    return render(request, 'Ventas/Error.html', {'id':f'{id : 07d}'})
+
+def historial_facturas(request):
+    return render(request, 'Ventas/Error.html')
