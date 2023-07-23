@@ -104,7 +104,9 @@ def facturacion(request):
                 Vuelto = -Vuelto
 
             if "concretar" in request.POST:
+
                 if pago_completo:
+
                     tipo_de_cambio = models.HistorialTipoDeCambio.objects.get_or_create(
                         cambio = dolar_Bs_cambio
                     )
@@ -112,7 +114,8 @@ def facturacion(request):
                     cliente = models.Clientes.objects.get_or_create(
                         cedula = request.POST['cedula'],
                         nombre = request.POST['nombre'],
-                        apellido = request.POST['apellido']
+                        apellido = request.POST['apellido'],
+                        tipo = int(request.POST['tipo'])
                     )
                     
                     factura = models.Facturas.objects.create(
@@ -177,8 +180,9 @@ def facturacion(request):
                                                             'pago_incompleto':pago_incompleto})
     
 def factura(request, id):
-
+   
     try:
+
         factura = get_object_or_404(models.Facturas, id = id)
         productos_base = factura.productos.all()
         productos = []
@@ -187,6 +191,17 @@ def factura(request, id):
         iva_G = Decimal(0.00)
         iva_R = Decimal(0.00)
         exento = Decimal(0.00)
+        pagado_en_dolares = Decimal(0.00)
+        documento = ''
+        
+        if factura.id_cliente.tipo == 0:
+            persona = "V-"
+        else:
+            if factura.id_cliente.tipo == 1:
+                persona = "E-"
+            else:
+                persona = "J-"
+                documento = f'{factura.id_cliente.cedula: 010d}'
 
         for producto in productos_base:
             if producto.iva == 0:
@@ -204,12 +219,17 @@ def factura(request, id):
             productos.append([producto, (producto.cantidad * producto.precio).quantize(Decimal('.01')), iva])
 
         en_divisas = (factura.cancelado_en_divisa * factura.id_tipo_de_cambio.cambio).quantize(Decimal('.01'))
+        if en_divisas > (factura.total_base + factura.iva):
+            pagado_en_dolares = factura.total_base + factura.iva
+        else:
+            pagado_en_dolares = en_divisas
 
         fecha = factura.fecha.strftime('%d-%m-%Y')
         hora = factura.fecha.strftime('%H:%M:%S')
 
         return render(request, 'Ventas/Factura.html', {'id':f'{id : 07d}', 'factura':factura, 'productos':productos, 'fecha':fecha, 'hora':hora,
-                                                    'base_imponible_G':base_imponible_G, 'base_imponible_R':base_imponible_R, 'iva_G':iva_G, 'iva_R':iva_R, 'exento':exento, 'en_divisas':en_divisas})
+                                                    'base_imponible_G':base_imponible_G, 'base_imponible_R':base_imponible_R, 'iva_G':iva_G, 'iva_R':iva_R, 
+                                                    'exento':exento, 'en_divisas':en_divisas, 'pagado_en_dolares':pagado_en_dolares, 'persona':persona, 'documento':documento})
     except:
         return redirect('error_ventas', id=id)
     

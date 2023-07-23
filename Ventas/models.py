@@ -11,6 +11,7 @@ class HistorialTipoDeCambio(models.Model):
 class Clientes(models.Model):
     id = models.BigAutoField(primary_key=True)
     cedula = models.IntegerField(unique=True)
+    tipo = models.IntegerField(default=0)
     nombre = models.CharField(max_length=30, blank=True, null=True)
     apellido = models.CharField(max_length=30, blank=True, null=True)
 
