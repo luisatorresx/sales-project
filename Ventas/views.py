@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from Inventario.models import Productos
+from django.core.paginator import Paginator
 from .forms import FacturaForm
 from decimal import *
 from . import models
@@ -237,4 +238,14 @@ def error(request,id):
     return render(request, 'Ventas/Error.html', {'id':f'{id : 07d}'})
 
 def historial_facturas(request):
-    return render(request, 'Ventas/Error.html')
+
+    filtro = request.GET.get('filtro')
+    facturas = models.Facturas.objects.all()
+    if filtro:
+        facturas = facturas.filter(nombre__icontains=filtro)
+
+    paginator = Paginator(facturas, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    return render(request, 'Ventas/Registro_Facturas.html', {'page_obj': page_obj, 'filtro':filtro})
