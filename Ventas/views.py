@@ -110,7 +110,7 @@ def facturacion(request):
             if "concretar" in request.POST:
                 if pago_completo:
                     tipo_de_cambio = models.HistorialTipoDeCambio.objects.get_or_create(
-                        cambio = dolar_Bs_cambio.quantize(Decimal('.01'))
+                        cambio = dolar_Bs_cambio
                     )
 
                     cliente = models.Clientes.objects.get_or_create(
@@ -125,9 +125,10 @@ def facturacion(request):
                         cancelado_en_divisa = Cantidad_divisa,
                         impuesto_divisa = Igft_res, #en bs
                         cancelado_en_bs = Cantidad_Bs,
-                        total = subtotal + iva + Divsas_en_Bs,
+                        total = subtotal_iva + Igft_res,
                         id_cliente = cliente[0],
-                        id_tipo_de_cambio = tipo_de_cambio[0]
+                        id_tipo_de_cambio = tipo_de_cambio[0],
+                        vuelto = Vuelto
                     )
 
                     for producto in procutosFactura:
@@ -140,6 +141,7 @@ def facturacion(request):
                         producto_añadido = models.HistorialProductos.objects.get_or_create(
                             iva = producto[0][0].iva,
                             precio = producto[0][0].precio,
+                            cantidad = producto [1],
                             producto = identificador_producto[0]
                         )
 
@@ -179,11 +181,39 @@ def facturacion(request):
                                                             'pago_incompleto':pago_incompleto})
     
 def factura(request, id):
-
+        
     try:
         factura = get_object_or_404(models.Facturas, id = id)
-        productos = factura.productos.all()
-        return render(request, 'Ventas/Factura.html', {'id':f'{id : 07d}', 'factura':factura, 'productos':productos})
+        productos_base = factura.productos.all()
+        productos = []
+        base_imponible_G = Decimal(0.00)
+        base_imponible_R = Decimal(0.00)
+        iva_G = Decimal(0.00)
+        iva_R = Decimal(0.00)
+        exento = Decimal(0.00)
+
+        for producto in productos_base:
+            if producto.iva == 0:
+                iva = "(E)"
+                exento += producto.precio * producto.cantidad 
+            else:
+                if producto.iva == 1:
+                    iva = '(G)'
+                    iva_G += (producto.precio * producto.cantidad * Decimal(0.16)).quantize(Decimal('.01'))
+                    base_imponible_G += producto.precio * producto.cantidad 
+                else:
+                    iva = '(R)' 
+                    iva_R += (producto.precio * producto.cantidad * Decimal(0.16)).quantize(Decimal('.01'))
+                    base_imponible_R += producto.precio * producto.cantidad 
+            productos.append([producto, (producto.cantidad * producto.precio).quantize(Decimal('.01')), iva])
+
+        en_divisas = (factura.cancelado_en_divisa * factura.id_tipo_de_cambio.cambio).quantize(Decimal('.01'))
+
+        fecha = factura.fecha.strftime('%d-%m-%Y')
+        hora = factura.fecha.strftime('%H:%M:%S')
+
+        return render(request, 'Ventas/Factura.html', {'id':f'{id : 07d}', 'factura':factura, 'productos':productos, 'fecha':fecha, 'hora':hora,
+                                                    'base_imponible_G':base_imponible_G, 'base_imponible_R':base_imponible_R, 'iva_G':iva_G, 'iva_R':iva_R, 'exento':exento, 'en_divisas':en_divisas})
     except:
         return redirect('error_ventas', id=id)
     
