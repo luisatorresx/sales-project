@@ -29,7 +29,11 @@
         
         
         <div class="comprador">
-             RIF/C.I: {{ factura.id_cliente.cedula}}<br>
+            {% if factura.id_cliente.tipo == 2 %}
+             RIF: {{ persona}}{{ documento }}
+            {% else %}
+             C.I: {{ persona}}{{ factura.id_cliente.cedula }}
+            {% endif %} <br>
              RAZÓN SOCIAL: {{ factura.id_cliente.nombre }} {{ factura.id_cliente.apellido }}
             <hr>
         </div>
@@ -122,18 +126,23 @@
         <div class="gridFactura">
             <div class="gridFacturaSubtotal">
                 <div class="datosFacturaIzq">
-                     BI IGTF3.00%
+                     BI IGTF3.00% <br>
+                     Pago divisas:
                 </div>
                 <div class="datosFacturaDer">
+                    Bs. {{ pagado_en_dolares }} <br>
                     Bs. {{ en_divisas }} 
+
                 </div>
             </div>
             <div class="gridFacturaSubtotal">
                 <div class="datosFacturaIzq">
-                     IGTF3.00%
+                     IGTF3.00% <br>
+                     Pago Bs.
                 </div>
                 <div class="datosFacturaDer">
-                    Bs. {{ factura.impuesto_divisa }} 
+                    Bs. {{ factura.impuesto_divisa }} <br>
+                    Bs. {{ factura.cancelado_en_bs }} 
                 </div>
             </div>
         </div>

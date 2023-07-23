@@ -26,18 +26,18 @@
                 {% csrf_token %}
 
                 <div class="entradaFactura">
-                     Nombre:
+                     Nombre:<br>
                     {{ form.nombre }}
                 </div>
 
                 <div class="entradaFactura">
-                     Apellido:
+                     Apellido:<br>
                     {{ form.apellido }}
                 </div>
 
                 <div class="entradaFactura">
-                     Cédula:
-                    {{ form.cedula }}
+                     Cédula:<br>
+                    {{ form.tipo }}{{ form.cedula }}
                 </div>
             </div>
 
@@ -46,12 +46,12 @@
             <div class="grid">
 
                 <div class="entradaFactura">
-                     Código producto:
+                     Código producto:<br>
                     {{ form.codigo }}
                 </div>
 
                 <div class="entradaFactura">
-                     Cantidad:
+                     Cantidad:<br>
                     {{ form.cantidad }}
                 </div>
 
