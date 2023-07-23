@@ -13,7 +13,6 @@
         <nav>
             <ul>
                 <li><a href="{% url 'index' %}">Inicio</a></li>
-                <li><a href="{% url 'facturacion' %}">Facturar</a></li>
                 <li><a href="{% url 'ventas_index' %}">Volver</a></li>
             </ul>
         </nav>
@@ -30,8 +29,8 @@
         
         
         <div class="comprador">
-             RIF/C.I: {}<br>
-             RAZÓN SOCIAL: {}
+             RIF/C.I: {{ factura.id_cliente.cedula}}<br>
+             RAZÓN SOCIAL: {{ factura.id_cliente.nombre }} {{ factura.id_cliente.apellido }}
             <hr>
         </div>
 
@@ -39,30 +38,30 @@
             FACTURA
             <div class="gridFactura">
                 <div class="datosFacturaIzq">
-                     Factura: <br>
-                     Fecha: {}
+                     Factura N°: <br>
+                     Fecha: {{ fecha}}
                 </div>
                 <div class="datosFacturaDer">
                     {{ id }}  <br>
-                    Hora: {} 
+                    Hora: {{ hora}} 
                 </div>
             </div>
             <hr>
         </div>
 
         <div>
-            {}
+            {% for producto in productos %}
             <div class="gridProductos">
                 <div class="datosFacturaIzq">
-                     Nombre producto <br>
-                     Cantidad X Bs. {precio}
+                     {{ producto.0.producto.nombre }} {{ producto.2 }} <br>
+                     {{ producto.0.cantidad }} x {{ producto.0.precio }} Bs.
                 </div>
                 <div class="datosFacturaDer">
-                    Bs. Total  <br>
+                    Bs. {{ producto.1 }} <br>
                     
                 </div>
             </div>
-            {}
+            {% endfor %}
             <hr>
         </div>
 
@@ -70,21 +69,25 @@
             <div class="gridFacturaSubtotal">
                 <div class="datosFacturaIzq">
                      Exento: <br>
-                     BI G16.00%
+                     BI G16.00%<br>
+                     BI G8.00%
                 </div>
                 <div class="datosFacturaDer">
-                    Bs. {} <br>
-                    Bs. {} 
+                    Bs. {{ exento }} <br>
+                    Bs. {{ base_imponible_G }} <br>
+                    Bs. {{ base_imponible_R }} <br>
                 </div>
             </div>
             <div class="gridFacturaSubtotal">
                 <div class="datosFacturaIzq">
                     <br>
-                     IVA G16.00%
+                     IVA G16.00%<br>
+                     IVA G8.00%
                 </div>
                 <div class="datosFacturaDer">
                     <br>
-                    Bs. {} 
+                    Bs. {{ iva_G }} <br>
+                    Bs. {{ iva_R }} 
                 </div>
             </div>
         </div>
@@ -99,7 +102,7 @@
                      Subtotal
                 </div>
                 <div class="datosFacturaDer">
-                    Bs. {} 
+                    Bs. {{ factura.total_base }} 
                 </div>
             </div>
             <div class="gridFacturaSubtotal">
@@ -107,7 +110,7 @@
                      IVA 
                 </div>
                 <div class="datosFacturaDer">
-                    Bs. {} 
+                    Bs. {{ factura.iva }} 
                 </div>
             </div>
         </div>
@@ -122,15 +125,15 @@
                      BI IGTF3.00%
                 </div>
                 <div class="datosFacturaDer">
-                    Bs. {} 
+                    Bs. {{ en_divisas }} 
                 </div>
             </div>
             <div class="gridFacturaSubtotal">
                 <div class="datosFacturaIzq">
-                     IGTF
+                     IGTF3.00%
                 </div>
                 <div class="datosFacturaDer">
-                    Bs. {} 
+                    Bs. {{ factura.impuesto_divisa }} 
                 </div>
             </div>
         </div>
@@ -145,8 +148,8 @@
                  Vuelto
             </div>
             <div class="datosFacturaDer">
-                Bs. {} <br>
-                Bs. {} 
+                Bs. {{ factura.total}} <br>
+                Bs. {{ factura.vuelto }} 
             </div>
         </div>
 
