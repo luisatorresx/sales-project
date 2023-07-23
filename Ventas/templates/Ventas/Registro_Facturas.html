@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Facturación</title>
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Registro_Facturas.css' %}">
+</head>
+<body>
+    <div class="navegacion">
+        <nav>
+            <ul>
+                <li><a href="{% url 'index' %}">Inicio</a></li>
+                <li><a href="{% url 'ventas_index' %}">Volver</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="containerTitle">
+        <h1>HISTORIAL DE FACTURAS</h1>
+    </div>
+    <div class="container">
+        <form method="get" action="{% url 'lista_productos' %}">
+            {% csrf_token %}
+            <input type="text" name="filtro" id="filtro" value="{{ request.GET.filtro }}" placeholder="Nombre">
+            <button type="submit" value="Filtrar">Filtrar</button>
+        </form>
+        <Table>
+            <tr>
+                <td>#</td>
+                <td>Cliente</td>
+                <td>Documento</td>
+                <td>Total</td>
+                <td>Fecha</td>
+                <td>Hora</td>
+            </tr>
+        {% for factura in page_obj %}
+            <tr>
+                <td>{{ factura.id }}</td>
+                <td>{{ factura.id_cliente.nombre }} {{ factura.id_cliente.apellido }}</td>
+                {% if factura.id_cliente.tipo == 0 %}
+                <td>V-{{ factura.id_cliente.cedula }}</td>
+                {% else %}
+                    {% if factura.id_cliente.tipo == 1%}
+                    <td>E-{{ factura.id_cliente.cedula }}</td>
+                    {% else %}
+                    <td>J-{{ factura.id_cliente.cedula }}</td>
+                    {% endif %}
+                {% endif %}
+                <td>{{ factura.id }}</td>
+                <td>{{ factura.id }}</td>
+                <td>{{ factura.id }}</td>
+                <td>{{ factura.id }}</td>
+                <td>{{ factura.id }}</td>
+                <td>{{ factura.id }}</td>
+                <td>{{ factura.id }}</td>
+            </tr>
+        {% empty %}
+            {% if request.GET.filtro %}
+                <p>No se encontraron productos con el filtro "{{ request.GET.filtro }}".</p>
+            {% else %}
+                <p>No se encontraron productos.</p>
+            {% endif %}
+        {% endfor %}
+        </Table>
+    </div>
+</body>
+</html>
