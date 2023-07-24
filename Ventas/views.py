@@ -196,13 +196,19 @@ def factura(request, id):
         documento = ''
         
         if factura.id_cliente.tipo == 0:
+            persona = "V-" 
+        elif factura.id_cliente.tipo == 1:
             persona = "V-"
+            documento = f'{factura.id_cliente.cedula:09d}'
+        elif factura.id_cliente.tipo == 2:
+            persona = "E-"
+        elif factura.id_cliente.tipo == 3:
+            persona = "E-"
+            documento = f'{factura.id_cliente.cedula:09d}'
         else:
-            if factura.id_cliente.tipo == 1:
-                persona = "E-"
-            else:
-                persona = "J-"
-                documento = f'{factura.id_cliente.cedula: 010d}'
+            persona = "J-"
+            documento = f'{factura.id_cliente.cedula:09d}'
+            print(documento)
 
         for producto in productos_base:
             if producto.iva == 0:
@@ -210,11 +216,11 @@ def factura(request, id):
                 exento += producto.precio * producto.cantidad 
             else:
                 if producto.iva == 1:
-                    iva = '(G)'
+                    iva = "(G)"
                     iva_G += (producto.precio * producto.cantidad * Decimal(0.16)).quantize(Decimal('.01'))
                     base_imponible_G += producto.precio * producto.cantidad 
                 else:
-                    iva = '(R)' 
+                    iva = "(R)" 
                     iva_R += (producto.precio * producto.cantidad * Decimal(0.08)).quantize(Decimal('.01'))
                     base_imponible_R += producto.precio * producto.cantidad 
             productos.append([producto, (producto.cantidad * producto.precio).quantize(Decimal('.01')), iva])
@@ -244,14 +250,20 @@ def historial_facturas(request):
 
     for factura in facturas:
         f_num = f'{factura.id:09d}'
-        if factura.id_cliente.tipo == 2:
+        if factura.id_cliente.tipo == 4:
             persona = "J-"
             lista_facturas.append([factura, f'{persona}{factura.id_cliente.cedula:09d}', f_num])
+        elif factura.id_cliente.tipo == 3:
+            persona = "E-"
+            lista_facturas.append([factura, f'{persona}{factura.id_cliente.cedula:09d}', f_num])
+        elif factura.id_cliente.tipo == 2:
+            persona = "E-"
+            lista_facturas.append([factura, f'{persona}{factura.id_cliente.cedula}', f_num])
+        elif factura.id_cliente.tipo == 1:
+            persona = "V-"
+            lista_facturas.append([factura, f'{persona}{factura.id_cliente.cedula:09d}', f_num])
         else:
-            if factura.id_cliente.tipo == 1:
-                persona = "E-"
-            else:
-                persona = "V-"
+            persona = "V-"
             lista_facturas.append([factura, f'{persona}{factura.id_cliente.cedula}', f_num])
     
     page_number = request.GET.get('page')
@@ -264,7 +276,7 @@ def historial_facturas(request):
             page_number = request.POST['page']
 
     lista_facturas.reverse()
-    paginator = Paginator(lista_facturas, 10)
+    paginator = Paginator(lista_facturas, 50)
     page_obj = paginator.get_page(page_number)
     
     return render(request, 'Ventas/Registro_Facturas.html', {'page_obj': page_obj})

@@ -29,7 +29,7 @@
         
         
         <div class="comprador">
-            {% if factura.id_cliente.tipo == 2 %}
+            {% if factura.id_cliente.tipo == 1 or factura.id_cliente.tipo == 3 or factura.id_cliente.tipo == 4 %}
              RIF: {{ persona}}{{ documento }}
             {% else %}
              C.I: {{ persona}}{{ factura.id_cliente.cedula }}
