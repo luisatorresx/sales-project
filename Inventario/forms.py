@@ -4,8 +4,8 @@ from decimal import *
 
 opciones_iva =(
     ("0", "Exento"),
-    ("1", "16%"),
-    ("2", "8%"),
+    ("1", "No exento (16%)"),
+    ("2", "No exento (8%)"),
 )
 
 class ProductoForm(forms.Form):

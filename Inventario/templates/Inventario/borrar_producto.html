@@ -29,6 +29,7 @@
                 <h2>Precio: {{ producto.precio }}$</h2>
                 <h2>Stock: {{ producto.stock }} Und.</h2>
                 <h2>Proveedor: {{ producto.proveedor }}</h2>
+                <h2>IVA: {{ producto.iva }}</h2>
                 <form method="POST" action="{% url 'eliminar_producto' producto.id %}">
                     {% csrf_token %}
                     <button type="submit" name="eliminar">Eliminar</button>

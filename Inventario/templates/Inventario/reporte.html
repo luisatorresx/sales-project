@@ -27,6 +27,7 @@
             <th>Stock</th>
             <th>Proveedor</th>
             <th>Código</th>
+            <th>IVA</th>
         </tr>
         {% for producto in productos %}
         <tr>
@@ -35,6 +36,7 @@
             <td>{{ producto.stock }}</td>
             <td>{{ producto.proveedor }}</td>
             <td>{{ producto.codigo }}</td>
+            <td>{{ producto.iva }}</td>
         </tr>
         {% endfor %}
     </table>

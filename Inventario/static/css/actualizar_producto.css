@@ -114,3 +114,15 @@ button:hover {
     grid-column: span 3;
     margin-top: 15px;
 }
+
+.product label{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.iva select{
+    border-radius: 5px;
+    border: 1px solid;
+    border-color: #1f4d95;
+    width: 190px;
+    height: 35px;
+}
