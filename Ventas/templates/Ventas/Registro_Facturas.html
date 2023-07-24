@@ -21,49 +21,43 @@
         <h1>HISTORIAL DE FACTURAS</h1>
     </div>
     <div class="container">
-        <form method="get" action="{% url 'lista_productos' %}">
-            {% csrf_token %}
-            <input type="text" name="filtro" id="filtro" value="{{ request.GET.filtro }}" placeholder="Nombre">
-            <button type="submit" value="Filtrar">Filtrar</button>
-        </form>
         <Table>
             <tr>
                 <td>#</td>
                 <td>Cliente</td>
                 <td>Documento</td>
                 <td>Total</td>
-                <td>Fecha</td>
-                <td>Hora</td>
+                <td>Fecha y Hora</td>
+                <td>Factura</td>
             </tr>
         {% for factura in page_obj %}
             <tr>
-                <td>{{ factura.id }}</td>
-                <td>{{ factura.id_cliente.nombre }} {{ factura.id_cliente.apellido }}</td>
-                {% if factura.id_cliente.tipo == 0 %}
-                <td>V-{{ factura.id_cliente.cedula }}</td>
-                {% else %}
-                    {% if factura.id_cliente.tipo == 1%}
-                    <td>E-{{ factura.id_cliente.cedula }}</td>
-                    {% else %}
-                    <td>J-{{ factura.id_cliente.cedula }}</td>
-                    {% endif %}
-                {% endif %}
-                <td>{{ factura.id }}</td>
-                <td>{{ factura.id }}</td>
-                <td>{{ factura.id }}</td>
-                <td>{{ factura.id }}</td>
-                <td>{{ factura.id }}</td>
-                <td>{{ factura.id }}</td>
-                <td>{{ factura.id }}</td>
+                <td>{{ factura.2 }}</td>
+                <td>{{ factura.0.id_cliente.nombre }} {{ factura.0.id_cliente.apellido }}</td>
+                <td>{{ factura.1 }}</td>
+                <td>{{ factura.0.total }} Bs.</td>
+                <td>{{ factura.0.fecha }}</td>
+                <td><a href="{% url 'factura' id=factura.0.id %}">Ver</a></td>
             </tr>
-        {% empty %}
-            {% if request.GET.filtro %}
-                <p>No se encontraron productos con el filtro "{{ request.GET.filtro }}".</p>
-            {% else %}
-                <p>No se encontraron productos.</p>
-            {% endif %}
         {% endfor %}
         </Table>
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">Primera página</a>
+                <a href="?page={{ page_obj.previous_page_number}}">Anterior</a>
+            {% endif %}
+            <span class="current-page">{{ page_obj.number }}</span>
+            <form method="POST">
+                {% csrf_token %}
+                <input type="number" name="salto"g min="1" step="1" style="width:50px; padding: 5px 0px 3px 0px; margin-left: 5px" onkeydown="if(event.key==='.'||event.keyCode == 13){event.preventDefault();}" autocomplete="off" onCopy="return false" onDrag="return false" onDrop="return false" onPaste="return false">
+                <input type="hidden" name="page" value="{{ page_obj.number }}">
+                <button type="submit" value="Filtrar">Saltar</button>
+            </form>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">Última página</a>
+            {% endif %}
+        </div>    
     </div>
 </body>
 </html>

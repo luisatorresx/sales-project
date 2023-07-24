@@ -82,24 +82,14 @@ h1 {
     text-align: center;
 }
 
-form input{
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    padding: 8px;
-    margin: 5px 0px 10px 0px;
-    border-radius: 5px;
-    border: 1px solid;
-    border-color: #1f4d95;
-}
-
 button{
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    width: 100px;
-    padding: 10px;
-    background-color: #2a62b5;
+    padding: 5px 10px;
+    font-weight: bold;
     color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    background-color: #2a62b5;
+    border: 1px solid #fff;
+    border-radius: 3px;
+    z-index: 3;
 }
 
 button:hover {
@@ -107,6 +97,83 @@ button:hover {
     border: 1px solid #fff;
 }
 
-table {
+table{
     width: 100%;
+    align-items: center;
+    border: 1px solid;
+}
+
+th, td {
+    align-items: center;
+    text-align: center;
+    border: 1px solid;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    position: relative;
+}
+
+.pagination a {
+    text-decoration: none;
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: 3px;
+    position: relative;
+    z-index: 2;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.pagination a{
+    padding: 5px 10px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #2a62b5;
+    border: 1px solid #fff;
+    border-radius: 3px;
+    z-index: 3;
+}
+
+.pagination a:hover {
+    background-color: #1f4d95;
+}
+
+.current-page {
+    padding: 5px 10px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #2a62b5;
+    border: 1px solid #fff;
+    border-radius: 3px;
+    z-index: 3;
+}
+
+p{
+    text-align: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+input{
+    width: auto;
+    align-items: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.pagination button{
+    padding: 5.5px;
+    font-weight: bold;
+    font-size: 15px;
+    color: #fff;
+    background-color: #2a62b5;
+    border: 1px solid #fff;
+    border-radius: 3px;
+    z-index: 3;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.pagination button:hover {
+    background-color: #1f4d95;
 }

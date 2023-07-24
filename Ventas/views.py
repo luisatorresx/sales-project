@@ -228,24 +228,43 @@ def factura(request, id):
         fecha = factura.fecha.strftime('%d-%m-%Y')
         hora = factura.fecha.strftime('%H:%M:%S')
 
-        return render(request, 'Ventas/Factura.html', {'id':f'{id : 07d}', 'factura':factura, 'productos':productos, 'fecha':fecha, 'hora':hora,
+        return render(request, 'Ventas/Factura.html', {'id':f'{id:09d}', 'factura':factura, 'productos':productos, 'fecha':fecha, 'hora':hora,
                                                     'base_imponible_G':base_imponible_G, 'base_imponible_R':base_imponible_R, 'iva_G':iva_G, 'iva_R':iva_R, 
                                                     'exento':exento, 'en_divisas':en_divisas, 'pagado_en_dolares':pagado_en_dolares, 'persona':persona, 'documento':documento})
     except:
         return redirect('error_ventas', id=id)
     
 def error(request,id):
-    return render(request, 'Ventas/Error.html', {'id':f'{id : 07d}'})
+    return render(request, 'Ventas/Error.html', {'id':f'{id:09d}'})
 
 def historial_facturas(request):
 
-    filtro = request.GET.get('filtro')
     facturas = models.Facturas.objects.all()
-    if filtro:
-        facturas = facturas.filter(nombre__icontains=filtro)
+    lista_facturas = []
 
-    paginator = Paginator(facturas, 10)
+    for factura in facturas:
+        f_num = f'{factura.id:09d}'
+        if factura.id_cliente.tipo == 2:
+            persona = "J-"
+            lista_facturas.append([factura, f'{persona}{factura.id_cliente.cedula:09d}', f_num])
+        else:
+            if factura.id_cliente.tipo == 1:
+                persona = "E-"
+            else:
+                persona = "V-"
+            lista_facturas.append([factura, f'{persona}{factura.id_cliente.cedula}', f_num])
+    
     page_number = request.GET.get('page')
+
+    if request.method == "POST":
+        print(request.POST['salto'])
+        if request.POST['salto'] != '' and int(request.POST['salto']) >= 1:
+            page_number = request.POST['salto']
+        else:
+            page_number = request.POST['page']
+
+    lista_facturas.reverse()
+    paginator = Paginator(lista_facturas, 10)
     page_obj = paginator.get_page(page_number)
     
-    return render(request, 'Ventas/Registro_Facturas.html', {'page_obj': page_obj, 'filtro':filtro})
+    return render(request, 'Ventas/Registro_Facturas.html', {'page_obj': page_obj})
