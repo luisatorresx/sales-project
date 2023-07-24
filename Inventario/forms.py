@@ -19,4 +19,4 @@ class ProductoForm(forms.Form):
 
     proveedor = forms.CharField(max_length=30,widget=forms.TextInput(attrs={"class": "textInput", "onkeydown":"return /[a-záéíóúñü]/i.test(event.key)", "autocomplete":"off", "onCopy":"return false", "onDrag":"return false", "onDrop":"return false", "onPaste":"return false", "placeholder":"Proveedor"}))
 
-    iva = forms.ChoiceField(choices=opciones_iva)
+    iva = forms.ChoiceField(choices=opciones_iva) 
