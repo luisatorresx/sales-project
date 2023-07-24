@@ -56,18 +56,19 @@ def actualizar_producto(request):
         codigo = request.POST['codigo']
         try:
             producto = get_object_or_404(Productos, codigo=codigo)
-            return render(request, 'Inventario/actualizar_producto.html', {'producto':producto})
+            producto.id
+
+
+            form = ProductoForm(initial={'nombre': producto.nombre, 'codigo':producto.codigo, 'precio': producto.precio, 'stock':producto.stock,'proveedor':producto.proveedor, 'iva':producto.iva})
+            return render(request, 'Inventario/actualizar_producto.html', {'id':producto.codigo, 'form':form})
         except:
             return render(request, 'Inventario/error.html')
-
     else:
-        form = ProductoForm()
-
-    return render(request, 'Inventario/actualizar_producto.html')
+        return render(request, 'Inventario/actualizar_producto.html')
 
 #Sobreescribe la informacion en la base de datos (deberia hacer eso)
-def guardar_producto(request, producto_id):
-    producto = get_object_or_404(Productos, id=producto_id)
+def guardar_producto(request, codigo):
+    producto = get_object_or_404(Productos, codigo=codigo)
     if request.method == 'POST':
         producto.nombre = request.POST['nombre']
         producto.codigo = request.POST['codigo']

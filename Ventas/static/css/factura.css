@@ -47,6 +47,21 @@ nav ul li a:hover {
     color: #fff;
 }
 
+button{
+    background-color: #2a62b5;
+    padding: 10px;
+    border: 0px;
+    border-radius: 10px;
+    font-size: 15px;
+    color: #fff;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+button:hover{
+    background-color: #1f4d95;
+    color: #fff;
+}
+
 .containerTitle {
     background-color: #fff;
     border: 1px solid;

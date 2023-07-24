@@ -36,7 +36,15 @@
             <td>{{ producto.stock }}</td>
             <td>{{ producto.proveedor }}</td>
             <td>{{ producto.codigo }}</td>
-            <td>{{ producto.iva }}</td>
+            {% if producto.iva == 0 %}
+            <td>Exento</td>
+            {% else %}
+                {% if producto.iva == 1 %}
+                <td>16.00%</td>
+                {% else %}
+                <td>8.00%</td>
+                {% endif %}
+            {% endif %}
         </tr>
         {% endfor %}
     </table>

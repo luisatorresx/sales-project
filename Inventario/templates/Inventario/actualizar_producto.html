@@ -21,41 +21,39 @@
             {% csrf_token %}
             <input type="text" id="codigo" name="codigo" placeholder="Código" required>
             <button type="submit" value="Filtrar">Buscar</button>
-        </form>
+        </form> 
         <div class="product">
-            {% if producto %}
-                <form method="POST" action="{% url 'guardar_producto' producto.id %}">
+            {% if form %}
+                <form method="POST" action="{% url 'guardar_producto' id %}">
                     {% csrf_token %}
                     <div class="nombre">
                         <label for="id_nombre">Nombre:</label>
-                        <input type="text" id="id_nombre" name="nombre" value="{{ producto.nombre }}" required>
+                        {{ form.nombre }}
                     </div>
 
                     <div class="codigo">
                         <label for="id_codigo">Código:</label>
-                        <input type="text" id="id_codigo" name="codigo" value="{{ producto.codigo }}" required>
+                        {{ form.codigo }}
                     </div>
 
                     <div class="precio">
                         <label for="id_precio">Precio:</label>
-                        <input type="number" id="id_precio" name="precio" value="{{ producto.precio }}" required>
+                        {{ form.precio }}
                     </div>
 
                     <div class="stock">
                         <label for="id_stock">Stock:</label>
-                        <input type="number" id="id_stock" name="stock" value="{{ producto.stock }}" required>
+                        {{ form.stock }}
                     </div>
 
                     <div class="proveedor">
                         <label for="id_proveedor">Proveedor:</label>
-                        <input type="text" id="id_proveedor" name="proveedor" value="{{ producto.proveedor }}" required>
+                        {{ form.proveedor }}
                     </div>
 
                     <div class="iva">
                         <label for="id_iva">Iva:</label>
-                        <select id="id_iva" name="iva" required>
-                            <option value="{{ producto.iva }}">{{ producto.iva }}</option>
-                        </select>                          
+                        {{ form.iva }}                
                     </div>
 
                     <button type="submit" name="actualizar">Actualizar</button>
