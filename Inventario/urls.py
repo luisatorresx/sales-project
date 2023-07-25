@@ -11,4 +11,9 @@ urlpatterns = [
     path('eliminar_producto/<int:producto_id>/', views.eliminar_producto, name='eliminar_producto'),
     path('actualizar_producto/', views.actualizar_producto, name="actualizar_producto"),
     path('guardar_producto/<int:codigo>/', views.guardar_producto, name='guardar_producto'),
+    path('orden_compra/', views.orden_compra, name='orden_compra'),
+    path('quitar_producto/<str:nombre>/', views.quitar_producto, name='quitar_producto'),
+    path('guardar_orden/', views.guardar_orden, name='guardar_orden'),
+    path('historial_orden_compra/', views.historial_orden_compra, name='historial_orden_compra'),
+    path('detalle_orden/<int:orden_id>/', views.detalle_orden, name='detalle_orden'),
 ]

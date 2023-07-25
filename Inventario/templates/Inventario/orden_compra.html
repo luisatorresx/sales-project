@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Generar Orden de Compra</title>
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/orden_compra.css' %}">
+</head>
+<body>
+    <div class="navegacion">
+        <nav>
+            <ul>
+                <li><a href="{% url 'index' %}">Inicio</a></li>
+                <li><a href="{% url 'index_inventario' %}">Volver</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="container">
+        <h1>ORDEN DE COMPRA</h1>
+        <form method="POST">
+            {% csrf_token %}
+            
+            <label for="nombre">Nombre del producto:</label>
+            <input type="text" name="nombre" id="nombre">
+            
+            <label for="cantidad">Cantidad:</label>
+            <input type="text" name="cantidad" id="cantidad">
+            
+            <button type="submit">Agregar</button>
+        </form>
+        {% if productos %}
+        <table>
+            <tr>
+              <th>Nombre</th>
+              <th>Cantidad</th>
+              <th>Acción</th>
+            </tr>
+            {% for producto in productos %}
+            <tr>
+              <td>{{ producto.nombre }}</td>
+              <td>{{ producto.cantidad }} Cajas</td>
+              <td><a href="{% url 'quitar_producto' producto.nombre %}">Eliminar</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+        <div class="guardar">
+            <form method="POST" action="{% url 'guardar_orden' %}">
+                {% csrf_token %}
+                <button type="submit">Generar</button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
