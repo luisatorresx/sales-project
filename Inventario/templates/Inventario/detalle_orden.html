@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Detalle de Orden de Compra</title>
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/detalle_orden.css' %}">
+</head>
+<body>
+    <div class="navegacion">
+        <nav>
+            <ul>
+                <li><a href="{% url 'index_inventario' %}">Volver</a></li>
+            </ul>
+        </nav>
+      </div>
+    <div class="container">
+        <h1>DETALLE DE ORDEN DE COMPRA</h1>
+        <h2>Orden de Compra #{{ orden.id }}</h2>
+        
+        <table>
+            <tr>
+                <th>Nombre</th>
+                <th>Cantidad</th>
+            </tr>
+            {% for producto in productos %}
+            <tr>
+                <td>{{ producto.nombre }}</td>
+                <td>{{ producto.cantidad }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <button onclick="window.print()">IMPRIMIR</button>
+    </div>
+</body>
+</html>

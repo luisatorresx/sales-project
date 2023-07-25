@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Tabla de Órdenes de Compra</title>
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/historial_orden_compra.css' %}">
+</head>
+<body>
+  <div class="navegacion">
+    <nav>
+        <ul>
+            <li><a href="{% url 'index_inventario' %}">Volver</a></li>
+        </ul>
+    </nav>
+  </div>
+  <div class="container">
+    <h1>HISTORIAL DE ORDENES DE COMPRA</h1>
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Fecha y Hora</th>
+        <th>Acción</th>
+      </tr>
+      {% for orden in ordenes %}
+      <tr>
+        <td>{{ orden.id }}</td>
+        <td>{{ orden.fecha }}</td>
+        <td><a href="{% url 'detalle_orden' orden.id %}">Ver Productos</a></td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</body>
+</html>

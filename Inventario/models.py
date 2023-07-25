@@ -15,3 +15,11 @@ class Productos(models.Model):
     stock = models.IntegerField()
     proveedor = models.CharField(max_length=100)
     iva = models.IntegerField()
+
+class Orden_Compra(models.Model):
+    fecha = models.DateTimeField(auto_now_add=True)
+
+class Orden_Productos(models.Model):
+    orden = models.ForeignKey(Orden_Compra, related_name='productos', on_delete=models.CASCADE)
+    nombre = models.CharField(max_length=100)
+    cantidad = models.IntegerField()

@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import ProductoForm
-from .models import Productos
+from .models import Productos, Orden_Compra, Orden_Productos
+
 
 # Create your views here.
 #Index
@@ -106,3 +107,50 @@ def generar_reporte(request):
 #View de errores
 def error(request):
     return render(request, 'Inventario/error.html')
+
+#Genera una orden de compra
+productos = []
+def orden_compra(request):
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre')
+        cantidad = request.POST.get('cantidad')
+        
+        if nombre and cantidad:
+            productos.append({'nombre': nombre, 'cantidad': cantidad})
+    
+    return render(request, 'Inventario/orden_compra.html', {'productos': productos})
+
+#Quita un producto de la orden de compra
+def quitar_producto(request, nombre):
+    for producto in productos:
+        if producto['nombre'] == nombre:
+            productos.remove(producto)
+            break
+    return redirect('orden_compra')
+
+
+def guardar_orden(request):
+    if request.method == 'POST':
+        orden = Orden_Compra.objects.create()  # Crear una nueva instancia de Orden_Compra
+        for producto in productos:
+            orden_productos = Orden_Productos()
+            orden_productos.orden = orden
+            orden_productos.nombre = producto['nombre']
+            orden_productos.cantidad = producto['cantidad']
+            orden_productos.save()
+        productos.clear()
+
+        return redirect('historial_orden_compra')  # Redirigir a la nueva vista de tabla de órdenes de compra
+    
+    return redirect('index_inventario')
+
+def historial_orden_compra(request):
+    ordenes = Orden_Compra.objects.all()
+    return render(request, 'Inventario/historial_orden_compra.html', {'ordenes': ordenes})
+
+
+def detalle_orden(request, orden_id):
+    orden = Orden_Compra.objects.filter(id=orden_id).first()  # Obtener la orden de compra con el id proporcionado
+    productos = Orden_Productos.objects.filter(orden=orden)  # Obtener los productos de esa orden de compra
+
+    return render(request, 'Inventario/detalle_orden.html', {'orden': orden, 'productos': productos})
