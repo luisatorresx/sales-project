@@ -14,7 +14,7 @@
             <ul>
                 {% if user.is_authenticated %}
 
-                    {% if user.groups.all.0.name == 'Almacenista' or user.groups.all.0.name == 'Administrador' or user.is_staff %}
+                    {% if user.groups.all.0.name == 'Almacenista' or user.groups.all.0.name == 'Analista de datos' or user.groups.all.0.name == 'Administrador' or user.is_staff %}
                         <li><a href="Inventario/">Inventario</a></li>
                     {% endif %}
 
