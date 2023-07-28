@@ -1,5 +1,12 @@
 from django import forms
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
+
+Roles = (
+    ("Empleado", "Empleado"),
+    ("Almacenista", "Almacenista"),
+    ("Analista de datos", "Analista de datos"),
+    ("Administrador", "Administrador"),
+    )
 
 class UserForm(forms.ModelForm):
     username = forms.CharField(label=('Nombre de usuario'), max_length=50, widget=forms.TextInput(attrs={"class": "textInput", "placeholder": "Nombre de usuario"}))
@@ -11,3 +18,16 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'password', 'first_name', 'last_name']
+
+class GroupForm(forms.ModelForm):
+    
+    rol = forms.ChoiceField(choices = Roles)
+
+    class Meta:
+        model = Group
+        fields = ['name']
+
+        
+class LoginForm(forms.Form):
+    username = forms.CharField(label=('Nombre de usuario'), max_length=50, widget=forms.TextInput(attrs={"class": "textInput", "placeholder": "Nombre de usuario"}))
+    password = forms.CharField(label=('Contraseña'), widget=forms.PasswordInput(attrs={"class": "textInput", "placeholder": "Contraseña"}))

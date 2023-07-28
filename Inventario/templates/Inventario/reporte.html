@@ -19,6 +19,11 @@
     </div>
     <div class="container">
         <h2>REPORTE DE INVENTARIO</h2>
+        {% if user.is_authenticated %}
+            <li><a href="{% url 'logout_usuario' %}">Cerrar Sesión</a></li>
+        {% else %}
+            <li><a href="{% url 'login_usuario' %}">Iniciar Sesión</a></li>
+        {% endif %}
         <button onclick="window.print()">IMPRIMIR</button>
     <table>
         <tr>

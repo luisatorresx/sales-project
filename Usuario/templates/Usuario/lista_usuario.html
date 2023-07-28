@@ -26,16 +26,26 @@
                     <th>Correo Electronico</th>
                     <th>Nombre</th>
                     <th>Apellido</th>
+                    <th>Rol</th>
                 </tr>
             </thead>
             <tbody>
-            {% for user in users %}
+            {% for user in usuarios %}
                 <tr>
                     <td><img src="{% static 'img/working.png' %}" alt=""></td>
-                    <td>{{ user.username }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.first_name }}</td>
-                    <td>{{ user.last_name }}</td>
+                    <td>{{ user.0.username }}</td>
+                    <td>{{ user.0.email }}</td>
+                    <td>{{ user.0.first_name }}</td>
+                    <td>{{ user.0.last_name }}</td>
+                    {% if user.1 == None %}
+                        {% if user.2 %}
+                            <td>Super Usuario</td>
+                        {% else %}
+                            <td>Ninguno</td>
+                        {% endif %}
+                    {% else %} 
+                        <td>{{ user.1 }}</td>
+                    {% endif %}
                 </tr>
             {% empty %}
                 <tr>
