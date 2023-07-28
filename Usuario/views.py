@@ -4,9 +4,19 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
 def index(request):
-    return render(request, 'Usuario/index_usuario.html')
+    
+    if not (request.user.groups.filter(name='Administrador') or
+            request.user.is_staff):
+        return redirect('index')
+    else:
+        return render(request, 'Usuario/index_usuario.html')
 
 def agregar_usuario(request):
+    
+    if not (request.user.groups.filter(name='Administrador') or
+            request.user.is_staff):
+        return redirect('index')
+
     if request.method == "POST":
         form = UserForm(request.POST)
         form2 = GroupForm(request.POST)
@@ -24,6 +34,11 @@ def agregar_usuario(request):
 
 
 def lista_usuario(request):
+
+    if not (request.user.groups.filter(name='Administrador') or
+            request.user.is_staff):
+        return redirect('index')
+    
     users = list(User.objects.all())
     usuarios = []
     for user in users:

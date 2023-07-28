@@ -8,10 +8,21 @@ from .models import Productos, Orden_Compra, Orden_Productos
 # Create your views here.
 #Index
 def index(request):
+    if not (request.user.groups.filter(name='Administrador') or	
+            request.user.groups.filter(name='Almacenista') or
+            request.user.is_staff):
+        return redirect('index')
+    
     return render(request, 'Inventario/index_inventario.html')
 
 #Agrega un producto a la base de datos
 def agregar_producto(request):
+
+    if not (request.user.groups.filter(name='Administrador') or	
+            request.user.groups.filter(name='Almacenista') or
+            request.user.is_staff):
+        return redirect('index')
+    
     if request.method == "POST":
         form = ProductoForm(request.POST)
         if form.is_valid():
@@ -40,6 +51,7 @@ def agregar_producto(request):
 
 #Muestra una lista con los productos
 def lista_productos(request):
+
     filtro = request.GET.get('filtro')
     productos = Productos.objects.all()
     if filtro:
@@ -53,6 +65,12 @@ def lista_productos(request):
 
 #Muestra formularios con la informacion del producto a actualizar
 def actualizar_producto(request):
+
+    if not (request.user.groups.filter(name='Administrador') or	
+            request.user.groups.filter(name='Almacenista') or
+            request.user.is_staff):
+        return redirect('index')
+
     if request.method == 'POST':
         codigo = request.POST['codigo']
         try:
@@ -69,6 +87,12 @@ def actualizar_producto(request):
 
 #Sobreescribe la informacion en la base de datos (deberia hacer eso)
 def guardar_producto(request, codigo):
+
+    if not (request.user.groups.filter(name='Administrador') or	
+            request.user.groups.filter(name='Almacenista') or
+            request.user.is_staff):
+        return redirect('index')
+    
     producto = get_object_or_404(Productos, codigo=codigo)
     if request.method == 'POST':
         producto.nombre = request.POST['nombre']
@@ -82,6 +106,12 @@ def guardar_producto(request, codigo):
 
 #Muestra la informacion del producto a eliminar
 def borrar_producto(request):
+    
+    if not (request.user.groups.filter(name='Administrador') or	
+            request.user.groups.filter(name='Almacenista') or
+            request.user.is_staff):
+        return redirect('index')
+    
     if request.method == 'POST':
         codigo = request.POST['codigo']
         try:
@@ -94,12 +124,25 @@ def borrar_producto(request):
 
 #Elimina el producto de la base de dato
 def eliminar_producto(request, producto_id):
+    
+    if not (request.user.groups.filter(name='Administrador') or	
+            request.user.groups.filter(name='Almacenista') or
+            request.user.is_staff):
+        return redirect('index')
+    
     producto = get_object_or_404(Productos, id=producto_id)
     producto.delete()
     return redirect('lista_productos')
 
 #Genera un reporte con toda la informacion de los items
 def generar_reporte(request):
+
+    if not (request.user.groups.filter(name='Administrador') or	
+            request.user.groups.filter(name='Almacenista') or
+            request.user.groups.filter(name='Analista de datos') or
+            request.user.is_staff):
+        return redirect('index')
+    
     productos = Productos.objects.all()
     # Renderizamos el template de confirmación
     return render(request, 'Inventario/reporte.html', {'productos': productos})
@@ -111,6 +154,12 @@ def error(request):
 #Genera una orden de compra
 productos = []
 def orden_compra(request):
+    
+    if not (request.user.groups.filter(name='Administrador') or	
+            request.user.groups.filter(name='Almacenista') or
+            request.user.is_staff):
+        return redirect('index')
+    
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
         cantidad = request.POST.get('cantidad')
@@ -122,6 +171,12 @@ def orden_compra(request):
 
 #Quita un producto de la orden de compra
 def quitar_producto(request, nombre):
+
+    if not (request.user.groups.filter(name='Administrador') or	
+            request.user.groups.filter(name='Almacenista') or
+            request.user.is_staff):
+        return redirect('index')
+    
     for producto in productos:
         if producto['nombre'] == nombre:
             productos.remove(producto)
@@ -130,6 +185,12 @@ def quitar_producto(request, nombre):
 
 
 def guardar_orden(request):
+    
+    if not (request.user.groups.filter(name='Administrador') or	
+            request.user.groups.filter(name='Almacenista') or
+            request.user.is_staff):
+        return redirect('index')
+    
     if request.method == 'POST':
         orden = Orden_Compra.objects.create()  # Crear una nueva instancia de Orden_Compra
         for producto in productos:
@@ -145,11 +206,24 @@ def guardar_orden(request):
     return redirect('index_inventario')
 
 def historial_orden_compra(request):
+    
+    if not (request.user.groups.filter(name='Administrador') or	
+            request.user.groups.filter(name='Almacenista') or
+            request.user.groups.filter(name='Analista de datos') or
+            request.user.is_staff):
+        return redirect('index')
+    
     ordenes = Orden_Compra.objects.all()
     return render(request, 'Inventario/historial_orden_compra.html', {'ordenes': ordenes})
 
 
 def detalle_orden(request, orden_id):
+
+    if not (request.user.groups.filter(name='Administrador') or	
+            request.user.groups.filter(name='Almacenista') or
+            request.user.is_staff):
+        return redirect('index')
+    
     orden = Orden_Compra.objects.filter(id=orden_id).first()  # Obtener la orden de compra con el id proporcionado
     productos = Orden_Productos.objects.filter(orden=orden)  # Obtener los productos de esa orden de compra
 

@@ -12,7 +12,12 @@ def index(request):
     return render(request, 'Ventas/index.html')
 
 def facturacion(request):
-    
+
+    if not (request.user.groups.filter(name='Empleado').exists() or 
+            request.user.groups.filter(name='Administrador') or
+            request.user.is_staff):
+        return redirect('index')
+
     # Asignando valores por defecto
     decimales = '.01'
     dolar_Bs_cambio = Decimal(28.8123)
@@ -183,7 +188,12 @@ def facturacion(request):
                                                             'pago_incompleto':pago_incompleto})
     
 def factura(request, id):
-   
+
+    if not (request.user.groups.filter(name='Empleado').exists() or 
+            request.user.groups.filter(name='Administrador') or
+            request.user.is_staff):
+        return redirect('index')
+    
     try:
 
         factura = get_object_or_404(models.Facturas, id = id)
@@ -243,9 +253,22 @@ def factura(request, id):
         return redirect('error_ventas', id=id)
     
 def error(request,id):
+
+    if not (request.user.groups.filter(name='Empleado').exists() or 
+            request.user.groups.filter(name='Administrador') or	
+            request.user.groups.filter(name='Analista de datos') or
+            request.user.is_staff):
+        return redirect('index')
+    
     return render(request, 'Ventas/Error.html', {'id':f'{id:09d}'})
 
 def historial_facturas(request):
+
+    if not (request.user.groups.filter(name='Empleado').exists() or 
+            request.user.groups.filter(name='Administrador') or
+            request.user.groups.filter(name='Analista de datos') or
+            request.user.is_staff):
+        return redirect('index')
 
     facturas = models.Facturas.objects.all()
     lista_facturas = []
