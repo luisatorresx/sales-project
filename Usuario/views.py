@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
-from .forms import UserForm, GroupForm, LoginForm
+
+from Usuario.models import TipoDeCambio
+from .forms import TipoDeCambioForm, UserForm, GroupForm, LoginForm
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login, logout
 
@@ -78,3 +80,19 @@ def login_usuario(request):
 def logout_usuario(request):
     logout(request)
     return redirect('index')
+
+def configuracion(request):
+    
+    if request.method == "POST":
+        
+        form = TipoDeCambioForm(request.POST)
+
+        if form.is_valid():
+            cambio = TipoDeCambio.objects.first()
+            cambio.cambio = request.POST['cambio']
+            cambio.save()
+
+        return render(request, 'Usuario/Configuración.html', {'form': form})
+    else:
+        form = TipoDeCambioForm()
+        return render(request, 'Usuario/Configuración.html', {'form': form})
