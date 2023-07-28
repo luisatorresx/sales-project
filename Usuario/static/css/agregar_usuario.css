@@ -109,3 +109,8 @@ h1 {
     width: 194.8px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
+
+select{
+    width: 100%;
+    padding: 2px 5px 1px 5px;
+}

@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.shortcuts import render, redirect
 
 from Usuario.models import TipoDeCambio
@@ -83,16 +84,32 @@ def logout_usuario(request):
 
 def configuracion(request):
     
+    actualizado = False
+    es_0 = False
+
     if request.method == "POST":
         
         form = TipoDeCambioForm(request.POST)
 
         if form.is_valid():
-            cambio = TipoDeCambio.objects.first()
-            cambio.cambio = request.POST['cambio']
-            cambio.save()
+            if Decimal(request.POST['cambio']) == Decimal(0.0000):
+                es_0 = True
+            else:
+                cambio = TipoDeCambio.objects.first()
+                cambio.cambio = request.POST['cambio']
+                cambio.save()
+                actualizado = True
 
-        return render(request, 'Usuario/Configuración.html', {'form': form})
+        return render(request, 'Usuario/Configuración.html', {'form': form, 'actualizado':actualizado, 'es_0':es_0})
     else:
-        form = TipoDeCambioForm()
-        return render(request, 'Usuario/Configuración.html', {'form': form})
+        
+        if TipoDeCambio.objects.first() is not None:
+            form = TipoDeCambioForm(initial={'cambio':TipoDeCambio.objects.first().cambio})
+            if TipoDeCambio.objects.first().cambio == Decimal(0.0000):
+                es_0 = True
+        else:
+            TipoDeCambio.objects.create()
+            form = TipoDeCambioForm(initial={'cambio':TipoDeCambio.objects.first().cambio})
+            es_0 = True
+
+        return render(request, 'Usuario/Configuración.html', {'form': form, 'actualizado':actualizado, 'es_0':es_0})
