@@ -4,6 +4,8 @@ from django.core.paginator import Paginator
 from .forms import FacturaForm
 from decimal import *
 from . import models
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
 def index(request):
