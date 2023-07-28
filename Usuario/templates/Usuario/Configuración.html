@@ -22,10 +22,29 @@
             {% csrf_token %}
 
             <div class="username">
-                Tipo de cambio: {{ form.cambio }}
+                Bolívares por dollar: {{ form.cambio }}
             </div>
 
-            <button type="submit">Guardar</button>
+            {% if es_0 %}
+
+            <div class="error">
+                Por favor, establesca un valor diferente de 0.
+            </div>
+            
+            {% else %}
+
+                {% if actualizado %}
+
+                <div class="acierto">
+                    Cambio Bs. Dollar actualizado.
+                </div>
+
+                {% endif %}
+
+            {% endif %}
+            <div style="text-align: center; width: 100%;">
+                <button type="submit">Guardar</button>
+            </div>
         </form>
     </div>
 </body>
