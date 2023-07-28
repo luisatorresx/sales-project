@@ -10,6 +10,7 @@ from .models import Productos, Orden_Compra, Orden_Productos
 def index(request):
     if not (request.user.groups.filter(name='Administrador') or	
             request.user.groups.filter(name='Almacenista') or
+            request.user.groups.filter(name='Analista de datos') or
             request.user.is_staff):
         return redirect('index')
     
