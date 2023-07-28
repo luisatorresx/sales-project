@@ -4,11 +4,17 @@ from django.core.paginator import Paginator
 from .forms import FacturaForm
 from decimal import *
 from . import models
-from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
 def index(request):
+
+    if not (request.user.groups.filter(name='Empleado').exists() or 
+            request.user.groups.filter(name='Administrador') or	
+            request.user.groups.filter(name='Analista de datos') or
+            request.user.is_staff):
+        return redirect('index')
+    
     return render(request, 'Ventas/index.html')
 
 def facturacion(request):
@@ -190,7 +196,8 @@ def facturacion(request):
 def factura(request, id):
 
     if not (request.user.groups.filter(name='Empleado').exists() or 
-            request.user.groups.filter(name='Administrador') or
+            request.user.groups.filter(name='Administrador') or	
+            request.user.groups.filter(name='Analista de datos') or
             request.user.is_staff):
         return redirect('index')
     

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import UserForm, GroupForm, LoginForm
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login, logout
 
 def index(request):
@@ -12,7 +12,6 @@ def index(request):
         return render(request, 'Usuario/index_usuario.html')
 
 def agregar_usuario(request):
-    
     if not (request.user.groups.filter(name='Administrador') or
             request.user.is_staff):
         return redirect('index')
@@ -21,7 +20,9 @@ def agregar_usuario(request):
         form = UserForm(request.POST)
         form2 = GroupForm(request.POST)
         if form.is_valid():
-            User.objects.create_user(**form.cleaned_data)
+            print(request.POST)
+            usuario = User.objects.create_user(**form.cleaned_data)
+            usuario.groups.add(Group.objects.get(name=request.POST['rol']))
             return redirect('lista_usuario')
         else:
             form.full_clean()
