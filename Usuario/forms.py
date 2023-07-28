@@ -28,6 +28,6 @@ class GroupForm(forms.ModelForm):
         fields = ['name']
 
         
-class LoginForm(forms.ModelForm):
+class LoginForm(forms.Form):
     username = forms.CharField(label=('Nombre de usuario'), max_length=50, widget=forms.TextInput(attrs={"class": "textInput", "placeholder": "Nombre de usuario"}))
     password = forms.CharField(label=('Contraseña'), widget=forms.PasswordInput(attrs={"class": "textInput", "placeholder": "Contraseña"}))

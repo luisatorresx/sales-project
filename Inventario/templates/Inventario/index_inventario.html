@@ -20,6 +20,11 @@
                 <li><a href="orden_compra/">Generar Orden de Compra</a></li>
                 <li><a href="historial_orden_compra/">Historial de Ordenes de Compras</a></li>
                 <li><a href="{% url 'index' %}">Salir</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'logout_usuario' %}">Cerrar Sesión</a></li>
+                {% else %}
+                    <li><a href="{% url 'login_usuario' %}">Iniciar Sesión</a></li>
+                {% endif %}
             </ul>
         </nav>
     </div>

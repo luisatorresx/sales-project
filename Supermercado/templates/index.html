@@ -12,9 +12,15 @@
     <div class="navegacion">
         <nav>
             <ul>
-              <li><a href="Inventario/">Inventario</a></li>
-              <li><a href="Ventas/">Ventas</a></a></li>
-              <li><a href="Usuario/">Usuarios</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="Inventario/">Inventario</a></li>
+                    <li><a href="Ventas/">Ventas</a></a></li>
+                    <li><a href="Usuario/">Usuarios</a></li>
+                    <li><a href="{% url 'logout_usuario' %}">LogOut</a></li>
+                {% else %}
+                    <li><a href="Inventario/lista_productos/">Lista de Productos</a></li>
+                    <li><a href="{% url 'login_usuario' %}">LogIn</a></li>
+                {% endif %}
             </ul>
           </nav>
     </div>

@@ -32,12 +32,24 @@ def lista_usuario(request):
 
 
 def login_usuario(request):
+
+    error = False
     if request.method == "POST":
+
+        form = LoginForm(request.POST)
+        usuario = request.POST['username']
+        clave = request.POST['password']
+        user = authenticate(request, username=usuario, password=clave)
         
-        form = UserForm(request.POST)
+        if user is not None:
+            login(request, user)
+            return redirect('index')
+        else:
+            error = True
+            return render(request, 'Usuario/login.html', {'form': form, 'error':error})
     else:
-        form = UserForm(request.POST)
-        return render(request, 'Usuario/login.html')
+        form = LoginForm()
+        return render(request, 'Usuario/login.html', {'form': form, 'error':error})
 
 
 def logout_usuario(request):

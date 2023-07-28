@@ -16,6 +16,11 @@
                 <li><a href="agregar_usuario/">Agregar Usuarios</a></li>
                 <li><a href="lista_usuario/">Lista de Usuarios</a></li>
                 <li><a href="{% url 'index' %}">Volver</a></li>
+                {% if user.is_authenticated %}
+                  <li><a href="{% url 'logout_usuario' %}">LogOut</a></li>
+                {% else %}
+                  <li><a href="{% url 'login_usuario' %}">LogIn</a></li>
+                {% endif %}
             </ul>
           </nav>
     </div>

@@ -15,6 +15,11 @@
                 <li><a href="{% url 'index' %}">Inicio</a></li>
                 <li><a href="{% url 'ventas_index' %}">Ventas</a></li>
                 <li><button onclick="window.print()">Imprimir</button></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'logout_usuario' %}">Cerrar Sesión</a></li>
+                {% else %}
+                    <li><a href="{% url 'login_usuario' %}">Iniciar Sesión</a></li>
+                {% endif %}
             </ul>
         </nav>
     </div>
