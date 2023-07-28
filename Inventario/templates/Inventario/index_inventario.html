@@ -12,14 +12,24 @@
     <div class="navegacion">
         <nav>
             <ul>
-                <li><a href="agregar_producto/">Agregar Productos</a></li>
-                <li><a href="lista_productos/">Lista de Productos</a></li>
-                <li><a href="actualizar_producto/">Actualizar Producto</a></li>
-                <li><a href="borrar_producto/">Borrar Producto</a></li>
+                <li><a href="{% url 'index' %}">Inicio</a></li>
+                
+                {% if user.groups.all.0.name == 'Almacenista' or user.groups.all.0.name == 'Administrador' or user.is_staff %}
+                    <li><a href="agregar_producto/">Agregar Productos</a></li>
+                    <li><a href="lista_productos/">Lista de Productos</a></li>
+                    <li><a href="actualizar_producto/">Actualizar Producto</a></li>
+                    <li><a href="borrar_producto/">Borrar Producto</a></li>
+                    <li><a href="orden_compra/">Generar Orden de Compra</a></li>
+                    <li><a href="historial_orden_compra/">Historial de Ordenes de Compras</a></li>
+                {%endif%}
+
                 <li><a href="reporte/">Generar Reporte</a></li>
-                <li><a href="orden_compra/">Generar Orden de Compra</a></li>
-                <li><a href="historial_orden_compra/">Historial de Ordenes de Compras</a></li>
-                <li><a href="{% url 'index' %}">Salir</a></li>
+
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'logout_usuario' %}">Cerrar Sesión</a></li>
+                {% else %}
+                    <li><a href="{% url 'login_usuario' %}">Iniciar Sesión</a></li>
+                {% endif %}
             </ul>
         </nav>
     </div>

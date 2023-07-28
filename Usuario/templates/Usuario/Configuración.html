@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+</head>
+<body>
+    <div class="navegacion">
+        <nav>
+            <ul>
+                <li><a href="{% url 'index' %}">Volver</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="container">
+        <h1>Configuración</h1>
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="username">
+                Bolívares por dollar: {{ form.cambio }}
+            </div>
+
+            {% if es_0 %}
+
+            <div class="error">
+                Por favor, establesca un valor diferente de 0.
+            </div>
+            
+            {% else %}
+
+                {% if actualizado %}
+
+                <div class="acierto">
+                    Cambio Bs. Dollar actualizado.
+                </div>
+
+                {% endif %}
+
+            {% endif %}
+            <div style="text-align: center; width: 100%;">
+                <button type="submit">Guardar</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -12,48 +12,58 @@
     <div class="navegacion">
         <nav>
             <ul>
-                <li><a href="{% url 'index' %}">Volver</a></li>
+                <li><a href="{% url 'index' %}">Inicio</a></li>
+                <li><a href="{% url 'index_usuario' %}">Volver</a></li>
             </ul>
         </nav>
     </div>
     <div class="container">
         <h1>LISTADO DE USUARIO</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th><img src="{% static 'img/working.png' %}" alt=""></th>
-                    <th>Nombre de Usuario</th>
-                    <th>Correo Electronico</th>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Rol</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for user in usuarios %}
-                <tr>
-                    <td><img src="{% static 'img/working.png' %}" alt=""></td>
-                    <td>{{ user.0.username }}</td>
-                    <td>{{ user.0.email }}</td>
-                    <td>{{ user.0.first_name }}</td>
-                    <td>{{ user.0.last_name }}</td>
-                    {% if user.1 == None %}
-                        {% if user.2 %}
-                            <td>Super Usuario</td>
-                        {% else %}
-                            <td>Ninguno</td>
+        <form method="POST">
+            {% csrf_token %}
+            <table>
+                <thead>
+                    <tr>
+                        <th><img src="{% static 'img/working.png' %}" alt=""></th>
+                        <th>Nombre de Usuario</th>
+                        <th>Correo Electronico</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Rol</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for user in usuarios %}
+                    <tr>
+                        <td><img src="{% static 'img/working.png' %}" alt=""></td>
+                        <td>{{ user.0.username }}</td>
+                        <td>{{ user.0.email }}</td>
+                        <td>{{ user.0.first_name }}</td>
+                        <td>{{ user.0.last_name }}</td>
+                        {% if user.1 == None %}
+                            {% if user.2 %}
+                                <td>Super Usuario</td>
+                            {% else %}
+                                <td>Ninguno</td>
+                            {% endif %}
+                        {% else %} 
+                            <td>{{ user.1 }}</td>
                         {% endif %}
-                    {% else %} 
-                        <td>{{ user.1 }}</td>
-                    {% endif %}
-                </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="4">No users found</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                        <td>
+                            <div class="eliminar">
+                                <button type="submit" name="eliminar" value="{{user.0.username}}">X</button>
+                            </div>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4">No users found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </form>
     </div>
 </body>
 </html>

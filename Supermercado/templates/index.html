@@ -12,10 +12,36 @@
     <div class="navegacion">
         <nav>
             <ul>
-              <li><a href="Inventario/">Inventario</a></li>
-              <li><a href="Ventas/">Ventas</a></a></li>
-              <li><a href="Usuario/">Usuarios</a></li>
-              <li><a href="Reportes/productos">Reportes</a></li>
+
+                {% if user.is_authenticated %}
+
+                    {% if user.groups.all.0.name == 'Almacenista' or user.groups.all.0.name == 'Analista de datos' or user.groups.all.0.name == 'Administrador' or user.is_staff %}
+                        <li><a href="Inventario/">Inventario</a></li>
+                    {% endif %}
+
+                    {% if user.groups.all.0.name == 'Empleado' or user.groups.all.0.name == 'Analista de datos' or user.groups.all.0.name == 'Administrador' or user.is_staff %}
+                        <li><a href="Ventas/">Ventas</a></a></li>
+                    {% endif %}
+
+                    {% if user.groups.all.0.name == 'Administrador' or user.is_staff %}
+                        <li><a href="Administración/">Administración</a></li>
+                    {% endif %}
+
+                     {% if user.groups.all.0.name == 'Analista de datos' or user.groups.all.0.name == 'Administrador' or user.is_staff %}
+                        <li><a href="Reportes/producto">Reportes BI</a></a></li>
+                    {% endif %}
+
+                    <li><a href="{% url 'logout_usuario' %}">Cerrar Sesión</a></li>
+
+                {% else %}
+
+                    <li><a href="Inventario/lista_productos/">Lista de Productos</a></li>
+                    <li><a href="{% url 'login_usuario' %}">Iniciar Sesión</a></li>
+
+                {% endif %}
+                  
+             
+
             </ul>
           </nav>
     </div>

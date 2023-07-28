@@ -12,7 +12,12 @@
     <div class="navegacion">
         <nav>
             <ul>
-                <li><a href="{% url 'index_inventario' %}">Volver</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'index_inventario' %}">Volver</a></li>
+                    <li><a href="{% url 'logout_usuario' %}">Cerrar Sesión</a></li>
+                {% else %}
+                    <li><a href="{% url 'index' %}">Volver</a></li>
+                {% endif %}
             </ul>
         </nav>
     </div>

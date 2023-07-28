@@ -1,5 +1,7 @@
+from decimal import Decimal
 from django.shortcuts import render, redirect
-from .forms import UserForm, GroupForm, LoginForm
+from Usuario.models import TipoDeCambio
+from .forms import TipoDeCambioForm, UserForm, GroupForm, LoginForm
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login, logout
 
@@ -39,11 +41,20 @@ def lista_usuario(request):
     if not (request.user.groups.filter(name='Administrador') or
             request.user.is_staff):
         return redirect('index')
+
+    print(request.POST)
+    if request.method == "POST":
+        if 'eliminar' in request.POST:
+            u = User.objects.filter(username=request.POST['eliminar'])
+            if u is not None:
+                u.delete()
+
     
     users = list(User.objects.all())
     usuarios = []
     for user in users:
         usuarios.append([user,user.groups.first(),user.is_staff])
+
     return render(request, 'Usuario/lista_usuario.html', {'usuarios': usuarios})
 
 
@@ -71,3 +82,36 @@ def login_usuario(request):
 def logout_usuario(request):
     logout(request)
     return redirect('index')
+
+def configuracion(request):
+    
+    actualizado = False
+    es_0 = False
+
+    if request.method == "POST":
+        
+        form = TipoDeCambioForm(request.POST)
+
+        if form.is_valid():
+            if Decimal(request.POST['cambio']) == Decimal(0.0000):
+                es_0 = True
+            else:
+                cambio = TipoDeCambio.objects.first()
+                cambio.cambio = request.POST['cambio']
+                cambio.save()
+                actualizado = True
+
+        return render(request, 'Usuario/Configuración.html', {'form': form, 'actualizado':actualizado, 'es_0':es_0})
+    else:
+        
+        if TipoDeCambio.objects.first() is not None:
+            form = TipoDeCambioForm(initial={'cambio':TipoDeCambio.objects.first().cambio})
+            if TipoDeCambio.objects.first().cambio == Decimal(0.0000):
+                es_0 = True
+        else:
+            TipoDeCambio.objects.create()
+            form = TipoDeCambioForm(initial={'cambio':TipoDeCambio.objects.first().cambio})
+            es_0 = True
+
+        return render(request, 'Usuario/Configuración.html', {'form': form, 'actualizado':actualizado, 'es_0':es_0})
+
