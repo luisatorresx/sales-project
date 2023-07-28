@@ -4,7 +4,7 @@ from django.core.paginator import Paginator
 from .forms import FacturaForm
 from decimal import *
 from . import models
-from django.contrib.auth import authenticate, login, logout
+from Usuario.models import TipoDeCambio
 
 # Create your views here.
 def index(request):
@@ -24,9 +24,18 @@ def facturacion(request):
             request.user.is_staff):
         return redirect('index')
 
+    Sin_Tipo_De_Cambio = False
+
+    if TipoDeCambio.objects.first() is None:
+        TipoDeCambio.objects.create()
+        Sin_Tipo_De_Cambio = True
+
+    if TipoDeCambio.objects.first().cambio == Decimal(0.0000):
+        Sin_Tipo_De_Cambio = True
+
     # Asignando valores por defecto
     decimales = '.01'
-    dolar_Bs_cambio = Decimal(28.8123)
+    dolar_Bs_cambio = TipoDeCambio.objects.first().cambio
     subtotal = Decimal(0.00).quantize(Decimal(decimales))
     iva = Decimal(0.00).quantize(Decimal(decimales))
     subtotal_iva = Decimal(0.00).quantize(Decimal(decimales))
@@ -182,7 +191,7 @@ def facturacion(request):
                                                             'total': total, 'iva': iva, 'Igft': Igft, 'subtotal_iva': subtotal_iva, "Igft_res_US":Igft_res_US, "Igft_res":Igft_res,
                                                             'en_dolares':en_dolares,'total_dolares': total_dolares, 'fraccionBS': fraccionBS, 'Vuelto':Vuelto, 'pago_completo':pago_completo,
                                                             'Producto_no_entocntrado':Producto_no_entocntrado, 'Campo_en_blanco':Campo_en_blanco, 'Producto_insuficiente':Producto_insuficiente,
-                                                            'pago_incompleto':pago_incompleto})
+                                                            'pago_incompleto':pago_incompleto, 'Sin_Tipo_De_Cambio':Sin_Tipo_De_Cambio})
     else:
         procutosFactura = []
         form = FacturaForm()
@@ -191,7 +200,7 @@ def facturacion(request):
                                                             'total': total, 'iva': iva, 'Igft': Igft, 'subtotal_iva': subtotal_iva, "Igft_res_US":Igft_res_US, "Igft_res":Igft_res,
                                                             'en_dolares':en_dolares,'total_dolares': total_dolares, 'fraccionBS': fraccionBS, 'Vuelto':Vuelto, 'pago_completo':pago_completo,
                                                             'Producto_no_entocntrado':Producto_no_entocntrado, 'Campo_en_blanco':Campo_en_blanco, 'Producto_insuficiente':Producto_insuficiente,
-                                                            'pago_incompleto':pago_incompleto})
+                                                            'pago_incompleto':pago_incompleto, 'Sin_Tipo_De_Cambio':Sin_Tipo_De_Cambio})
     
 def factura(request, id):
 

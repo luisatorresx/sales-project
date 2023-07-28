@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventario</title>
+    <title>Administración</title>
     <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon"/>
     <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
 </head>
@@ -15,6 +15,7 @@
                 <li><a href="{% url 'index' %}">Inicio</a></li>
                 <li><a href="agregar_usuario/">Agregar Usuarios</a></li>
                 <li><a href="lista_usuario/">Lista de Usuarios</a></li>
+                <li><a href="Configuración/">Configuración</a></li>
                 {% if user.is_authenticated %}
                   <li><a href="{% url 'logout_usuario' %}">Cerrar Sesión</a></li>
                 {% else %}

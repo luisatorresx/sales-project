@@ -14,11 +14,11 @@
             <ul>
                 <li><a href="{% url 'index' %}">Inicio</a></li>
                 {% if user.is_authenticated %}
-                    {% if user.groups.all.0.name == 'Empleado' or user.groups.all.0.name == 'Administrador' %}
+                    {% if user.groups.all.0.name == 'Empleado' or user.groups.all.0.name == 'Administrador' or user.is_staff %}
                         <li><a href="Facturacion/">Facturacion</a></li>
                     {% endif %}
 
-                    {% if user.groups.all.0.name == 'Empleado' or user.groups.all.0.name == 'Analista de datos' or user.groups.all.0.name == 'Administrador' %}
+                    {% if user.groups.all.0.name == 'Empleado' or user.groups.all.0.name == 'Analista de datos' or user.groups.all.0.name == 'Administrador' or user.is_staff %}
                         <li><a href="Registro_Facturas">Registro de Facturación</a></li>
                     {% endif %}
 

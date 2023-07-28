@@ -66,12 +66,10 @@ h1{
     padding: 20px;
 }
 
-/*table {
+table {
     width: 100%;
-    margin: 20px 0;
-    border: 1px solid #2a62b5;
-    border-radius: 10px;
-}*/
+    margin: 0px;
+}
 
 img{
     width: 20px;
@@ -101,4 +99,26 @@ img{
     width: 20px;
     height: 20px;
     text-align: center;
+}
+
+.eliminar{
+    width: auto;
+}
+
+.eliminar button{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    width: 64px;
+    padding: 5px;
+    margin: 0px 3px 0px 3px;
+    align-items: center;
+    justify-items: center;
+    background-color: #b52a2a;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.eliminar button:hover {
+    background-color: #701717;
 }
