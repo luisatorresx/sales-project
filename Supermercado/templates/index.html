@@ -28,7 +28,7 @@
                     {% endif %}
 
                      {% if user.groups.all.0.name == 'Analista de datos' or user.groups.all.0.name == 'Administrador' or user.is_staff %}
-                        <li><a href="Reportes/producto">Reportes BI</a></a></li>
+                        <li><a href="Reportes/productos">Reportes BI</a></a></li>
                     {% endif %}
 
                     <li><a href="{% url 'logout_usuario' %}">Cerrar Sesión</a></li>
