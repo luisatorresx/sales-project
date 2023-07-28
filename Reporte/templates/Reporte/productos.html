@@ -1,0 +1,354 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportes</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon"/>
+
+
+
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+
+<body>
+<!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow fixed-top">
+        <div class="container-fluid ">
+            <a class="navbar-brand" href="/">
+                <button class="btn btn-link p-0 border-0 bg-transparent">
+                <img src="{% static 'img/smartpick.png'%}" alt="Home" class="float-left">
+                </button>
+            </a
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto"> <!-- ml-auto to align it to the right -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#Compras">Compras</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#Ventas">Ventas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#Clientes">Clientes</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Full Page Image Header with Vertically Centered Content -->
+    <header class="d-flex align-items-center justify-content-center bg-light">
+        <div>
+            <img src="{% static 'img/reports.png'%}" alt="BI Reportes" class="d-inline-block align-top">
+        
+        </div>
+    </header>
+
+    <section>
+        <div class="container my-5" >
+            <div class="row">
+
+                <div class="col-md-3">
+                    <div class="card counter-box">
+                        <div class="card-body">
+                            <h5 class="card-title counter">{{ total_clientes }}</h5>
+                            <p class="card-text">Clientes</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card counter-box">
+                        <div class="card-body">
+                            <h5 class="card-title counter">{{ total_ventas }}</h5>
+                            <p class="card-text">Ventas</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card counter-box">
+                        <div class="card-body">
+                            <h5 class="card-title counter">{{ total_monto_ventas }}</h5>
+                            <p class="card-text">Ingresos Totales</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card counter-box">
+                        <div class="card-body">
+                            <h5 class="card-title counter">{{ total_productos}}</h5>
+                            <p class="card-text">Total de productos</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="row mt-5">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Producto más vendido</h5>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ producto_mas_vendido.nombre }}</h5>
+                        <p class="card-text">Este producto ha vendido {{ producto_mas_vendido.total_vendido }} unidades, generando un total de {{ producto_mas_vendido.total_monetario }} en ventas.</p>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </section>
+    <section id="compras-section2" >
+        <div class="row mt-5" id="Compras">
+            <div class="col-lg-6">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Proveedor</th>
+                            <th scope="col">Producto Más Comprado</th>
+                            <th scope="col">Unidades Compradas</th>
+                            <th scope="col">Valor de Inventario</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for producto in productos_mas_vendidos_por_proveedor %}
+                        <tr>
+                            <td>{{ producto.proveedor }}</td>
+                            <td>{{ producto.nombre }}</td>
+                            <td>{{ producto.total_vendido }}</td>
+                            <td>{{ producto.total_monetario }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-lg-6">
+                <h5>Compras por Proveedor</h5>
+                <canvas id="ventasPorProveedorChart"></canvas>
+                <script>
+                    var ctx = document.getElementById('ventasPorProveedorChart').getContext('2d');
+
+                    var labels = ['{% for venta in ventas_por_proveedor %}{{venta.proveedor}}', '{% endfor %}'];
+                    var ventasPorProveedorChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Valor de Inventario',
+                                data: ['{% for venta in ventas_por_proveedor %}{{venta.total_monetario}}', '{% endfor %}'],
+                                backgroundColor: 'rgba(18, 175, 80, 0.9)',
+                                borderColor: 'rgba(18, 175, 80, 1)',
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'Compras',
+                                data: ['{% for venta in ventas_por_mes %} {{venta.total_vendido}}', '{% endfor %}'],
+                                backgroundColor: 'rgba(82, 113, 255, 0.9 )',
+                                borderColor: 'rgba(82, 113, 255, 1)',
+                                borderWidth: 1
+                            }
+                            ]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                </script>
+            </div>
+
+        </div>
+    </section>
+    <section id="compras-section">
+        <div class="row mt-5">
+            <div class="col-lg-6">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Mes</th>
+                            <th scope="col">Unidades compradas</th>
+                            <th scope="col">Valor de inventario</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for venta in ventas_por_mes %}
+                        <tr>
+                            <td>{{ venta.mes }}{{venta.year}}</td>
+                            <td>{{ venta.total_vendido }}</td>
+                            <td>{{ venta.total_monetario }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <canvas id="ventasPorMesChart" class="custom-canvas"></canvas>
+            <script>
+                var ctx = document.getElementById('ventasPorMesChart').getContext('2d');
+                var ventasPorMesChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['{% for venta in ventas_por_mes %} {{venta.mes}} {{venta.year}}', '{% endfor %}'],
+                        datasets:
+
+                            [{
+                                label: 'Ventas',
+                                data: ['{% for venta in ventas_por_mes %} {{venta.total_vendido}}', '{% endfor %}'],
+                                backgroundColor: 'rgba(255, 99, 132, 0.2)',  // Cambiar el color de fondo
+                                borderColor: 'rgba(255, 99, 132, 1)',  // Cambiar el color de la línea
+                                borderWidth: 2  // Aumentar el grosor de la línea
+                            }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                                
+                            }
+                        }
+                    }
+                });
+            </script>
+        </div>
+    </section>
+
+
+    <section id="productos-section" >
+        <div class="container" id="Ventas">
+            <h2>Productos Más Vendidos</h2>
+            <div>
+                <canvas id="productosChart"></canvas>
+            </div>
+        </div>
+        <script>
+            var ctx = document.getElementById('productosChart').getContext('2d');
+
+            var labels = [
+                '{% for producto in productos_mas_vendidos %} {{ producto.nombre }}',
+                '{% endfor %}'
+            ];
+            var data_vendido = [
+                '{% for producto in productos_mas_vendidos %} {{ producto.total_vendido }}',
+                '{% endfor %}'
+            ];
+            var data_precio = [
+                '{% for producto in productos_mas_vendidos %} {{ producto.precio_promedio }}',
+                '{% endfor %}'
+            ];
+
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Total Vendido',
+                            data: data_vendido,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Precio Promedio',
+                            data: data_precio,
+                            backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                            borderColor: 'rgba(153, 102, 255, 1)',
+                            borderWidth: 1,
+                            yAxisID: 'y-axis-precio'
+                        }
+                    ]
+                },
+                options: {
+                    indexAxis: 'x',
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        </script>
+    </section>
+
+    <section id="top-clientes-section">
+        <div class="container" id="Clientes">
+            <h2>Clientes con mayor volumen de compra</h2>
+            <div>
+                <canvas id="clientesChart"></canvas>
+            </div>
+        </div>
+        <script>
+            var ctx = document.getElementById('clientesChart').getContext('2d');
+
+            var labels = ['{% for cliente in top_clientes %} {{ cliente.nombre }} {{ cliente.apellido }}', '{% endfor %}'];
+            // var labels = ['{% for venta in ventas_por_proveedor %}{{venta.proveedor}}','{% endfor %}'];
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Total de Compras',
+                        data: ['{% for cliente in top_clientes %}{{cliente.total_compras}}', '{% endfor %}'],
+                        backgroundColor: 'rgba(18, 175, 80, 0.7)',
+                        borderColor: 'rgba(18, 175, 80, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        </script>
+
+    </section>
+    <script>
+        $(document).ready(function () {
+            $('.counter').each(function () {
+                $(this).prop('Counter', 0).animate({
+                    Counter: $(this).text()
+                }, {
+                    duration: 4000,
+                    easing: 'swing',
+                    step: function (now) {
+                        $(this).text(Math.ceil(now));
+                    }
+                });
+            });
+        });
+        function goBack() {
+        window.history.back();
+        }
+
+    </script>
+
+</body>
+<footer class="footer mt-auto py-3 bg-light">
+    <div class="container">
+      <span class="text-muted">smartpick.com | lu</span>
+    </div>
+  </footer>
+  
+</html>
