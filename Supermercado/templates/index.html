@@ -14,16 +14,16 @@
             <ul>
                 {% if user.is_authenticated %}
 
-                    {% if user.groups.all.0.name == 'Almacenista' or user.groups.all.0.name == 'Administrador' %}
+                    {% if user.groups.all.0.name == 'Almacenista' or user.groups.all.0.name == 'Administrador' or user.is_staff %}
                         <li><a href="Inventario/">Inventario</a></li>
                     {% endif %}
 
-                    {% if user.groups.all.0.name == 'Empleado' or user.groups.all.0.name == 'Analista de datos' or user.groups.all.0.name == 'Administrador' %}
+                    {% if user.groups.all.0.name == 'Empleado' or user.groups.all.0.name == 'Analista de datos' or user.groups.all.0.name == 'Administrador' or user.is_staff %}
                         <li><a href="Ventas/">Ventas</a></a></li>
                     {% endif %}
 
-                    {% if user.groups.all.0.name == 'Administrador' %}
-                        <li><a href="Administrar/">Usuarios</a></li>
+                    {% if user.groups.all.0.name == 'Administrador' or user.is_staff %}
+                        <li><a href="Administración/">Administración</a></li>
                     {% endif %}
 
                     <li><a href="{% url 'logout_usuario' %}">Cerrar Sesión</a></li>
