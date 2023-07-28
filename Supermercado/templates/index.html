@@ -13,13 +13,26 @@
         <nav>
             <ul>
                 {% if user.is_authenticated %}
-                    <li><a href="Inventario/">Inventario</a></li>
-                    <li><a href="Ventas/">Ventas</a></a></li>
-                    <li><a href="Usuario/">Usuarios</a></li>
+
+                    {% if user.groups.all.0.name == 'Almacenista' or user.groups.all.0.name == 'Administrador' %}
+                        <li><a href="Inventario/">Inventario</a></li>
+                    {% endif %}
+
+                    {% if user.groups.all.0.name == 'Empleado' or user.groups.all.0.name == 'Analista de datos' or user.groups.all.0.name == 'Administrador' %}
+                        <li><a href="Ventas/">Ventas</a></a></li>
+                    {% endif %}
+
+                    {% if user.groups.all.0.name == 'Administrador' %}
+                        <li><a href="Administrar/">Usuarios</a></li>
+                    {% endif %}
+
                     <li><a href="{% url 'logout_usuario' %}">Cerrar Sesión</a></li>
+
                 {% else %}
+
                     <li><a href="Inventario/lista_productos/">Lista de Productos</a></li>
                     <li><a href="{% url 'login_usuario' %}">Iniciar Sesión</a></li>
+
                 {% endif %}
             </ul>
           </nav>

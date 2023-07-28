@@ -13,13 +13,19 @@
         <nav>
             <ul>
                 <li><a href="{% url 'index' %}">Inicio</a></li>
-              <li><a href="Facturacion/">Facturacion</a></li>
-              <li><a href="Registro_Facturas">Registro de Facturación</a></li>
-              {% if user.is_authenticated %}
-                  <li><a href="{% url 'logout_usuario' %}">Cerrar Sesión</a></li>
-              {% else %}
-                  <li><a href="{% url 'login_usuario' %}">Iniciar Sesión</a></li>
-              {% endif %}
+                {% if user.is_authenticated %}
+                    {% if user.groups.all.0.name == 'Empleado' or user.groups.all.0.name == 'Administrador' %}
+                        <li><a href="Facturacion/">Facturacion</a></li>
+                    {% endif %}
+
+                    {% if user.groups.all.0.name == 'Empleado' or user.groups.all.0.name == 'Analista de datos' or user.groups.all.0.name == 'Administrador' %}
+                        <li><a href="Registro_Facturas">Registro de Facturación</a></li>
+                    {% endif %}
+
+                    <li><a href="{% url 'logout_usuario' %}">Cerrar Sesión</a></li>
+                {% else %}
+                    <li><a href="{% url 'login_usuario' %}">Iniciar Sesión</a></li>
+                {% endif %}
             </ul>
           </nav>
     </div>
