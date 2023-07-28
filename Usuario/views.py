@@ -39,11 +39,18 @@ def lista_usuario(request):
     if not (request.user.groups.filter(name='Administrador') or
             request.user.is_staff):
         return redirect('index')
+    print(request.POST)
+    if request.method == "POST":
+        if 'eliminar' in request.POST:
+            u = User.objects.filter(username=request.POST['eliminar'])
+            if u is not None:
+                u.delete()
     
     users = list(User.objects.all())
     usuarios = []
     for user in users:
         usuarios.append([user,user.groups.first(),user.is_staff])
+
     return render(request, 'Usuario/lista_usuario.html', {'usuarios': usuarios})
 
 
