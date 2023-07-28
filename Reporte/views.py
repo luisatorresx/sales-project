@@ -77,6 +77,7 @@ def data_de_facturacion():
             tipo=random.choice([0, 1]),
             nombre=fake.first_name(),
             apellido=fake.last_name()
+
         )
 
     productos_por_proveedor = {
@@ -127,6 +128,7 @@ def data_de_facturacion():
             total_base=total_base,
             iva=iva,
             total=total,
+            cancelado_en_bs=total,
             id_cliente=random.choice(Clientes.objects.all()),
             id_tipo_de_cambio=random.choice(HistorialTipoDeCambio.objects.all()),
         )
