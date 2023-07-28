@@ -1,6 +1,5 @@
 from decimal import Decimal
 from django.shortcuts import render, redirect
-
 from Usuario.models import TipoDeCambio
 from .forms import TipoDeCambioForm, UserForm, GroupForm, LoginForm
 from django.contrib.auth.models import User, Group
@@ -42,12 +41,14 @@ def lista_usuario(request):
     if not (request.user.groups.filter(name='Administrador') or
             request.user.is_staff):
         return redirect('index')
+
     print(request.POST)
     if request.method == "POST":
         if 'eliminar' in request.POST:
             u = User.objects.filter(username=request.POST['eliminar'])
             if u is not None:
                 u.delete()
+
     
     users = list(User.objects.all())
     usuarios = []
@@ -113,3 +114,4 @@ def configuracion(request):
             es_0 = True
 
         return render(request, 'Usuario/Configuración.html', {'form': form, 'actualizado':actualizado, 'es_0':es_0})
+

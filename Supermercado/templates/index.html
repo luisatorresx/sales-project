@@ -12,6 +12,7 @@
     <div class="navegacion">
         <nav>
             <ul>
+
                 {% if user.is_authenticated %}
 
                     {% if user.groups.all.0.name == 'Almacenista' or user.groups.all.0.name == 'Analista de datos' or user.groups.all.0.name == 'Administrador' or user.is_staff %}
@@ -26,6 +27,10 @@
                         <li><a href="Administración/">Administración</a></li>
                     {% endif %}
 
+                     {% if user.groups.all.0.name == 'Analista de datos' or user.groups.all.0.name == 'Administrador' or user.is_staff %}
+                        <li><a href="Reportes/producto">Reportes BI</a></a></li>
+                    {% endif %}
+
                     <li><a href="{% url 'logout_usuario' %}">Cerrar Sesión</a></li>
 
                 {% else %}
@@ -34,12 +39,16 @@
                     <li><a href="{% url 'login_usuario' %}">Iniciar Sesión</a></li>
 
                 {% endif %}
+                  
+             
+
             </ul>
           </nav>
     </div>
     <div class="container">
+        <img src="{% static 'img/smartpick_logo.png' %}" alt="">
         <img src="{% static 'img/supermarkets.png' %}" alt="">
-        <h1>SMART PICK</h1>
+
     </div>
 </body>
 </html>

@@ -73,6 +73,7 @@ nav ul li a:hover {
     margin: 10px 0px 0px 0px;
     background-color: #2a62b5;
     align-self: center;
+
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -112,6 +113,7 @@ input{
 .error{
     padding: 0px;
     width: auto;
+
     font-size: 16px;
     text-align: center;
     color: red;
@@ -125,4 +127,5 @@ input{
     text-align: center;
     color: rgb(60, 150, 75);
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
 }

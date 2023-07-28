@@ -29,3 +29,4 @@ class LoginForm(forms.Form):
 
 class TipoDeCambioForm(forms.Form):
     cambio = forms.DecimalField(required=False,max_digits=10, decimal_places=4, initial=Decimal(0.0000).quantize(Decimal('.0001')), widget=forms.NumberInput(attrs={"class": "textInput", "style":"text-align:right; width:100px; margin-right:0px;", "size": "18", "min":"0", "step":"0.0001","autocomplete":"off", "onCopy":"return false", "onDrag":"return false", "onDrop":"return false", "onPaste":"return false", "onkeydown":"if(event.keyCode == 13){event.preventDefault();}","onchange":"this.value = parseFloat(this.value).toFixed(4);"}))
+
