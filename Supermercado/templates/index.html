@@ -16,10 +16,10 @@
                     <li><a href="Inventario/">Inventario</a></li>
                     <li><a href="Ventas/">Ventas</a></a></li>
                     <li><a href="Usuario/">Usuarios</a></li>
-                    <li><a href="{% url 'logout_usuario' %}">LogOut</a></li>
+                    <li><a href="{% url 'logout_usuario' %}">Cerrar Sesión</a></li>
                 {% else %}
                     <li><a href="Inventario/lista_productos/">Lista de Productos</a></li>
-                    <li><a href="{% url 'login_usuario' %}">LogIn</a></li>
+                    <li><a href="{% url 'login_usuario' %}">Iniciar Sesión</a></li>
                 {% endif %}
             </ul>
           </nav>
